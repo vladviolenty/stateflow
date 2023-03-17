@@ -1,0 +1,24 @@
+{
+    "name": "vladviolentiy/stateflow",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Flow\\": "backend/"
+        }
+    },
+    "require": {
+        "symfony/http-foundation": "v5.4.17",
+        "ramsey/uuid": "^4.7",
+        "ext-pdo": "*",
+        "ext-openssl": "*",
+        "ext-mysqli": "*",
+        "ext-curl": "*"
+
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1.9",
+        "phpunit/phpunit": "^9.5",
+        "phpunit/php-code-coverage": "^9.2",
+        "symfony/console": "^5.4",
+    }
+}
