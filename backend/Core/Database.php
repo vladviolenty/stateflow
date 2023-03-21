@@ -53,6 +53,11 @@ class Database
         if($prepare->execute()===false) throw new DatabaseException();
     }
 
+    protected function executeQueryBoolRaw(string $query):void{
+        $prepare = $this->prepare($query);
+        if($prepare->execute()===false) throw new DatabaseException();
+    }
+
     protected function prepare(string $query):\mysqli_stmt{
         $pdo = $this->db->prepare($query);
         if($pdo===false) throw new DatabaseException();
