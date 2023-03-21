@@ -15,11 +15,13 @@ class SuccessResponseTest extends TestCase
             "success"=>true,
             "data"=>[
                 "testBool"=>true,
-                "testString"=>"123"
+                "testString"=>"123",
+                "testInt"=>123
             ]
         ],SuccessResponse::data([
             "testBool"=>true,
-            "testString"=>"123"
+            "testString"=>"123",
+            "testInt"=>123
         ]));
     }
     public function testSuccessResponseText():void{
