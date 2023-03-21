@@ -14,7 +14,7 @@
         "check-storage-params": "php console.php check-storage-params"
     },
     "require": {
-        "symfony/http-foundation": "v5.4",
+        "symfony/http-foundation": "^5.4",
         "ramsey/uuid": "^4.7",
         "ext-pdo": "*",
         "ext-openssl": "*",
