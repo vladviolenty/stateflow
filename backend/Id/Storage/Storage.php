@@ -10,7 +10,7 @@ use Ramsey\Uuid\UuidInterface;
 class Storage extends Database implements StorageInterface
 {
     public function __construct(){
-        $this->setDb(Database::createConnection(ServicesEnum::ID));
+        $this->setDb(Database::createConnection(ServicesEnum::Id));
     }
 
     /**
@@ -63,8 +63,8 @@ WHERE phoneHash=?","s",[$hashedPhone])->fetch_array(MYSQLI_ASSOC);
     }
 
     public function addNewUser(UuidInterface $uuid, string $password, string $iv, string $salt,string $fNameEncrypted,string $lNameEncrypted,string $bDayEncrypted,string $globalHash): int{
-        $this->executeQueryBool("INSERT INTO users(uuid, password, iv, salt,fNameEncrypted,lNameEncrypted,bDayEncrypted,globalHash) VALUES(unhex(?),?,?,?,?,?,?,?,?)",
-            "sssssssss",[bin2hex($uuid->getBytes()),$password,$iv,$salt,$fNameEncrypted,$lNameEncrypted,$bDayEncrypted,$globalHash]);
+        $this->executeQueryBool("INSERT INTO users(uuid, password, iv, salt,fNameEncrypted,lNameEncrypted,bDayEncrypted,globalHash) VALUES(unhex(?),?,?,?,?,?,?,?)",
+            "ssssssss",[bin2hex($uuid->getBytes()),$password,$iv,$salt,$fNameEncrypted,$lNameEncrypted,$bDayEncrypted,$globalHash]);
         return $this->insertId();
     }
 
