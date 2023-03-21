@@ -1,6 +1,8 @@
 {
     "name": "vladviolentiy/stateflow",
     "type": "project",
+    "description": "Stateflow project",
+    "license": "Apache-2.0",
     "autoload": {
         "psr-4": {
             "Flow\\": "backend/"
@@ -12,7 +14,7 @@
         "check-storage-params": "php console.php check-storage-params"
     },
     "require": {
-        "symfony/http-foundation": "v5.4.17",
+        "symfony/http-foundation": "v5.4",
         "ramsey/uuid": "^4.7",
         "ext-pdo": "*",
         "ext-openssl": "*",
