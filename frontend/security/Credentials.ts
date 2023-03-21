@@ -34,7 +34,7 @@ class Credentials{
                 challenge: Uint8Array.from(randomString, c => c.charCodeAt(0))
             }
         });
-        if(cred===null) throw "cred error";
+        if(cred===null) throw "Credential Error";
         return cred;
     }
 }
