@@ -7,7 +7,7 @@ import type {
 } from "@/gateway/Interfaces/DashboardGatewayIntefaces";
 
 class DashboardGateway extends Requests{
-    private token = "";
+    private readonly token:string;
 
     constructor(token:string) {
         super();
