@@ -22,7 +22,7 @@
       <button class="btn btn-outline-primary w-100 my-1" @click="checkPhone"  v-if="step==='auth'">{{ Localization.enter }}</button>
       <button class="btn btn-outline-primary w-100 my-1" @click="passwordAuth"  v-if="step==='password'">{{ Localization.enter }}</button>
       <router-link to="/register" class="text-center btn btn-link w-100"  v-if="step==='auth'">{{ Localization.register }}</router-link>
-      <p class="text-danger text-center" v-if="authErrorCode!==null">{{this.Localization.errorCodes[authErrorCode]}}</p>
+      <p class="text-danger text-center" v-if="authErrorCode!==null">{{Localization.errorCodes[authErrorCode]}}</p>
     </div>
   </div>
 
@@ -37,13 +37,14 @@ import {mapActions, mapState} from "pinia";
 import Credentials from "../../security/Credentials";
 import Hashing from "@/security/Hashing";
 import Security from "@/security/Security";
+import type {errorCodeList} from "@/localization/CustomInterfaces";
 export default defineComponent({
   name: "AuthPage",
   data(){
     return{
       selectedLang:"ru" as 'ru'|'by'|'ua'|'en',
       authString:"" as string,
-      authErrorCode:null as number|null,
+      authErrorCode:null as errorCodeList|null,
       step:'auth' as 'password'|'finger'|'auth',
       authPassword:"" as string,
       authSalt:"" as string,

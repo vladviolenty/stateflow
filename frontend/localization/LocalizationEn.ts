@@ -1,4 +1,4 @@
-import type LocalizationInterface from "@/localization/LocalizationInterface";
+import type LocalizationInterface from "./LocalizationInterface";
 
 const LocalizationEn:LocalizationInterface = {
     register:'Register',
@@ -6,13 +6,21 @@ const LocalizationEn:LocalizationInterface = {
     delete:"Delete",
     add:"Add",
     edit:"Edit",
+    validation:{
+        fNameNull:"First name is not entered",
+        lNameNull:"Surname not entered",
+        dobNull:"Date of birth not entered",
+        dobIncorrect:"Date of birth entered incorrectly",
+        passwordNotRepeat:"Passwords don't match",
+        passwordNull:"Password not entered"
+    },
     errorCodes:{
-        0:"Внутренняя ошибка сервиса",
+        0:"Internal server error",
         1:"Validation Error",
-        2:"Ошибка запроса к БД",
+        2:"Error request to database",
         3:"Not found",
         4:"Incorrect password",
-        403:"Access deninded",
+        403:"Access denied",
     }
 }
 

@@ -6,6 +6,14 @@ const LocalizationRu:LocalizationInterface = {
     delete:"Удалить",
     add:"Добавить",
     edit:"Редактировать",
+    validation:{
+        fNameNull:"Имя не введено",
+        lNameNull:"Фамилия не введена",
+        dobNull:"Дата рождения не введена",
+        dobIncorrect:"Дата рождения введена некорректно",
+        passwordNull:"Пароль не введён",
+        passwordNotRepeat:"Пароли не совпадают",
+    },
     errorCodes:{
         0:"Внутренняя ошибка сервиса",
         1:"Ошибка валидации",

@@ -6,6 +6,14 @@ const LocalizationBy:LocalizationInterface = {
     delete:"Выдаліць",
     add:"Выдаліць",
     edit:"Рэдагаваць",
+    validation:{
+        fNameNull: "Ім'я не ўведзена",
+        lNameNull: "Прозвішча не ўведзена",
+        dobNull:"Дата нараджэння не ўведзена",
+        dobIncorrect: "Дата нараджэння ўведзена некарэктна",
+        passwordNotRepeat: "Паролі не супадаюць",
+        passwordNull: "Пароль не ўведзены"
+    },
     errorCodes:{
         0:"Унутраная памылка сэрвісу",
         1:"Памылка валідацыі",

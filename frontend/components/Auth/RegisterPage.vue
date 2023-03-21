@@ -1,25 +1,37 @@
 <template>
-  <h4>{{ Localization.register }}</h4>
-  <label for="lName">Фамилия (на латинице):</label>
-  <input type="text" class="form-control" v-model="lName" id="lName">
-  <label for="fName">Имя (на латинице):</label>
-  <input type="text" class="form-control" v-model="fName" id="fName">
-  <label for="dOfBirth">Дата рождения:</label>
-  <input type="date" class="form-control" v-model="dOfBirth" id="dOfBirth">
-  <label for="password">Введите пароль:</label>
-  <input type="password" class="form-control" v-model="password" id="password">
-  <p class="text-primary m-0">Энтропия Log2 - {{entropyLog2}}</p>
+  <div v-if="registerStage==='enterData' || registerStage==='awaitRegister'">
+    <h4>{{ Localization.register }}</h4>
+    <label for="lName">Фамилия (на латинице):</label>
+    <input type="text" class="form-control" v-model="lName" id="lName">
+    <label for="fName">Имя (на латинице):</label>
+    <input type="text" class="form-control" v-model="fName" id="fName">
+    <label for="dOfBirth">Дата рождения:</label>
+    <input type="date" class="form-control" v-model="dOfBirth" id="dOfBirth">
+    <label for="password">Введите пароль:</label>
+    <input type="password" class="form-control" @input="passwordEnter" v-model="password" id="password">
+    <label for="passwordRepeat">Повторите пароль:</label>
+    <input type="password" class="form-control" @input="passwordEnter" v-model="passwordRepeat" id="passwordRepeat">
+    <p class="text-primary m-0">Энтропия Log2 - {{entropyLog2}}</p>
 
-  <div class="form-check">
-    <input class="form-check-input" type="checkbox" v-model="dontVerificate" id="dontVerificate">
-    <label class="form-check-label" for="dontVerificate">Я отказываюсь проходить верификацию</label>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" v-model="dontVerificate" id="dontVerificate">
+      <label class="form-check-label" for="dontVerificate">Я отказываюсь проходить верификацию</label>
+    </div>
+
+    <button class="btn btn-primary w-100" @click="registerNewUser"
+            :disabled="buttonDisabled">
+      {{ registerStage==='awaitRegister' ? 'Выполняется регистрация' : 'Создать пользователя'}}
+    </button>
+    <p class="m-0 text-center text-danger">{{errorText}}</p>
   </div>
 
-  <button class="btn btn-primary w-100" @click="registerNewUser"
-          :disabled="buttonDisabled">
-    {{ this.buttonDisabled ? 'Выполняется регистрация' : 'Создать пользователя'}}
-  </button>
-  <p class="m-0 text-center text-danger">{{errorText}}</p>
+  <div v-if="registerStage==='success'">
+    <p class="m-0 text-center">Регистрация завершена. Ваш UUID:</p>
+    <input type="text" class="form-control" readonly v-model="newClientUUID">
+    <p class="m-0 text-center">Используйте его для авторизации</p>
+    <router-link to="/auth">Вернутся на страницу авторизации</router-link>
+  </div>
+
 </template>
 
 <script lang="ts">
@@ -36,13 +48,17 @@ export default defineComponent({
   name: "IdRegister",
   data(){
     return{
+      registerStage:"enterData" as 'enterData'|'awaitRegister'|'success',
       fName:"" as string,
       lName:"" as string,
       dOfBirth:"" as string,
       password:"" as string,
+      passwordRepeat:"" as string,
       buttonDisabled:false as boolean,
       dontVerificate:false as boolean,
-      errorText:"" as string
+      errorText:"" as string,
+
+      newClientUUID:"" as string,
     }
   },
   computed: {
@@ -51,28 +67,38 @@ export default defineComponent({
     },
     ...mapState(appStore, ['Localization']),
   },
-
   methods:{
+    passwordEnter():void{
+      this.buttonDisabled = false;
+      if(this.password!==this.passwordRepeat){
+        this.errorText = this.Localization.validation.passwordNotRepeat;
+        this.buttonDisabled = true;
+      }
+    },
     async registerNewUser(){
-
+      this.errorText = "";
       if(this.fName==="") {
-        this.errorText = "Имя не введено";
+        this.errorText = this.Localization.validation.fNameNull;
         return;
       }
       if(this.lName==="") {
-        this.errorText = "Фамилия не введена";
+        this.errorText = this.Localization.validation.lNameNull ;
         return;
       }
       if(this.dOfBirth==="") {
-        this.errorText = "Дата рождения не введена";
+        this.errorText = this.Localization.validation.dobNull;
         return;
       }
       if(this.password==="") {
-        this.errorText = "Пароль не введён";
+        this.errorText = this.Localization.validation.passwordNull;
+        return;
+      }
+      if(this.password!==this.passwordRepeat){
+        this.errorText = this.Localization.validation.passwordNotRepeat;
         return;
       }
       this.buttonDisabled = true;
-
+      this.registerStage = 'awaitRegister';
       let iv = await Security.getRandom(16);
       let salt = await Security.getRandom(16);
 
@@ -97,12 +123,15 @@ export default defineComponent({
       ).then(response=>{
         this.buttonDisabled = false;
         if(response.success){
-
+          this.registerStage = 'success';
+          this.newClientUUID = response.data.uuid;
         } else {
+          this.registerStage = 'enterData'
           this.errorText = response.text;
         }
       }).catch(()=>{
         this.buttonDisabled = false;
+        this.registerStage = 'enterData'
         this.errorText = 'Ошибка запроса';
       })
 
