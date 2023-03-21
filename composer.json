@@ -6,6 +6,11 @@
             "Flow\\": "backend/"
         }
     },
+    "scripts": {
+        "test": "phpunit",
+        "phpstan": "phpstan",
+        "check-storage-params": "php console.php check-storage-params"
+    },
     "require": {
         "symfony/http-foundation": "v5.4.17",
         "ramsey/uuid": "^4.7",
@@ -19,6 +24,6 @@
         "phpstan/phpstan": "^1.9",
         "phpunit/phpunit": "^9.5",
         "phpunit/php-code-coverage": "^9.2",
-        "symfony/console": "^5.4",
+        "symfony/console": "^5.4"
     }
 }

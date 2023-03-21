@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 $application = new Application();
 
-$application->register('check-storage-security')
+$application->register('check-storage-params')
     ->setCode(function (InputInterface $input, OutputInterface $output): int {
         $storageSecurity = new \Flow\Tests\Custom\StorageSecurity();
         $storageSecurity->storageQueryTest();
