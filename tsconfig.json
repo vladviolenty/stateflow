@@ -2,6 +2,7 @@
   "extends": "@vue/tsconfig/tsconfig.web.json",
   "include": [
     "env.d.ts",
+    "shims-vue.d.ts",
     "frontend/**/*",
     "frontend/**/*.vue"
   ],

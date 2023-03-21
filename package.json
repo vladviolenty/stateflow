@@ -1,14 +1,15 @@
 {
   "name": "frontend",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "vite",
     "watch": "vite build --watch",
-    "build": "run-p type-check build-only",
+    "build": "run-p type-check-vue build-only",
     "preview": "vite preview",
     "build-only": "vite build",
-    "type-check": "vue-tsc --noEmit",
+    "type-check-vue": "vue-tsc --noEmit",
+    "type-check-ts": "tsc --noEmit",
     "lint": "eslint frontend --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
