@@ -17,4 +17,4 @@ interface emailEditItem{
     allowAuth:boolean
 }
 
-export type {checkAuthResponse,emailListResponseItem,emailEditItem}
+export type {checkAuthResponse,emailListResponseItem,emailEditItem,phoneListResponseItem}

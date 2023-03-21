@@ -18,7 +18,6 @@ export default defineComponent({
     logOut():void{
       AuthenticationMethods.logOut()
       this.$router.push("/auth");
-
     }
   }
 })

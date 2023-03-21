@@ -4,7 +4,7 @@
   <button class="btn btn-outline-success w-100 my-1" @click="addNewShow">Добавить телефон</button>
   <p class="text-center my-1" v-if="list.length===0">Телефоны не добавлены</p>
   <ul class="list-group my-1" v-if="list.length>0">
-    <li class="list-group-item" :key="item.id" v-for="item in list" @click="editItem(item.id)">{{item.email}}</li>
+    <li class="list-group-item" :key="item.id" v-for="item in list" @click="editItem(item.id)">{{item.phone}}</li>
   </ul>
 
 
@@ -33,11 +33,14 @@
 <script lang="ts">
 import {defineComponent} from "vue";
 import {Offcanvas} from "bootstrap";
+import {mapState} from "pinia";
+import {appStore} from "@/stores/AppStore";
+import type {phoneListResponseItem} from "@/gateway/Interfaces/DashboardGatewayIntefaces";
 export default defineComponent({
   name: "PhonesConfigure",
   data(){
     return{
-      list:[],
+      list:[] as phoneListResponseItem[],
 
       newEditId:null as number|null,
       newEditEmail:"" as string,
@@ -45,14 +48,19 @@ export default defineComponent({
       errorText:"" as string,
     }
   },
+  computed:{
+    ...mapState(appStore, ['DashboardGateway','Localization']),
+  },
   methods:{
+
     addNewShow():void{
       this.newEditId = null;
       this.newEditEmail ="";
       this.newEditAllowAuth =false;
-      let item = Offcanvas.getOrCreateInstance("#addEditEmail");
+      let item = Offcanvas.getOrCreateInstance("#addEditPhone");
       item.show();
     },
+    editItem(id:number):void{},
     addNewPhone():void{},
     deletePhone():void{},
   }

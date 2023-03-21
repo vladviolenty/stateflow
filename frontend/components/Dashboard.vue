@@ -21,7 +21,9 @@ export default defineComponent({
   },
   mounted() {
     let token = localStorage.getItem("authToken");
-    if(token===null || localStorage.getItem("iv")===null){
+    let iv = localStorage.getItem("iv");
+    if(token===null || iv===null){
+      AuthenticationMethods.logOut()
       this.$router.push("/auth");
       return;
     }
