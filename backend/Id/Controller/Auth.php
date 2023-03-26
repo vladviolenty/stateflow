@@ -1,6 +1,6 @@
 <?php
 
-namespace Flow\Id;
+namespace Flow\Id\Controller;
 
 use Flow\Core\Exceptions\AuthenticationException;
 use Flow\Core\Exceptions\DatabaseException;
@@ -8,24 +8,13 @@ use Flow\Core\Exceptions\IncorrectPasswordException;
 use Flow\Core\Exceptions\NotfoundException;
 use Flow\Core\Exceptions\ValidationException;
 use Flow\Core\Random;
-use Flow\Core\Validation;
 use Flow\Id\Enums\AuthMethods;
 use Flow\Id\Enums\AuthVia;
-use Flow\Id\Storage\StorageInterface;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
-class Controller
+class Auth extends Base
 {
-    private readonly StorageInterface $storage;
-    private readonly Validation $validation;
-
-    public function __construct(StorageInterface $storage)
-    {
-        $this->storage = $storage;
-        $this->validation = new Validation();
-    }
-
     public function createNewUser(
         string $password,
         string $iv,
@@ -64,6 +53,7 @@ class Controller
      * @throws DatabaseException
      */
     private function getUserInfoAuth(string $userInfo, AuthMethods $authTypesEnum):array{
+        if($userInfo==="") throw new ValidationException();
         if($authTypesEnum === AuthMethods::UUID){
             $this->validation->uuid($userInfo);
             $userInfo = $this->storage->getUserByUUID(Uuid::fromString($userInfo));
@@ -98,7 +88,7 @@ class Controller
      * @throws AuthenticationException
      */
     public function checkAuth(string $token):array{
-        $this->validation->authToken($token);
+        $this->validation->hash($token,96);
         $userInfo = $this->storage->checkIssetToken($token);
         if($userInfo===null) throw new AuthenticationException();
         return $userInfo;
@@ -129,70 +119,5 @@ class Controller
             "salt"=>$userInfo['salt'],
             "iv"=>$userInfo['iv']
         ];
-    }
-
-
-    /**
-     * @param positive-int $userId
-     * @return list<array{id:int,email:string}>
-     * @throws DatabaseException
-     */
-    public function getEmailList(int $userId):array{
-        return $this->storage->getEmailList($userId);
-    }
-
-    /**
-     * @param positive-int $userId
-     * @param non-empty-string $emailEncrypted
-     * @param non-empty-string $emailHash
-     * @param bool $allowAuth
-     * @return int
-     */
-    public function addNewEmail(int $userId, string $emailEncrypted, string $emailHash, bool $allowAuth):int{
-        $id = $this->storage->insertNewEmail($userId,$emailEncrypted,$emailHash,$allowAuth);
-        return $id;
-    }
-
-    /**
-     * @param positive-int $userId
-     * @param int $itemId
-     * @param string $emailEncrypted
-     * @param string $emailHash
-     * @param bool $allowAuth
-     * @throws ValidationException
-     */
-    public function editItem(int $userId,int $itemId, string $emailEncrypted, string $emailHash, bool $allowAuth):void{
-        $this->validation->id($itemId);
-        if($emailHash==="" or $emailEncrypted==="") throw new ValidationException();
-
-        $this->storage->editEmailItem($itemId,$userId,$emailEncrypted,$emailHash,$allowAuth);
-    }
-
-    /**
-     * @param positive-int $userId
-     * @param int $itemId
-     * @return array{emailEncrypted:string,allowAuth:bool}
-     * @throws DatabaseException
-     * @throws NotfoundException
-     */
-    public function getEmailItem(int $userId, int $itemId):array{
-        $this->validation->id($itemId);
-
-        $i = $this->storage->getEmailItem($userId,$itemId);
-        if($i===null) throw new NotfoundException();
-        $i['allowAuth'] = (bool)$i['allowAuth'];
-        return $i;
-
-    }
-
-    /**
-     * @param positive-int $userId
-     * @param int $itemId
-     * @return void
-     */
-    public function deleteEmail(int $userId, int $itemId):void{
-        $this->validation->id($itemId);
-
-        $this->storage->deleteEmail($userId,$itemId);
     }
 }

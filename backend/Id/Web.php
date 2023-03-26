@@ -11,11 +11,11 @@ use Symfony\Component\HttpFoundation\Request;
 abstract class Web
 {
     protected readonly Req $request;
-    protected readonly Controller $controller;
+    protected readonly Storage $storage;
 
     public function __construct(Request $request)
     {
         $this->request = new Req($request);
-        $this->controller = new Controller(new Storage());
+        $this->storage = new Storage();
     }
 }

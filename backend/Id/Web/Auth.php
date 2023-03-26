@@ -1,15 +1,25 @@
 <?php
 
-namespace Flow\Id;
+namespace Flow\Id\Web;
 
 use Flow\Core\SuccessResponse;
 use Flow\Id\Enums\AuthMethods;
 use Flow\Id\Enums\AuthVia;
+use Flow\Id\Web;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class WebPublic extends Web
+class Auth extends Web
 {
+    private readonly \Flow\Id\Controller\Auth $controller;
+
+    public function __construct(Request $request)
+    {
+        parent::__construct($request);
+        $this->controller = new \Flow\Id\Controller\Auth($this->storage);
+    }
+
     public function checkIssetClient():Response{
         $phone = $this->request->get("authString");
         $type = $this->request->get("type");
