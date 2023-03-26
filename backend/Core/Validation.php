@@ -32,7 +32,7 @@ class Validation
 
     /** @phpstan-assert non-empty-string $hash */
     public function hash(string $hash,int $length = 96):void{
-        if(!preg_match("/^[a-z0-9]{$length}$/",$hash)) throw new ValidationException();
+        if(!preg_match("/^[a-f0-9]{".$length."}$/",$hash)) throw new ValidationException();
     }
 
     public function uuid(string $uuid):void{
