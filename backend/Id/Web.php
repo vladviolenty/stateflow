@@ -10,8 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 abstract class Web
 {
-    protected Req $request;
-    protected Controller $controller;
+    protected readonly Req $request;
+    protected readonly Controller $controller;
 
     public function __construct(Request $request)
     {

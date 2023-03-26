@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 class WebPrivate extends Web
 {
     /** @var array{userId:positive-int} */
-    private array $info;
+    private readonly array $info;
     public function __construct(Request $request)
     {
         parent::__construct($request);

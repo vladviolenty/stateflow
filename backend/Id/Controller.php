@@ -17,8 +17,8 @@ use Ramsey\Uuid\UuidInterface;
 
 class Controller
 {
-    private StorageInterface $storage;
-    private Validation $validation;
+    private readonly StorageInterface $storage;
+    private readonly Validation $validation;
 
     public function __construct(StorageInterface $storage)
     {
@@ -38,6 +38,15 @@ class Controller
         string $hash,
     ):UuidInterface{
         if($password==="" or $iv==="" or $salt==="" or $fNameEncrypted==="" or $lNameEncrypted==="" or $bDayEncrypted==="" or $hash==="") throw new ValidationException();
+
+        $decodedIv = base64_decode($iv);
+        $decodedSalt = base64_decode($salt);
+        if(
+            $decodedSalt===$decodedIv or
+            strlen($decodedIv)!==16 or
+            strlen($decodedSalt)!==16
+        ) throw new ValidationException();
+
         $uuid = UUID::uuid4();
         /** @var non-empty-string $passwordHash */
         $passwordHash = password_hash($password,PASSWORD_BCRYPT);
@@ -56,10 +65,13 @@ class Controller
      */
     private function getUserInfoAuth(string $userInfo, AuthMethods $authTypesEnum):array{
         if($authTypesEnum === AuthMethods::UUID){
+            $this->validation->uuid($userInfo);
             $userInfo = $this->storage->getUserByUUID(Uuid::fromString($userInfo));
         } elseif ($authTypesEnum === AuthMethods::Email) {
+            $this->validation->email($userInfo);
             $userInfo = $this->storage->getUserByEmail($userInfo);
         } elseif ($authTypesEnum === AuthMethods::Phone) {
+            $this->validation->phoneNumber($userInfo);
             $userInfo = $this->storage->getUserByPhone($userInfo);
         } else {
             throw new ValidationException();
