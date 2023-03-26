@@ -3,7 +3,6 @@
 namespace Flow\Id;
 
 use Flow\Core\Req;
-use Flow\Core\Validation;
 use Flow\Id\Storage\Storage;
 use Symfony\Component\HttpFoundation\Request;
 
