@@ -38,6 +38,8 @@ import Credentials from "../../security/Credentials";
 import Hashing from "@/security/Hashing";
 import Security from "@/security/Security";
 import type {errorCodeList} from "@/localization/CustomInterfaces";
+import Validation from "@/security/Validation";
+import DashboardGateway from "@/gateway/DashboardGateway";
 export default defineComponent({
   name: "AuthPage",
   data(){
@@ -55,17 +57,19 @@ export default defineComponent({
   },
   methods:{
     async getUserNametype():Promise<{type:'uuid'|'email'|'phone',authString:string}>{
-      const isUUID = this.authString.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/)
-      const isEmail = this.authString.match(/^[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*$/);
       let type:'phone'|'uuid'|'email' = "phone";
       let authString = this.authString;
-      if(isUUID!==null){
+      this.authErrorCode = null;
+      if(Validation.isUUID(authString)){
         type = 'uuid'
-      } else if (isEmail!==null){
+      } else if (Validation.isEmail(authString)){
         type = 'email';
         authString = await Hashing.digest(this.authString);
-      } else {
+      } else if(Validation.isPhone(authString)) {
         authString = await Hashing.digest(this.authString);
+      } else {
+        this.authErrorCode = 5;
+        throw "5";
       }
       return {
         type:type,
@@ -81,6 +85,8 @@ export default defineComponent({
         } else {
           this.authErrorCode = response.code;
         }
+      }).catch(response=>{
+        this.authErrorCode = 0;
       })
     },
     async passwordAuth(){
@@ -92,10 +98,13 @@ export default defineComponent({
           localStorage.setItem("salt",response.data.salt);
           localStorage.setItem("iv",response.data.iv);
           localStorage.setItem("password",this.authPassword);
+          this.setNewToken(response.data.hash)
           this.$router.push("/");
         } else {
           this.authErrorCode = response.code;
         }
+      }).catch(response=>{
+        this.authErrorCode = 0;
       })
     },
     async fingerPrintAuth(){
@@ -112,7 +121,7 @@ export default defineComponent({
     setLang(){
       this.setNewLang(this.selectedLang)
     },
-    ...mapActions(appStore,['setNewLang'])
+    ...mapActions(appStore,['setNewLang',"setNewToken"])
   }
 })
 </script>

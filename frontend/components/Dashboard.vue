@@ -2,9 +2,9 @@
   <router-view></router-view>
   <div class="fixed-bottom">
     <div class="btn-group w-100">
-      <router-link to="/dashboard/services" class="btn btn-light" exact-active-class="active"><i class="bi bi-list"></i></router-link>
-      <router-link to="/dashboard" class="btn btn-light" exact-active-class="active"><i class="bi bi-house"></i></router-link>
-      <router-link to="/dashboard/profile" class="btn btn-light" exact-active-class="active"><i class="bi bi-person"></i></router-link>
+      <router-link to="/dashboard/services" class="btn btn-outline-secondary" exact-active-class="active"><i class="bi bi-list"></i></router-link>
+      <router-link to="/dashboard" class="btn btn-outline-secondary" exact-active-class="active"><i class="bi bi-house"></i></router-link>
+      <router-link to="/dashboard/profile" class="btn btn-outline-secondary" exact-active-class="active"><i class="bi bi-person"></i></router-link>
     </div>
   </div>
 </template>
@@ -29,6 +29,7 @@ export default defineComponent({
     }
     this.DashboardGateway.checkAuth(token).then(response=>{
       if (!response.success) {
+        return;
         AuthenticationMethods.logOut()
         this.$router.push("/auth");
       }

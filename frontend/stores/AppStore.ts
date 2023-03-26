@@ -25,6 +25,9 @@ export const appStore = defineStore({
                 case "by": this.Localization = LocalizationBy;break;
                 case "ua": this.Localization = LocalizationUa;break;
             }
+        },
+        setNewToken(token:string):void{
+            this.DashboardGateway = new DashboardGateway(token);
         }
     }
 })

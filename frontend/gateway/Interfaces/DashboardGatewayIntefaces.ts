@@ -12,9 +12,16 @@ interface phoneListResponseItem{
     phone:string
 }
 
-interface emailEditItem{
-    emailEncrypted:string,
-    allowAuth:boolean
+interface editItemGlobal{
+    allowAuth:boolean,
+    csrf:string
 }
 
-export type {checkAuthResponse,emailListResponseItem,emailEditItem,phoneListResponseItem}
+interface emailEditItem extends editItemGlobal{
+    emailEncrypted:string
+}
+interface phoneEditItem extends editItemGlobal{
+    phoneEncrypted:string
+}
+
+export type {checkAuthResponse,emailListResponseItem,emailEditItem,phoneListResponseItem,phoneEditItem}

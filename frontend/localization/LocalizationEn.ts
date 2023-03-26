@@ -15,12 +15,14 @@ const LocalizationEn:LocalizationInterface = {
         passwordNull:"Password not entered"
     },
     errorCodes:{
-        0:"Internal server error",
+        0:"Network error",
         1:"Validation Error",
         2:"Error request to database",
         3:"Not found",
         4:"Incorrect password",
+        5:"Invalid input format",
         403:"Access denied",
+        500:"Internal server error",
     }
 }
 

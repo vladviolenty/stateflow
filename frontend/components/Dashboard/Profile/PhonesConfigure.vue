@@ -4,7 +4,7 @@
   <button class="btn btn-outline-success w-100 my-1" @click="addNewShow">Добавить телефон</button>
   <p class="text-center my-1" v-if="list.length===0">Телефоны не добавлены</p>
   <ul class="list-group my-1" v-if="list.length>0">
-    <li class="list-group-item" :key="item.id" v-for="item in list" @click="editItem(item.id)">{{item.phone}}</li>
+    <li class="list-group-item" :key="item.id" v-for="item in list" @click="editItemGetInfo(item.id)">{{item.phone}}</li>
   </ul>
 
 
@@ -15,7 +15,7 @@
     </div>
     <div class="offcanvas-body">
       <label for="newEditEmail">Email:</label>
-      <input type="email" class="form-control" id="newEditEmail" v-model="newEditEmail">
+      <input type="tel" class="form-control" id="newEditEmail" v-model="newEditPhone">
       <div class="form-check">
         <input class="form-check-input" type="checkbox" v-model="newEditAllowAuth" id="newEditAllowAuth">
         <label class="form-check-label" for="newEditAllowAuth">
@@ -24,7 +24,7 @@
       </div>
       <p class="m-0 text-danger text-center">{{errorText}}</p>
       <button class="btn btn-primary w-100 my-1" v-if="newEditId===null" @click="addNewPhone">{{ Localization.add }}</button>
-      <button class="btn btn-primary w-100 my-1" v-if="newEditId!==null">{{ Localization.edit }}</button>
+      <button class="btn btn-primary w-100 my-1" v-if="newEditId!==null" @click="editPhone">{{ Localization.edit }}</button>
       <button class="btn btn-danger w-100 my-1" v-if="newEditId!==null" @click="deletePhone">{{ Localization.delete }}</button>
     </div>
   </div>
@@ -36,6 +36,10 @@ import {Offcanvas} from "bootstrap";
 import {mapState} from "pinia";
 import {appStore} from "@/stores/AppStore";
 import type {phoneListResponseItem} from "@/gateway/Interfaces/DashboardGatewayIntefaces";
+import Validation from "@/security/Validation";
+import Hashing from "@/security/Hashing";
+import Encryption from "@/security/Encryption";
+import Security from "@/security/Security";
 export default defineComponent({
   name: "PhonesConfigure",
   data(){
@@ -43,26 +47,106 @@ export default defineComponent({
       list:[] as phoneListResponseItem[],
 
       newEditId:null as number|null,
-      newEditEmail:"" as string,
+      newEditPhone:"" as string,
       newEditAllowAuth:false as boolean,
       errorText:"" as string,
+
+      cryptoKey:null as null|CryptoKey
+
+    }
+  },
+  async mounted(){
+    this.cryptoKey = await Encryption.deriveKey(localStorage.getItem("password")??"",Security.str2ab(localStorage.getItem("salt")??""))
+
+    let response = await this.DashboardGateway.getPhoneList();
+    if(response.success){
+      await this.remapListElements(response.data);
     }
   },
   computed:{
     ...mapState(appStore, ['DashboardGateway','Localization']),
   },
   methods:{
-
+    async remapListElements(response:phoneListResponseItem[]){
+      let iv = localStorage.getItem("iv") ?? "";
+      this.list = await Promise.all(response.map(async item => {
+        if(this.cryptoKey!==null) {
+          item.phone = await Encryption.decryptAES(item.phone, this.cryptoKey,iv );
+        }
+        return item;
+      }));
+    },
     addNewShow():void{
       this.newEditId = null;
-      this.newEditEmail ="";
+      this.newEditPhone ="";
       this.newEditAllowAuth =false;
       let item = Offcanvas.getOrCreateInstance("#addEditPhone");
       item.show();
     },
-    editItem(id:number):void{},
-    addNewPhone():void{},
-    deletePhone():void{},
+
+    async editPhone(){
+      if(!Validation.isPhone(this.newEditPhone)){
+        this.errorText = "Ошибка ввода телефона";
+        return
+      } else {
+        this.errorText = "";
+      }
+      if(this.cryptoKey===null || this.newEditId===null) return;
+      let phoneHash = await Hashing.digest(this.newEditPhone);
+      let phoneEncrypted = await Encryption.encryptAES(this.newEditPhone,this.cryptoKey,localStorage.getItem("iv") ?? "");
+      this.DashboardGateway.editPhoneItem(this.newEditId,phoneEncrypted,phoneHash,this.newEditAllowAuth).then(response=>{
+        if(response.success){
+          let item = Offcanvas.getOrCreateInstance("#addEditPhone");
+          item.hide();
+          this.remapListElements(response.data);
+        } else {
+          this.errorText = response.text
+        }
+      })
+    },
+    editItemGetInfo(itemId:number):void{
+      this.newEditId = itemId;
+      this.DashboardGateway.getPhoneItem(itemId).then(async response=>{
+        if(response.success){
+          if(this.cryptoKey!==null){
+            this.newEditPhone = await Encryption.decryptAES(response.data.phoneEncrypted,this.cryptoKey,localStorage.getItem("iv") ?? "");
+            this.newEditAllowAuth = response.data.allowAuth;
+            let item = Offcanvas.getOrCreateInstance("#addEditEmail");
+            item.show();
+          }
+        }
+      })
+    },
+    async addNewPhone(){
+      if(!Validation.isPhone(this.newEditPhone)){
+        this.errorText = "Ошибка ввода телефона";
+        return
+      } else {
+        this.errorText = "";
+      }
+      if(this.cryptoKey===null) return;
+      let emailHash = await Hashing.digest(this.newEditPhone);
+      let encryptedEmail = await Encryption.encryptAES(this.newEditPhone,this.cryptoKey,localStorage.getItem("iv") ?? "");
+      this.DashboardGateway.addNewPhone(encryptedEmail,emailHash,this.newEditAllowAuth).then(response=>{
+        if(response.success){
+          let item = Offcanvas.getOrCreateInstance("#addEditPhone");
+          item.hide();
+          this.remapListElements(response.data);
+        } else {
+          this.errorText = response.text
+        }
+      })
+    },
+    deletePhone():void{
+      if(this.newEditId===null) return;
+      this.DashboardGateway.deletePhone(this.newEditId).then(response=>{
+        if(response.success){
+          let item = Offcanvas.getOrCreateInstance("#addEditPhone");
+          item.hide();
+          this.remapListElements(response.data)
+        }
+      })
+    },
   }
 })
 </script>

@@ -1,10 +1,10 @@
 <template>
-  <h4>Настройка Email адресов</h4>
+  <h4>Настройка email адресов</h4>
 
   <button class="btn btn-outline-success w-100 my-1" @click="addNewShow">Добавить Email</button>
   <p class="text-center my-1" v-if="list.length===0">Email адреса не добавлены</p>
   <ul class="list-group my-1" v-if="list.length>0">
-    <li class="list-group-item" :key="item.id" v-for="item in list" @click="editItem(item.id)">{{item.email}}</li>
+    <li class="list-group-item" :key="item.id" v-for="item in list" @click="editItemGetInfo(item.id)">{{item.email}}</li>
   </ul>
 
   <div class="offcanvas offcanvas-start" tabindex="-1" id="addEditEmail" aria-labelledby="offcanvasLabel">
@@ -23,7 +23,7 @@
       </div>
       <p class="m-0 text-danger text-center">{{errorText}}</p>
       <button class="btn btn-primary w-100 my-1" v-if="newEditId===null" @click="addNewEmail">{{ Localization.add }}</button>
-      <button class="btn btn-primary w-100 my-1" v-if="newEditId!==null">{{ Localization.edit }}</button>
+      <button class="btn btn-primary w-100 my-1" v-if="newEditId!==null" @click="editEmailItem">{{ Localization.edit }}</button>
       <button class="btn btn-danger w-100 my-1" v-if="newEditId!==null" @click="deleteEmail">{{ Localization.delete }}</button>
     </div>
   </div>
@@ -82,7 +82,7 @@ export default defineComponent({
       let item = Offcanvas.getOrCreateInstance("#addEditEmail");
       item.show();
     },
-    editItem(itemId:number):void{
+    editItemGetInfo(itemId:number):void{
       this.newEditId = itemId;
       this.DashboardGateway.getEmailItem(itemId).then(async response=>{
         if(response.success){
@@ -94,7 +94,6 @@ export default defineComponent({
           }
         }
       })
-
     },
     deleteEmail():void{
       if(this.newEditId===null) return;
@@ -103,6 +102,26 @@ export default defineComponent({
           let item = Offcanvas.getOrCreateInstance("#addEditEmail");
           item.hide();
           this.remapListElements(response.data)
+        }
+      })
+    },
+    async editEmailItem(){
+      if(!Validation.isEmail(this.newEditEmail)){
+        this.errorText = "Ошибка ввода email";
+        return
+      } else {
+        this.errorText = "";
+      }
+      if(this.cryptoKey===null || this.newEditId===null) return;
+      let emailHash = await Hashing.digest(this.newEditEmail);
+      let encryptedEmail = await Encryption.encryptAES(this.newEditEmail,this.cryptoKey,localStorage.getItem("iv") ?? "");
+      this.DashboardGateway.editEmailItem(this.newEditId,encryptedEmail,emailHash,this.newEditAllowAuth).then(response=>{
+        if(response.success){
+          let item = Offcanvas.getOrCreateInstance("#addEditEmail");
+          item.hide();
+          this.remapListElements(response.data);
+        } else {
+          this.errorText = response.text
         }
       })
     },
