@@ -26,15 +26,11 @@ class Validation
         if($item<=0) throw new ValidationException();
     }
 
-    /** @phpstan-assert non-empty-string $token */
-    public function authToken(string $token):void{
-        if(!preg_match("/^[a-z0-9]{96}$/",$token)) throw new ValidationException();
-    }
-
     public function email(string $email):void{
         if(!filter_var($email,FILTER_VALIDATE_EMAIL)) throw new ValidationException();
     }
 
+    /** @phpstan-assert non-empty-string $hash */
     public function hash(string $hash,int $length = 96):void{
         if(!preg_match("/^[a-z0-9]{$length}$/",$hash)) throw new ValidationException();
     }

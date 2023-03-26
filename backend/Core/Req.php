@@ -18,4 +18,10 @@ class Req
         $line = $this->request->get($key);
         return trim($line);
     }
+
+    public function getServer(string $key):string{
+        /** @var string $line */
+        $line = $this->request->server->get($key);
+        return trim($line);
+    }
 }
