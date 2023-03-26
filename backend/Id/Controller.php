@@ -68,10 +68,10 @@ class Controller
             $this->validation->uuid($userInfo);
             $userInfo = $this->storage->getUserByUUID(Uuid::fromString($userInfo));
         } elseif ($authTypesEnum === AuthMethods::Email) {
-            $this->validation->email($userInfo);
+            $this->validation->hash($userInfo);
             $userInfo = $this->storage->getUserByEmail($userInfo);
         } elseif ($authTypesEnum === AuthMethods::Phone) {
-            $this->validation->phoneNumber($userInfo);
+            $this->validation->hash($userInfo);
             $userInfo = $this->storage->getUserByPhone($userInfo);
         } else {
             throw new ValidationException();
@@ -146,6 +146,7 @@ class Controller
      * @param non-empty-string $emailEncrypted
      * @param non-empty-string $emailHash
      * @param bool $allowAuth
+     * @return int
      */
     public function addNewEmail(int $userId, string $emailEncrypted, string $emailHash, bool $allowAuth):int{
         $id = $this->storage->insertNewEmail($userId,$emailEncrypted,$emailHash,$allowAuth);

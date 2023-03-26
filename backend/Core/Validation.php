@@ -35,6 +35,10 @@ class Validation
         if(!filter_var($email,FILTER_VALIDATE_EMAIL)) throw new ValidationException();
     }
 
+    public function hash(string $hash,int $length = 96):void{
+        if(!preg_match("/^[a-z0-9]{$length}$/",$hash)) throw new ValidationException();
+    }
+
     public function uuid(string $uuid):void{
         if(!preg_match(self::UUID_PATTERN,$uuid)) throw new ValidationException();
     }
