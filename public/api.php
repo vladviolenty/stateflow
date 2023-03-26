@@ -52,6 +52,10 @@ $routes = [
     ]
 ];
 
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__."/../");
+$dotenv->load();
+
 $request = Request::createFromGlobals();
 try{
     foreach ($routes as $route) {

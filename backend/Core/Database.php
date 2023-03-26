@@ -10,11 +10,9 @@ abstract class Database
     private \mysqli $db;
 
     public static function createConnection(ServicesEnum $database):\mysqli{
-        $env = parse_ini_file(__DIR__.'/../../.env');
-        if($env===false) throw new DatabaseException();
-        $user = $env['DB_'.$database->value."_USER"];
-        $password = $env['DB_'.$database->value."_PASSWORD"];
-        $db = $env['DB_'.$database->value."_DATABASE"];
+        $user = $_ENV['DB_'.$database->value."_USER"];
+        $password = $_ENV['DB_'.$database->value."_PASSWORD"];
+        $db = $_ENV['DB_'.$database->value."_DATABASE"];
         return new \mysqli("127.0.0.1",$user,$password,$db);
     }
 
