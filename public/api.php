@@ -12,42 +12,42 @@ $require = $_SERVER['REQUEST_URI'];
 $routes = [
     [
         "route"=>"/api/id/checkIssetClient",
-        "class"=> \Flow\Id\Web\Auth::class,
+        "class"=> Flow\Id\Web\Auth::class,
         "method"=>"checkIssetClient"
     ],
     [
         "route"=>"/api/id/register",
-        "class"=> \Flow\Id\Web\Auth::class,
+        "class"=> Flow\Id\Web\Auth::class,
         "method"=>"register"
     ],
     [
         "route"=>"/api/id/passwordAuth",
-        "class"=> \Flow\Id\Web\Auth::class,
+        "class"=> Flow\Id\Web\Auth::class,
         "method"=>"passwordAuth"
     ],
     [
         "route"=>"/api/id/checkAuth",
-        "class"=> \Flow\Id\Web\Dashboard::class,
+        "class"=> Flow\Id\Web\Dashboard::class,
         "method"=>"checkAuth"
     ],
     [
         "route"=>"/api/id/email/get",
-        "class"=> \Flow\Id\Web\Profile\Email::class,
+        "class"=> Flow\Id\Web\Profile\Email::class,
         "method"=>"getEmailList"
     ],
     [
         "route"=>"/api/id/email/getItem",
-        "class"=> \Flow\Id\Web\Profile\Email::class,
+        "class"=> Flow\Id\Web\Profile\Email::class,
         "method"=>"getEmailItem"
     ],
     [
         "route"=>"/api/id/email/add",
-        "class"=> \Flow\Id\Web\Profile\Email::class,
+        "class"=> Flow\Id\Web\Profile\Email::class,
         "method"=>"addNewEmail"
     ],
     [
         "route"=>"/api/id/email/delete",
-        "class"=> \Flow\Id\Web\Profile\Email::class,
+        "class"=> Flow\Id\Web\Profile\Email::class,
         "method"=>"deleteEmail"
     ]
 ];
@@ -73,12 +73,14 @@ try{
     echo json_encode([
         "success"=>false,
         "code"=>$e->getCode(),
+        "trace"=>$e->getTrace(),
         "text"=>$e->getMessage()
     ]);
 } catch (Error $e){
     echo json_encode([
         "success"=>false,
         "code"=>500,
+        "trace"=>$e->getTrace(),
         "text"=>$e->getMessage()
     ]);
 }
