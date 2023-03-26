@@ -2,7 +2,7 @@
 
 namespace Flow\Core;
 
-class Random
+abstract class Random
 {
     /**
      * @param positive-int $count

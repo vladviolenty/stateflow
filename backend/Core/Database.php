@@ -5,7 +5,7 @@ namespace Flow\Core;
 use Flow\Core\Enums\ServicesEnum;
 use Flow\Core\Exceptions\DatabaseException;
 
-class Database
+abstract class Database
 {
     private \mysqli $db;
 

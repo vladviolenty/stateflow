@@ -2,7 +2,7 @@
 
 namespace Flow\Core;
 
-class SuccessResponse
+abstract class SuccessResponse
 {
     /**
      * @param array<mixed> $data

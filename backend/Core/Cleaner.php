@@ -2,7 +2,7 @@
 
 namespace Flow\Core;
 
-class Cleaner
+abstract class Cleaner
 {
     public static function phoneNumber(string $phone):string{
         /** @var string $phone */
