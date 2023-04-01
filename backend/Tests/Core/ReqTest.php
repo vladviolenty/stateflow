@@ -19,4 +19,11 @@ class ReqTest extends TestCase
         $this->assertEquals("123",$req->get("value"));
         $this->assertEquals("textValue",$req->get("text"));
     }
+
+    public function testServerHeader():void{
+        $request = new Request();
+        $request->server->set("auth","testAuth");
+        $req = new Req($request);
+        $this->assertEquals("testAuth",$req->getServer("auth"));
+    }
 }
