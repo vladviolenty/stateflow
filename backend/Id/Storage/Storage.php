@@ -85,12 +85,12 @@ WHERE id=?","i",[$userId])->fetch_array(MYSQLI_ASSOC);
 
     /**
      * @param non-empty-string $token
-     * @return array{userId:positive-int}|null
+     * @return array{userId:positive-int,lang:string}|null
      * @throws DatabaseException
      */
     public function checkIssetToken(string $token):?array{
-        /** @var array{userId:positive-int}|null $info */
-        $info = $this->executeQuery("SELECT userId FROM sessions WHERE authHash=unhex(?)","s",[$token])->fetch_array(MYSQLI_ASSOC);
+        /** @var array{userId:positive-int,lang:string}|null $info */
+        $info = $this->executeQuery("SELECT userId,u.defaultLang as lang FROM sessions JOIN users u on u.id = sessions.userId WHERE authHash=unhex(?)","s",[$token])->fetch_array(MYSQLI_ASSOC);
         if($info===null) return null;
         return $info;
     }
@@ -121,7 +121,7 @@ WHERE id=?","i",[$userId])->fetch_array(MYSQLI_ASSOC);
     }
 
     /**
-     * @param int<0,max> $userId
+     * @param positive-int $userId
      * @param non-empty-string $encryptedEmail
      * @param non-empty-string $emailHash
      * @param bool $allowAuth
@@ -134,8 +134,8 @@ WHERE id=?","i",[$userId])->fetch_array(MYSQLI_ASSOC);
     }
 
     /**
-     * @param int<0,max> $userId
-     * @param int<0,max> $itemId
+     * @param positive-int $userId
+     * @param positive-int $itemId
      * @return array{emailEncrypted:string,allowAuth:int}|null
      * @throws DatabaseException
      */
@@ -147,5 +147,30 @@ WHERE id=?","i",[$userId])->fetch_array(MYSQLI_ASSOC);
 
     public function deleteEmail(int $userId,int $itemId):void{
         $this->executeQueryBool("UPDATE usersEmails SET deleted=true WHERE id=? and userId=?","ii",[$itemId,$userId]);
+    }
+
+    /**
+     * @param positive-int $userId
+     * @return list<array{id:int,phone:string}>
+     * @throws DatabaseException
+     */
+    public function getPhonesList(int $userId):array{
+        return $this->executeQuery("SELECT id,phoneEncrypted as phone FROM usersPhones WHERE userId=? and deleted=false","i",[$userId])->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function deletePhone(int $userId,int $itemId):void{
+        $this->executeQueryBool("UPDATE usersPhones SET deleted=true WHERE id=? and userId=?","ii",[$itemId,$userId]);
+    }
+
+    /**
+     * @param positive-int $userId
+     * @param positive-int $itemId
+     * @return array{emailEncrypted:string,allowAuth:int}|null
+     * @throws DatabaseException
+     */
+    public function getPhoneItem(int $userId, int $itemId):?array{
+        /** @var array{emailEncrypted:string,allowAuth:int}|null $info */
+        $info = $this->executeQuery("SELECT phoneEncrypted,allowAuth FROM usersPhones WHERE id=? and userId=?","ii",[$itemId,$userId])->fetch_array(MYSQLI_ASSOC);
+        return $info;
     }
 }

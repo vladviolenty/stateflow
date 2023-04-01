@@ -60,7 +60,7 @@ interface StorageInterface
 
     /**
      * @param non-empty-string $token
-     * @return array{userId:positive-int}|null
+     * @return array{userId:positive-int,lang:string}|null
      * @throws DatabaseException
      */
     public function checkIssetToken(string $token):?array;
@@ -99,4 +99,20 @@ interface StorageInterface
      */
     public function getEmailItem(int $userId, int $itemId):?array;
     public function deleteEmail(int $userId,int $itemId):void;
+
+    /**
+     * @param positive-int $userId
+     * @return list<array{id:int,phone:string}>
+     * @throws DatabaseException
+     */
+    public function getPhonesList(int $userId):array;
+    public function deletePhone(int $userId,int $itemId):void;
+
+    /**
+     * @param positive-int $userId
+     * @param positive-int $itemId
+     * @return array{emailEncrypted:string,allowAuth:int}|null
+     * @throws DatabaseException
+     */
+    public function getPhoneItem(int $userId, int $itemId):?array;
 }
