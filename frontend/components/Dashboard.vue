@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import {defineComponent} from "vue";
-import {mapState} from "pinia";
+import {mapActions, mapState} from "pinia";
 import {appStore} from "@/stores/AppStore";
 import AuthenticationMethods from "@/security/AuthenticationMethods";
 export default defineComponent({
@@ -27,14 +27,18 @@ export default defineComponent({
       this.$router.push("/auth");
       return;
     }
-    this.DashboardGateway.checkAuth(token).then(response=>{
+    this.DashboardGateway.checkAuth().then(response=>{
       if (!response.success) {
-        return;
         AuthenticationMethods.logOut()
         this.$router.push("/auth");
+      } else {
+        this.setNewLang(response.data.lang)
       }
-    });
+    })
 
+  },
+  methods:{
+    ...mapActions(appStore,['setNewLang'])
   }
 })
 </script>

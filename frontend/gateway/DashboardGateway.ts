@@ -1,12 +1,12 @@
 import Requests from "./Requests";
-import type {response} from "@/gateway/Interfaces/GeneralGatewayInterfaces";
+import type {response} from "./Interfaces/GeneralGatewayInterfaces";
 import type {
     checkAuthResponse,
     emailEditItem,
     emailListResponseItem,
     phoneEditItem,
     phoneListResponseItem
-} from "@/gateway/Interfaces/DashboardGatewayIntefaces";
+} from "./Interfaces/DashboardGatewayIntefaces";
 
 class DashboardGateway extends Requests{
 
@@ -14,10 +14,8 @@ class DashboardGateway extends Requests{
         super(token);
     }
 
-    public checkAuth(token:string):Promise<response<checkAuthResponse>>{
-        const formData = new FormData();
-        formData.append("token",token);
-        return this.executePost("/api/id/checkAuth",formData);
+    public checkAuth():Promise<response<checkAuthResponse>>{
+        return this.executeGet("/api/id/checkAuth");
     }
 
     public getEmailList():Promise<response<emailListResponseItem[]>>{
@@ -54,8 +52,7 @@ class DashboardGateway extends Requests{
     }
 
     public getPhoneList():Promise<response<phoneListResponseItem[]>>{
-        const formData = new FormData();
-        return this.executePost("/api/id/phone/get",formData);
+        return this.executeGet("/api/id/phone/get");
     }
 
     public addNewPhone(encryptedPhone:string,phoneHash:string,allowAuth:boolean):Promise<response<phoneListResponseItem[]>>{
