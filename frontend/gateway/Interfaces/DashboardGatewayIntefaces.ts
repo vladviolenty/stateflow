@@ -1,5 +1,6 @@
 interface checkAuthResponse{
-    userId:number
+    userId:number,
+    lang:'ru'|'ua'|'by'|'en'
 }
 
 interface emailListResponseItem{

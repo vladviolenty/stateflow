@@ -1,12 +1,11 @@
 <template>
-  <h4>Настройка телефонов</h4>
+  <h4>{{ Localization.configure.phone }}</h4>
 
   <button class="btn btn-outline-success w-100 my-1" @click="addNewShow">Добавить телефон</button>
   <p class="text-center my-1" v-if="list.length===0">Телефоны не добавлены</p>
   <ul class="list-group my-1" v-if="list.length>0">
     <li class="list-group-item" :key="item.id" v-for="item in list" @click="editItemGetInfo(item.id)">{{item.phone}}</li>
   </ul>
-
 
   <div class="offcanvas offcanvas-start" tabindex="-1" id="addEditPhone" aria-labelledby="offcanvasLabel">
     <div class="offcanvas-header">
@@ -19,7 +18,7 @@
       <div class="form-check">
         <input class="form-check-input" type="checkbox" v-model="newEditAllowAuth" id="newEditAllowAuth">
         <label class="form-check-label" for="newEditAllowAuth">
-          Разрешить авторизацию
+          {{ Localization.allowAuth }}
         </label>
       </div>
       <p class="m-0 text-danger text-center">{{errorText}}</p>
@@ -85,8 +84,12 @@ export default defineComponent({
     },
 
     async editPhone(){
+      if(this.newEditPhone==="") {
+        this.errorText = this.Localization.validation.phoneNull;
+        return;
+      }
       if(!Validation.isPhone(this.newEditPhone)){
-        this.errorText = "Ошибка ввода телефона";
+        this.errorText = this.Localization.validation.phoneIncorrect;
         return
       } else {
         this.errorText = "";
@@ -118,6 +121,10 @@ export default defineComponent({
       })
     },
     async addNewPhone(){
+      if(this.newEditPhone==="") {
+        this.errorText = this.Localization.validation.phoneNull;
+        return;
+      }
       if(!Validation.isPhone(this.newEditPhone)){
         this.errorText = "Ошибка ввода телефона";
         return

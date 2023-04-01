@@ -1,11 +1,16 @@
 <template>
-  <h4>Добро пожаловать</h4>
+  <h4>{{Localization.welcome}}</h4>
 </template>
 
 <script lang="ts">
 import {defineComponent} from "vue";
+import {mapState} from "pinia";
+import {appStore} from "@/stores/AppStore";
 export default defineComponent({
-  name: "DashboardHome"
+  name: "DashboardHome",
+  computed:{
+    ...mapState(appStore, ['Localization']),
+  },
 })
 </script>
 

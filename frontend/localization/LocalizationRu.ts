@@ -10,9 +10,22 @@ const LocalizationRu:LocalizationInterface = {
         fNameNull:"Имя не введено",
         lNameNull:"Фамилия не введена",
         dobNull:"Дата рождения не введена",
+        emailNull:"Email не введен",
+        phoneNull:"Телефон не введен",
+        emailIncorrect:"Email введен некорректно",
+        phoneIncorrect:"Телефон введен некорректно",
         dobIncorrect:"Дата рождения введена некорректно",
         passwordNull:"Пароль не введён",
         passwordNotRepeat:"Пароли не совпадают",
+    },
+    services:"Сервисы",
+    welcome:"Добро пожаловать",
+    profile:"Профиль",
+    allowAuth:"Разрешить авторизацию",
+    configure:{
+        phone:"Настройка телефонов",
+        email:"Настройка email адресов",
+        session:"Управление сессиями"
     },
     errorCodes:{
         0:"Ошибка сети",

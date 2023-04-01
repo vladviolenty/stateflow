@@ -10,9 +10,22 @@ const LocalizationBy:LocalizationInterface = {
         fNameNull: "Ім'я не ўведзена",
         lNameNull: "Прозвішча не ўведзена",
         dobNull:"Дата нараджэння не ўведзена",
+        emailNull: "Email не ўведзены",
+        phoneNull: "тэлефон не ўведзены",
+        emailIncorrect: "Email уведзены некарэктна",
+        phoneIncorrect: "тэлефон уведзены некарэктна",
         dobIncorrect: "Дата нараджэння ўведзена некарэктна",
         passwordNotRepeat: "Паролі не супадаюць",
         passwordNull: "Пароль не ўведзены"
+    },
+    services:"Сэрвісы",
+    welcome: "Сардэчна запрашаем",
+    profile:"Профіль",
+    allowAuth: "Дазволіць аўтарызацыю",
+    configure:{
+        phone: "Настройка тэлефонаў",
+        email: "Настройка email адрасоў",
+        session: "Кіраванне сесіямі"
     },
     errorCodes:{
         0:"Памылка сеткі",

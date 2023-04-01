@@ -1,5 +1,5 @@
 <template>
-  <h4>Настройка email адресов</h4>
+  <h4>{{ Localization.configure.email }}</h4>
 
   <button class="btn btn-outline-success w-100 my-1" @click="addNewShow">Добавить Email</button>
   <p class="text-center my-1" v-if="list.length===0">Email адреса не добавлены</p>
@@ -18,7 +18,7 @@
       <div class="form-check">
         <input class="form-check-input" type="checkbox" v-model="newEditAllowAuth" id="newEditAllowAuth">
         <label class="form-check-label" for="newEditAllowAuth">
-          Разрешить авторизацию
+          {{ Localization.allowAuth }}
         </label>
       </div>
       <p class="m-0 text-danger text-center">{{errorText}}</p>
@@ -106,8 +106,12 @@ export default defineComponent({
       })
     },
     async editEmailItem(){
+      if(this.newEditEmail==="") {
+        this.errorText = this.Localization.validation.emailNull;
+        return;
+      }
       if(!Validation.isEmail(this.newEditEmail)){
-        this.errorText = "Ошибка ввода email";
+        this.errorText = this.Localization.validation.emailIncorrect;
         return
       } else {
         this.errorText = "";
@@ -126,6 +130,10 @@ export default defineComponent({
       })
     },
     async addNewEmail(){
+      if(this.newEditEmail==="") {
+        this.errorText = this.Localization.validation.emailNull;
+        return;
+      }
       if(!Validation.isEmail(this.newEditEmail)){
         this.errorText = "Ошибка ввода email";
         return

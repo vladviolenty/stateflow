@@ -84,7 +84,7 @@ class Auth extends Base
 
     /**
      * @param string $token
-     * @return array{userId:positive-int}
+     * @return array{userId:positive-int,lang:string}
      * @throws AuthenticationException
      */
     public function checkAuth(string $token):array{

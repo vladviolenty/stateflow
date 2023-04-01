@@ -10,9 +10,22 @@ const LocalizationEn:LocalizationInterface = {
         fNameNull:"First name is not entered",
         lNameNull:"Surname not entered",
         dobNull:"Date of birth not entered",
+        emailNull:"Email not entered",
+        phoneNull:"Phone not entered",
+        emailIncorrect:"Email entered incorrectly",
+        phoneIncorrect:"Phone entered incorrectly",
         dobIncorrect:"Date of birth entered incorrectly",
         passwordNotRepeat:"Passwords don't match",
         passwordNull:"Password not entered"
+    },
+    services:"Services",
+    welcome:"Welcome",
+    profile:"Profile",
+    allowAuth: "Allow authorization",
+    configure:{
+        phone:"Configuring phones",
+        email:"Configuring email addresses",
+        session:"Session management"
     },
     errorCodes:{
         0:"Network error",
