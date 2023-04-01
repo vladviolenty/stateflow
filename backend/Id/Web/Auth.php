@@ -44,7 +44,7 @@ class Auth extends Web
         $fNameEncrypted = $this->request->get("fNameEncrypted");
         $lNameEncrypted = $this->request->get("lNameEncrypted");
         $bDayEncrypted = $this->request->get("bDayEncrypted");
-        $hash = $this->request->get("globalHash");
+        $hash = $this->request->get("hash");
         $uuid = $this->controller->createNewUser($password,$iv,$salt,$publicKey,$privateKey,$fNameEncrypted,$lNameEncrypted,$bDayEncrypted,$hash);
 
         return new JsonResponse(SuccessResponse::data([
