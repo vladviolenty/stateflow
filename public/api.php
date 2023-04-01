@@ -1,8 +1,5 @@
 <?php
 include "../vendor/autoload.php";
-
-ini_set("display_errors",1);
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -49,15 +46,35 @@ $routes = [
         "route"=>"/api/id/email/delete",
         "class"=> Flow\Id\Web\Profile\Email::class,
         "method"=>"deleteEmail"
+    ],
+    [
+        "route"=>"/api/id/phone/get",
+        "class"=> Flow\Id\Web\Profile\Phones::class,
+        "method"=>"get"
+    ],
+    [
+        "route"=>"/api/id/phone/getItem",
+        "class"=> Flow\Id\Web\Profile\Phones::class,
+        "method"=>"getItem"
+    ],
+    [
+        "route"=>"/api/id/phone/add",
+        "class"=> Flow\Id\Web\Profile\Phones::class,
+        "method"=>"add"
+    ],
+    [
+        "route"=>"/api/id/phone/delete",
+        "class"=> Flow\Id\Web\Profile\Phones::class,
+        "method"=>"delete"
     ]
 ];
 
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__."/../");
 $dotenv->load();
-
 $request = Request::createFromGlobals();
 try{
+
     foreach ($routes as $route) {
         if($route['route']===$require){
             $method = $route['method'];
