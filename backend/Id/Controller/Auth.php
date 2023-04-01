@@ -30,6 +30,8 @@ class Auth extends Base
 
         $decodedIv = base64_decode($iv);
         $decodedSalt = base64_decode($salt);
+        $this->validation->hash($password,96);
+        $this->validation->hash($hash,96);
         if(
             $decodedSalt===$decodedIv or
             strlen($decodedIv)!==16 or
