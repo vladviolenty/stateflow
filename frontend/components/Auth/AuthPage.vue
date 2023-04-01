@@ -39,7 +39,6 @@ import Hashing from "@/security/Hashing";
 import Security from "@/security/Security";
 import type {errorCodeList} from "@/localization/CustomInterfaces";
 import Validation from "@/security/Validation";
-import DashboardGateway from "@/gateway/DashboardGateway";
 export default defineComponent({
   name: "AuthPage",
   data(){
@@ -86,6 +85,7 @@ export default defineComponent({
           this.authErrorCode = response.code;
         }
       }).catch(response=>{
+        console.log(response)
         this.authErrorCode = 0;
       })
     },
