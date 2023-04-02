@@ -3,10 +3,13 @@
 namespace Flow\Id\Storage;
 
 use Flow\Core\Database;
+use Flow\Core\Interfaces\MigrationInterface;
+use Flow\Id\Storage\Migrations\Migration;
 
 class Init extends Database
 {
-    public function initDatabase():void{
+    public function initDatabase(\mysqli $db):void{
+        $this->setDb($db);
         $this->executeQueryBoolRaw("create table users
 (
     id             int unsigned auto_increment
@@ -75,5 +78,14 @@ create table usersPhones
     constraint usersPhones_users_id_fk
         foreign key (userId) references users (id)
 );");
+
+        //Take migrations
+        $migrations = Migration::$list;
+        foreach ($migrations as $migration) {
+            /** @var MigrationInterface $item */
+            $item = new $migration($db);
+            $item->init();
+        }
+
     }
 }
