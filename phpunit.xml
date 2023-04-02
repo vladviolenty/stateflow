@@ -22,7 +22,7 @@
               processUncoveredFiles="true">
         <include>
             <directory suffix=".php">backend/Core</directory>
-            <directory suffix="Controller.php">backend/Id</directory>
+            <directory suffix=".php">backend/Id/Controller</directory>
         </include>
         <report>
             <html outputDirectory="coverageReport"></html>
