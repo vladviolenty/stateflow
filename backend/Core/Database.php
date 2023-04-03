@@ -14,7 +14,8 @@ abstract class Database
         $user = $_ENV['DB_'.$database->value."_USER"];
         $password = $_ENV['DB_'.$database->value."_PASSWORD"];
         $db = $_ENV['DB_'.$database->value."_DATABASE"];
-        return new \mysqli("127.0.0.1",$user,$password,$db);
+        $server = $_ENV['DB_'.$database->value."_SERVER"];
+        return new \mysqli($server,$user,$password,$db);
     }
 
     /**
