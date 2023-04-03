@@ -3,9 +3,9 @@
 namespace Flow\Id\Web;
 
 use Flow\Core\SuccessResponse;
+use Flow\Core\Web;
 use Flow\Id\Enums\AuthMethods;
 use Flow\Id\Enums\AuthVia;
-use Flow\Id\Web;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

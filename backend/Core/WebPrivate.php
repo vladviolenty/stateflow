@@ -1,6 +1,6 @@
 <?php
 
-namespace Flow\Id;
+namespace Flow\Core;
 
 use Flow\Id\Controller\Auth;
 use Symfony\Component\HttpFoundation\Request;

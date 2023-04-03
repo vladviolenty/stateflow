@@ -1,8 +1,7 @@
 <?php
 
-namespace Flow\Id;
+namespace Flow\Core;
 
-use Flow\Core\Req;
 use Flow\Id\Storage\Storage;
 use Symfony\Component\HttpFoundation\Request;
 

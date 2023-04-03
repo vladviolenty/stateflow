@@ -3,7 +3,7 @@
 namespace Flow\Id\Web\Profile;
 
 use Flow\Core\SuccessResponse;
-use Flow\Id\WebPrivate;
+use Flow\Core\WebPrivate;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
