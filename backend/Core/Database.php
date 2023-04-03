@@ -4,6 +4,7 @@ namespace Flow\Core;
 
 use Flow\Core\Enums\ServicesEnum;
 use Flow\Core\Exceptions\DatabaseException;
+use Flow\Core\Interfaces\MigrationInterface;
 
 abstract class Database
 {
@@ -19,7 +20,7 @@ abstract class Database
     /**
      * @param \mysqli $db
      */
-    public function setDb(\mysqli $db): void{
+    final protected function setDb(\mysqli $db): void{
         $this->db = $db;
     }
 
@@ -30,7 +31,7 @@ abstract class Database
      * @return \mysqli_result<int,string|int|float|null>
      * @throws DatabaseException
      */
-    protected function executeQuery(string $query, string $types, array $params):\mysqli_result{
+    final protected function executeQuery(string $query, string $types, array $params):\mysqli_result{
         $prepare = $this->prepare($query);
         $prepare->bind_param($types,...$params);
         $prepare->execute();
@@ -56,13 +57,25 @@ abstract class Database
         if($prepare->execute()===false) throw new DatabaseException();
     }
 
-    protected function prepare(string $query):\mysqli_stmt{
+    final protected function prepare(string $query):\mysqli_stmt{
         $pdo = $this->db->prepare($query);
         if($pdo===false) throw new DatabaseException();
         return $pdo;
     }
 
-    protected function insertId():int{
+    final protected function insertId():int{
         return (int)$this->db->insert_id;
+    }
+
+    /**
+     * @param class-string[] $migrations
+     * @return void
+     */
+    final protected function takeMigrations(array $migrations):void{
+        foreach ($migrations as $migration) {
+            /** @var MigrationInterface $item */
+            $item = new $migration($this->db);
+            $item->init();
+        }
     }
 }

@@ -3,10 +3,11 @@
 namespace Flow\Id\Storage;
 
 use Flow\Core\Database;
+use Flow\Core\Interfaces\DatabaseInitInterface;
 use Flow\Core\Interfaces\MigrationInterface;
 use Flow\Id\Storage\Migrations\Migration;
 
-class Init extends Database
+class Init extends Database implements DatabaseInitInterface
 {
     public function initDatabase(\mysqli $db):void{
         $this->setDb($db);
@@ -78,14 +79,7 @@ create table usersPhones
     constraint usersPhones_users_id_fk
         foreign key (userId) references users (id)
 );");
-
-        //Take migrations
-        $migrations = Migration::$list;
-        foreach ($migrations as $migration) {
-            /** @var MigrationInterface $item */
-            $item = new $migration($db);
-            $item->init();
-        }
+        $this->takeMigrations(Migration::$list);
 
     }
 }
