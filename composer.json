@@ -20,7 +20,8 @@
         "ext-pdo": "*",
         "ext-openssl": "*",
         "ext-mysqli": "*",
-        "ext-curl": "*"
+        "ext-curl": "*",
+        "vladviolentiy/viva-framework": "^0.3.1"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.9",

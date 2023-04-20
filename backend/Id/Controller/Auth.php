@@ -6,8 +6,9 @@ use Flow\Core\Exceptions\AuthenticationException;
 use Flow\Core\Exceptions\DatabaseException;
 use Flow\Core\Exceptions\IncorrectPasswordException;
 use Flow\Core\Exceptions\NotfoundException;
-use Flow\Core\Exceptions\ValidationException;
-use Flow\Core\Random;
+use VladViolentiy\VivaFramework\Validation;
+use VladViolentiy\VivaFramework\Exceptions\ValidationException;
+use VladViolentiy\VivaFramework\Random;
 use Flow\Id\Enums\AuthMethods;
 use Flow\Id\Enums\AuthVia;
 use Ramsey\Uuid\Uuid;
@@ -26,12 +27,19 @@ class Auth extends Base
         string $bDayEncrypted,
         string $hash,
     ):UuidInterface{
-        if($password==="" or $iv==="" or $salt==="" or $fNameEncrypted==="" or $lNameEncrypted==="" or $bDayEncrypted==="" or $hash==="") throw new ValidationException();
+
+        Validation::nonEmpty($password);
+        Validation::nonEmpty($iv);
+        Validation::nonEmpty($salt);
+        Validation::nonEmpty($fNameEncrypted);
+        Validation::nonEmpty($lNameEncrypted);
+        Validation::nonEmpty($bDayEncrypted);
+        Validation::nonEmpty($hash);
 
         $decodedIv = base64_decode($iv);
         $decodedSalt = base64_decode($salt);
-        $this->validation->hash($password,96);
-        $this->validation->hash($hash,96);
+        Validation::hash($password);
+        Validation::hash($hash);
         if(
             $decodedSalt===$decodedIv or
             strlen($decodedIv)!==16 or
@@ -57,13 +65,13 @@ class Auth extends Base
     private function getUserInfoAuth(string $userInfo, AuthMethods $authTypesEnum):array{
         if($userInfo==="") throw new ValidationException();
         if($authTypesEnum === AuthMethods::UUID){
-            $this->validation->uuid($userInfo);
+            Validation::uuid($userInfo);
             $userInfo = $this->storage->getUserByUUID(Uuid::fromString($userInfo));
         } elseif ($authTypesEnum === AuthMethods::Email) {
-            $this->validation->hash($userInfo);
+            Validation::hash($userInfo);
             $userInfo = $this->storage->getUserByEmail($userInfo);
         } elseif ($authTypesEnum === AuthMethods::Phone) {
-            $this->validation->hash($userInfo);
+            Validation::hash($userInfo);
             $userInfo = $this->storage->getUserByPhone($userInfo);
         } else {
             throw new ValidationException();
@@ -90,7 +98,7 @@ class Auth extends Base
      * @throws AuthenticationException
      */
     public function checkAuth(string $token):array{
-        $this->validation->hash($token,96);
+        Validation::hash($token);
         $userInfo = $this->storage->checkIssetToken($token);
         if($userInfo===null) throw new AuthenticationException();
         return $userInfo;

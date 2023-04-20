@@ -2,7 +2,7 @@
 
 namespace Flow\Id\Web;
 
-use Flow\Core\SuccessResponse;
+use VladViolentiy\VivaFramework\SuccessResponse;
 use Flow\Core\Web;
 use Flow\Id\Enums\AuthMethods;
 use Flow\Id\Enums\AuthVia;

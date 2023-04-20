@@ -2,7 +2,7 @@
 
 namespace Flow\Tests\Custom;
 
-use Flow\Core\Exceptions\ValidationException;
+use VladViolentiy\VivaFramework\Exceptions\ValidationException;
 use Flow\Id\Storage\Storage;
 use PhpParser\Node;
 use PhpParser\NodeTraverser;

@@ -4,8 +4,9 @@ namespace Flow\Id\Controller\Profile;
 
 use Flow\Core\Exceptions\DatabaseException;
 use Flow\Core\Exceptions\NotfoundException;
-use Flow\Core\Exceptions\ValidationException;
+use VladViolentiy\VivaFramework\Exceptions\ValidationException;
 use Flow\Id\Controller\Base;
+use VladViolentiy\VivaFramework\Validation;
 
 class Email extends Base
 {
@@ -40,7 +41,7 @@ class Email extends Base
      * @throws ValidationException
      */
     public function editItem(int $userId,int $itemId, string $emailEncrypted, string $emailHash, bool $allowAuth):void{
-        $this->validation->id($itemId);
+        Validation::id($itemId);
         if($emailHash==="" or $emailEncrypted==="") throw new ValidationException();
 
         $this->storage->editEmailItem($itemId,$userId,$emailEncrypted,$emailHash,$allowAuth);
@@ -54,7 +55,8 @@ class Email extends Base
      * @throws NotfoundException
      */
     public function getEmailItem(int $userId, int $itemId):array{
-        $this->validation->id($itemId);
+        Validation::id($itemId);
+
 
         $i = $this->storage->getEmailItem($userId,$itemId);
         if($i===null) throw new NotfoundException();
@@ -69,7 +71,7 @@ class Email extends Base
      * @return void
      */
     public function deleteEmail(int $userId, int $itemId):void{
-        $this->validation->id($itemId);
+        Validation::id($itemId);
         $this->storage->deleteEmail($userId,$itemId);
     }
 }

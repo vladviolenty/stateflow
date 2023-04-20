@@ -2,8 +2,8 @@
 
 namespace Flow\Id\Web\Profile;
 
-use Flow\Core\Exceptions\ValidationException;
-use Flow\Core\SuccessResponse;
+use VladViolentiy\VivaFramework\Exceptions\ValidationException;
+use VladViolentiy\VivaFramework\SuccessResponse;
 use Flow\Core\WebPrivate;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

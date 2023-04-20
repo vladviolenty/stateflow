@@ -2,7 +2,7 @@
 
 namespace Flow\Id\Web\Profile;
 
-use Flow\Core\SuccessResponse;
+use VladViolentiy\VivaFramework\SuccessResponse;
 use Flow\Core\WebPrivate;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

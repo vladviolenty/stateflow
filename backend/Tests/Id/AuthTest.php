@@ -2,7 +2,7 @@
 
 namespace Flow\Tests\Id;
 
-use Flow\Core\Exceptions\ValidationException;
+use VladViolentiy\VivaFramework\Exceptions\ValidationException;
 use Flow\Id\Controller\Auth;
 use Flow\Id\Enums\AuthMethods;
 use Flow\Id\Storage\UsersArrayStorage;
@@ -13,7 +13,6 @@ use Ramsey\Uuid\UuidInterface;
  * @covers \Flow\Id\Controller\Auth
  * @covers \Flow\Id\Controller\Base
  * @covers \Flow\Core\Validation
- * @covers \Flow\Core\Exceptions\ValidationException
  */
 class AuthTest extends TestCase
 {
