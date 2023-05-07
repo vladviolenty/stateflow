@@ -2,15 +2,18 @@
 
 namespace Flow\Id\Storage\Migrations;
 
-use Flow\Core\Database;
+use VladViolentiy\VivaFramework\Databases\Mysqli;
 
-class Migration extends Database
+class Migration extends Mysqli
 {
     /**
      * @var class-string[]
      */
     public static array $list = [
-        Migration_0001::class
+        Migration_0000::class,
+        Migration_0001::class,
+        Migration_0002::class,
+
     ];
 
     public function __construct(\mysqli $db)
