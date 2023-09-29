@@ -35,6 +35,8 @@ class Auth extends Base
         Validation::nonEmpty($lNameEncrypted);
         Validation::nonEmpty($bDayEncrypted);
         Validation::nonEmpty($hash);
+        Validation::nonEmpty($publicKey);
+        Validation::nonEmpty($encryptedPrivateKey);
 
         $decodedIv = base64_decode($iv);
         $decodedSalt = base64_decode($salt);
@@ -45,6 +47,7 @@ class Auth extends Base
             strlen($decodedIv)!==16 or
             strlen($decodedSalt)!==16
         ) throw new ValidationException();
+        \Flow\Core\Validation::RSAPublicKey($publicKey);
 
         $uuid = UUID::uuid4();
         /** @var non-empty-string $passwordHash */
