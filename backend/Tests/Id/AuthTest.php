@@ -12,6 +12,7 @@ use Ramsey\Uuid\UuidInterface;
 /**
  * @covers \Flow\Id\Controller\Auth
  * @covers \Flow\Id\Controller\Base
+ * @covers \Flow\Core\Validation
  */
 class AuthTest extends TestCase
 {
@@ -73,12 +74,21 @@ class AuthTest extends TestCase
         $hash = hash("sha384", "TESTDATA");
         $iv = base64_encode("1234567890abcdef");
         $salt = base64_encode(random_bytes(16));
+
+        $keyPair = openssl_pkey_new(array(
+            "digest_alg" => 'sha512',
+            "private_key_bits" => 2048,
+            "private_key_type" => OPENSSL_KEYTYPE_RSA
+        ));
+        if($keyPair===null) throw new ValidationException();
+        $public = openssl_pkey_get_details($keyPair)['key'];
+
         $uuid = $this->auth->createNewUser(
             $password,
             $iv,
             $salt,
-            "RSAPUBLIC",
-            "RSAPRIVATE",
+            $public,
+            "PRIVATE",
             "TEST",
             "TEST",
             "TEST",
