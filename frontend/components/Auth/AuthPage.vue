@@ -18,8 +18,7 @@
     <div class="col-12">
       <h4 class="text-center">Авторизация</h4>
       <input type="text" class="form-control my-1" v-model="authString" placeholder="Email, Телефон или Uuid">
-      <input type="password" class="form-control my-1" v-if="step==='password'" v-model="authPassword" placeholder="Введите пароль">
-      <button class="btn btn-outline-primary w-100 my-1" @click="checkPhone"  v-if="step==='auth'">{{ Localization.enter }}</button>
+      <input type="password" class="form-control my-1" v-model="authPassword" placeholder="Введите пароль">
       <button class="btn btn-outline-primary w-100 my-1" @click="passwordAuth"  v-if="step==='password'">{{ Localization.enter }}</button>
       <router-link to="/register" class="text-center btn btn-link w-100"  v-if="step==='auth'">{{ Localization.register }}</router-link>
       <p class="text-danger text-center" v-if="authErrorCode!==null">{{Localization.errorCodes[authErrorCode]}}</p>
@@ -57,7 +56,7 @@ export default defineComponent({
   methods:{
     async getUserNametype():Promise<{type:'uuid'|'email'|'phone',authString:string}>{
       let type:'phone'|'uuid'|'email' = "phone";
-      let authString = this.authString;
+      let authString = this.authString+"-"+this.authPassword;
       this.authErrorCode = null;
       if(Validation.isUUID(authString)){
         type = 'uuid'
