@@ -2,6 +2,7 @@
 
 namespace Flow\Tests\Id;
 
+use Flow\Tests\Methods\RSA;
 use VladViolentiy\VivaFramework\Exceptions\ValidationException;
 use Flow\Id\Controller\Auth;
 use Flow\Id\Enums\AuthMethods;
@@ -75,13 +76,7 @@ class AuthTest extends TestCase
         $iv = base64_encode("1234567890abcdef");
         $salt = base64_encode(random_bytes(16));
 
-        $keyPair = openssl_pkey_new(array(
-            "digest_alg" => 'sha512',
-            "private_key_bits" => 2048,
-            "private_key_type" => OPENSSL_KEYTYPE_RSA
-        ));
-        if($keyPair===null) throw new ValidationException();
-        $public = openssl_pkey_get_details($keyPair)['key'];
+        $public = RSA::createPublicKey(2048);
 
         $uuid = $this->auth->createNewUser(
             $password,

@@ -3,6 +3,7 @@
 namespace Flow\Tests\Core;
 
 use Flow\Core\Validation;
+use Flow\Tests\Methods\RSA;
 use PHPUnit\Framework\TestCase;
 use VladViolentiy\VivaFramework\Exceptions\ValidationException;
 
@@ -12,13 +13,7 @@ use VladViolentiy\VivaFramework\Exceptions\ValidationException;
 class ValidationTest extends TestCase
 {
     public function testRSAValidation():void{
-        $keyPair = openssl_pkey_new(array(
-            "digest_alg" => 'sha512',
-            "private_key_bits" => 2048,
-            "private_key_type" => OPENSSL_KEYTYPE_RSA
-        ));
-        if($keyPair===null) throw new ValidationException();
-        $public = openssl_pkey_get_details($keyPair)['key'];
+        $public = RSA::createPublicKey(2048);
         Validation::RSAPublicKey($public);
         $this->assertTrue(true);
     }
