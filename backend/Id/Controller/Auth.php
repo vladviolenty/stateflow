@@ -66,7 +66,7 @@ class Auth extends Base
      * @throws DatabaseException
      */
     private function getUserInfoAuth(string $userInfo, AuthMethods $authTypesEnum):array{
-        if($userInfo==="") throw new ValidationException();
+        Validation::nonEmpty($userInfo);
         if($authTypesEnum === AuthMethods::UUID){
             Validation::uuid($userInfo);
             $userInfo = $this->storage->getUserByUUID(Uuid::fromString($userInfo));
