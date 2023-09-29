@@ -6,6 +6,7 @@
       <router-link to="/dashboard" class="btn btn-outline-secondary" exact-active-class="active"><i class="bi bi-house"></i></router-link>
       <router-link to="/dashboard/profile" class="btn btn-outline-secondary" exact-active-class="active"><i class="bi bi-person"></i></router-link>
     </div>
+
   </div>
 </template>
 
