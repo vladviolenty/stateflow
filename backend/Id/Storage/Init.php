@@ -10,6 +10,6 @@ class Init extends Mysqli implements DatabaseInitInterface
 {
     public function initDatabase(\mysqli $db):void{
         $this->setDb($db);
-        $this->takeMigrations(Migration::$list);
+        $this->takeMigration(Migration::$list);
     }
 }
