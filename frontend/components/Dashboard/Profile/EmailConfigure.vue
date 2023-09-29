@@ -7,7 +7,7 @@
     <li class="list-group-item" :key="item.id" v-for="item in list" @click="editItemGetInfo(item.id)">{{item.email}}</li>
   </ul>
 
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="addEditEmail" aria-labelledby="offcanvasLabel">
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="addEditEmail" aria-labelledby="offcanvasLabel">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="offcanvasLabel">{{newEditId===null?'Добавление нового email':'Редактирование email'}}</h5>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
