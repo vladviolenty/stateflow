@@ -2,7 +2,6 @@
 
 namespace Flow\Id\Storage;
 
-use Flow\Core\Database;
 use Flow\Core\Interfaces\DatabaseInitInterface;
 use Flow\Id\Storage\Migrations\Migration;
 use VladViolentiy\VivaFramework\Databases\Mysqli;

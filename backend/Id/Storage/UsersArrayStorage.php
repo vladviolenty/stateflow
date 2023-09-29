@@ -10,6 +10,11 @@ class UsersArrayStorage implements StorageInterface
      * @var list<array{id:int,uuid:string,salt:string,iv:string}>
      */
     private array $users = [];
+
+    /**
+     * @var list<array{userId:int,emailHash:non-empty-string}>
+     */
+    private array $usersEmail = [];
 //    /**
 //     * @var array{userId:int,private:string,public:string}
 //     */
@@ -124,5 +129,24 @@ class UsersArrayStorage implements StorageInterface
     public function getPhoneItem(int $userId, int $itemId): ?array
     {
         return null;
+    }
+
+    public function insertNewPhone(int $userId, string $phoneEncrypted, string $phoneHash, bool $allowAuth): int
+    {
+        // TODO: Implement insertNewPhone() method.
+        return 0;
+    }
+
+    public function checkEmailInDatabase(string $emailHash): bool
+    {
+        foreach ($this->usersEmail as $item) {
+            if($item['emailHash']===$emailHash) return true;
+        }
+        return false;
+    }
+
+    public function checkPhoneInDatabase(string $phoneHash): bool
+    {
+        return false;
     }
 }

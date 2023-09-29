@@ -4,10 +4,11 @@ namespace Flow\Id\Storage;
 
 use Flow\Core\Database;
 use Flow\Core\Enums\ServicesEnum;
-use Flow\Core\Exceptions\DatabaseException;
+use VladViolentiy\VivaFramework\Exceptions\DatabaseException;
 use Ramsey\Uuid\UuidInterface;
+use VladViolentiy\VivaFramework\Databases\Mysqli;
 
-class Storage extends Database implements StorageInterface
+class Storage extends Mysqli implements StorageInterface
 {
     public function __construct(){
         $this->setDb(Database::createConnection(ServicesEnum::Id));
@@ -65,7 +66,9 @@ WHERE phoneHash=?","s",[$hashedPhone])->fetch_array(MYSQLI_ASSOC);
     public function addNewUser(UuidInterface $uuid, string $password, string $iv, string $salt,string $fNameEncrypted,string $lNameEncrypted,string $bDayEncrypted,string $globalHash): int{
         $this->executeQueryBool("INSERT INTO users(uuid, password, iv, salt,fNameEncrypted,lNameEncrypted,bDayEncrypted,globalHash) VALUES(unhex(?),?,?,?,?,?,?,?)",
             "ssssssss",[bin2hex($uuid->getBytes()),$password,$iv,$salt,$fNameEncrypted,$lNameEncrypted,$bDayEncrypted,$globalHash]);
-        return $this->insertId();
+        /** @var positive-int $insId */
+        $insId = $this->insertId();
+        return $insId;
     }
 
     public function insertNewEncryptInfo(int $userId,string $publicKey,string $encryptedPrivateKey):void{
@@ -173,4 +176,32 @@ WHERE id=?","i",[$userId])->fetch_array(MYSQLI_ASSOC);
         $info = $this->executeQuery("SELECT phoneEncrypted,allowAuth FROM usersPhones WHERE id=? and userId=?","ii",[$itemId,$userId])->fetch_array(MYSQLI_ASSOC);
         return $info;
     }
+
+    /**
+     * @param positive-int $userId
+     * @param non-empty-string $phoneEncrypted
+     * @param non-empty-string $phoneHash
+     * @param bool $allowAuth
+     * @return int
+     * @throws DatabaseException
+     */
+    public function insertNewPhone(int $userId, string $phoneEncrypted, string $phoneHash, bool $allowAuth):int{
+        $this->executeQueryBool("INSERT INTO usersPhones(userId, phoneHash, phoneEncrypted,allowAuth) VALUES (?,unhex(?),?,?)",'issi',[$userId,$phoneHash,$phoneEncrypted,(int)$allowAuth]);
+        return $this->insertId();
+    }
+
+    public function checkPhoneInDatabase(string $phoneHash): bool
+    {
+        /** @var array{count:int} $data */
+        $data = $this->executeQuery("SELECT COUNT(*) as count FROM usersPhones WHERE phoneHash=?",'s',[$phoneHash]);
+        return $data['count']>0;
+    }
+
+    public function checkEmailInDatabase(string $emailHash):bool{
+        /** @var array{count:int} $i */
+        $i = $this->executeQuery("SELECT count(*) as count FROM usersEmails WHERE emailHash=? and deleted=false","s",[$emailHash])->fetch_array(MYSQLI_ASSOC);
+        return $i['count']>0;
+
+    }
+
 }

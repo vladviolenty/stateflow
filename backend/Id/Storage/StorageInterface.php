@@ -39,11 +39,17 @@ interface StorageInterface
      * @param non-empty-string $lNameEncrypted
      * @param non-empty-string $bDayEncrypted
      * @param non-empty-string $globalHash
-     * @return int
+     * @return positive-int
      */
     public function addNewUser(UuidInterface $uuid, string $password, string $iv, string $salt, string $fNameEncrypted, string $lNameEncrypted, string $bDayEncrypted, string $globalHash): int;
 
-    public function insertNewEncryptInfo(int $userId,string $publicKey,string $encryptedPrivateKey):void;
+    /**
+     * @param positive-int $userId
+     * @param non-empty-string $publicKey
+     * @param non-empty-string $encryptedPrivateKey
+     * @return void
+     */
+    public function insertNewEncryptInfo(int $userId, string $publicKey, string $encryptedPrivateKey):void;
 
     /**
      * @param int $userId
@@ -98,7 +104,13 @@ interface StorageInterface
      * @throws DatabaseException
      */
     public function getEmailItem(int $userId, int $itemId):?array;
-    public function deleteEmail(int $userId,int $itemId):void;
+
+    /**
+     * @param positive-int $userId
+     * @param positive-int $itemId
+     * @return void
+     */
+    public function deleteEmail(int $userId, int $itemId):void;
 
     /**
      * @param positive-int $userId
@@ -115,4 +127,26 @@ interface StorageInterface
      * @throws DatabaseException
      */
     public function getPhoneItem(int $userId, int $itemId):?array;
+
+    /**
+     * @param positive-int $userId
+     * @param non-empty-string $phoneEncrypted
+     * @param non-empty-string $phoneHash
+     * @param bool $allowAuth
+     * @return int
+     * @throws \VladViolentiy\VivaFramework\Exceptions\DatabaseException
+     */
+    public function insertNewPhone(int $userId, string $phoneEncrypted, string $phoneHash, bool $allowAuth):int;
+
+    /**
+     * @param non-empty-string $emailHash
+     * @return bool
+     */
+    public function checkEmailInDatabase(string $emailHash):bool;
+
+    /**
+     * @param non-empty-string $phoneHash
+     * @return bool
+     */
+    public function checkPhoneInDatabase(string $phoneHash):bool;
 }
