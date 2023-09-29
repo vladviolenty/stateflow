@@ -5,6 +5,8 @@ namespace Flow\Id\Controller\Profile;
 use Flow\Core\Exceptions\DatabaseException;
 use Flow\Id\Controller\Base;
 use Flow\Id\Storage\StorageInterface;
+use VladViolentiy\VivaFramework\Exceptions\ValidationException;
+use VladViolentiy\VivaFramework\Validation;
 
 class Phones extends Base
 {
@@ -29,5 +31,19 @@ class Phones extends Base
      */
     public function get():array{
         return $this->storage->getPhonesList($this->userId);
+    }
+
+    public function addNewPhone(
+        string $phoneEncrypted,
+        string $phoneHash,
+        bool   $allowAuth
+    ):int{
+        Validation::nonEmpty($phoneEncrypted);
+        Validation::nonEmpty($phoneHash);
+        if($this->storage->checkPhoneInDatabase($phoneHash)){
+            throw new ValidationException("Номер уже существует в БД");
+        }
+        $id = $this->storage->insertNewPhone($this->userId,$phoneEncrypted,$phoneHash,$allowAuth);
+        return $id;
     }
 }

@@ -23,4 +23,13 @@ class Phones extends WebPrivate
         return new JsonResponse(SuccessResponse::data($info));
     }
 
+    public function addNewPhone():Response{
+        $emailEncrypted = $this->request->get("phoneEncrypted");
+        $emailHash = $this->request->get("phoneHash");
+        $allowAuth = (bool)$this->request->get("allowAuth");
+
+        $this->controller->addNewPhone($emailEncrypted,$emailHash,$allowAuth);
+        return $this->get();
+    }
+
 }
