@@ -21,7 +21,7 @@
         "ext-openssl": "*",
         "ext-mysqli": "*",
         "ext-curl": "*",
-        "vladviolentiy/viva-framework": "^0.3.1"
+        "vladviolentiy/viva-framework": "^0.4.4"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.9",
