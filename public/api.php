@@ -5,7 +5,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 $require = $_SERVER['REQUEST_URI'];
 
-/** @var list<array{route:string,class:class-string,method:string}> $routes */
+/** @var list<array{route:non-empty-string,class:class-string,method:non-empty-string}> $routes */
 $routes = [
     [
         "route"=>"/api/id/checkIssetClient",
