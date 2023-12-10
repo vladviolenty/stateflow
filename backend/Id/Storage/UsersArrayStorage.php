@@ -15,10 +15,7 @@ class UsersArrayStorage implements StorageInterface
      * @var list<array{userId:int,emailHash:non-empty-string}>
      */
     private array $usersEmail = [];
-//    /**
-//     * @var array{userId:int,private:string,public:string}
-//     */
-//    private array $keysStorage;
+
     public function getUserByEmail(string $hashedEmail): ?array
     {
         return null;
