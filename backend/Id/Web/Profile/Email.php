@@ -2,7 +2,6 @@
 
 namespace Flow\Id\Web\Profile;
 
-use VladViolentiy\VivaFramework\Exceptions\ValidationException;
 use VladViolentiy\VivaFramework\SuccessResponse;
 use Flow\Core\WebPrivate;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -23,8 +22,6 @@ class Email extends WebPrivate
         $emailEncrypted = $this->request->get("emailEncrypted");
         $emailHash = $this->request->get("emailHash");
         $allowAuth = (bool)$this->request->get("allowAuth");
-
-        if($emailHash=="" or $emailEncrypted==="") throw new ValidationException();
 
         $this->controller->addNewEmail($this->info['userId'],$emailEncrypted,$emailHash,$allowAuth);
         return $this->getEmailList();
