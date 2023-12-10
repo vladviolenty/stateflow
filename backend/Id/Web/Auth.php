@@ -2,9 +2,9 @@
 
 namespace Flow\Id\Web;
 
+use Flow\Core\Web;
 use Flow\Id\Storage\Storage;
 use VladViolentiy\VivaFramework\SuccessResponse;
-use Flow\Core\Web;
 use Flow\Id\Enums\AuthMethods;
 use Flow\Id\Enums\AuthVia;
 use Symfony\Component\HttpFoundation\JsonResponse;
