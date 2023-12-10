@@ -2,6 +2,7 @@
 
 namespace Flow\Id\Web;
 
+use Flow\Id\Storage\Storage;
 use VladViolentiy\VivaFramework\SuccessResponse;
 use Flow\Core\Web;
 use Flow\Id\Enums\AuthMethods;
@@ -17,7 +18,7 @@ class Auth extends Web
     public function __construct(Request $request)
     {
         parent::__construct($request);
-        $this->controller = new \Flow\Id\Controller\Auth($this->storage);
+        $this->controller = new \Flow\Id\Controller\Auth(new Storage());
     }
 
     public function checkIssetClient():Response{
