@@ -8,14 +8,14 @@ use Ramsey\Uuid\UuidInterface;
 interface StorageInterface
 {
     /**
-     * @param string $hashedEmail
+     * @param non-empty-string $hashedEmail
      * @return array{userId:int,salt:string,iv:string}|null
      * @throws DatabaseException
      */
     public function getUserByEmail(string $hashedEmail):?array;
 
     /**
-     * @param string $hashedPhone
+     * @param non-empty-string $hashedPhone
      * @return array{userId:int,salt:string,iv:string}|null
      * @throws DatabaseException
      */
@@ -134,7 +134,6 @@ interface StorageInterface
      * @param non-empty-string $phoneHash
      * @param bool $allowAuth
      * @return int
-     * @throws \VladViolentiy\VivaFramework\Exceptions\DatabaseException
      */
     public function insertNewPhone(int $userId, string $phoneEncrypted, string $phoneHash, bool $allowAuth):int;
 
