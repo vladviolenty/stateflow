@@ -4,6 +4,7 @@ const LocalizationRu:LocalizationInterface = {
     register:'Регистрация',
     enter:"Войти",
     delete:"Удалить",
+    next:"Далее",
     add:"Добавить",
     edit:"Редактировать",
     validation:{

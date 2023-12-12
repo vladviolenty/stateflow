@@ -3,6 +3,7 @@ import type LocalizationInterface from "./LocalizationInterface";
 const LocalizationEn:LocalizationInterface = {
     register:'Register',
     enter:"Sign in",
+    next:"Next",
     delete:"Delete",
     add:"Add",
     edit:"Edit",
