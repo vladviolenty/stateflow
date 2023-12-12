@@ -7,7 +7,7 @@ use VladViolentiy\VivaFramework\Exceptions\ValidationException;
 class Validation
 {
     public static function RSAPublicKey(string $keyInput):void{
-        if(!str_starts_with("---",$keyInput)){
+        if(!str_starts_with($keyInput,"-----BEGIN PUBLIC KEY-----")){
             $keyInput = "
 -----BEGIN PUBLIC KEY-----
 $keyInput
