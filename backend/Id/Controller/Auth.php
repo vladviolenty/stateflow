@@ -51,7 +51,9 @@ class Auth extends Base
 
         $uuid = UUID::uuid4();
         /** @var non-empty-string $passwordHash */
-        $passwordHash = password_hash($password,PASSWORD_BCRYPT);
+        $passwordHash = password_hash($password,PASSWORD_BCRYPT,[
+            "cost"=>12
+        ]);
         $userId = $this->storage->addNewUser($uuid,$passwordHash,$iv,$salt,$fNameEncrypted,$lNameEncrypted,$bDayEncrypted,$hash);
         $this->storage->insertNewEncryptInfo($userId,$publicKey,$encryptedPrivateKey);
         return $uuid;
