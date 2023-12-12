@@ -7,6 +7,13 @@ use VladViolentiy\VivaFramework\Exceptions\ValidationException;
 class Validation
 {
     public static function RSAPublicKey(string $keyInput):void{
+        if(!str_starts_with("---",$keyInput)){
+            $keyInput = "
+-----BEGIN PUBLIC KEY-----
+$keyInput
+-----END PUBLIC KEY-----
+";
+        }
         $publicKey = openssl_get_publickey($keyInput);
         if (!$publicKey) {
             throw new ValidationException();
