@@ -149,11 +149,26 @@ class UsersArrayStorage implements StorageInterface
 
     public function getSessionsForUser(int $userId): array
     {
-        // TODO: Implement getSessionsForUser() method.
+        return [];
     }
 
     public function killSession(int $userId, string $hash): void
     {
         // TODO: Implement killSession() method.
+    }
+
+    public function checkIssetSessionMetaInfo(string $session, string $encryptedIp, string $encryptedUa, string $encryptedAE, string $encryptedAL): ?int
+    {
+        return null;
+    }
+
+    public function insertSessionMeta(int $sessionId, string $encryptedIp, string $encryptedUa, string $encryptedAE, string $encryptedAL, string $encryptedLastSeenAt): void
+    {
+        // TODO: Implement insertSessionMeta() method.
+    }
+
+    public function updateLastSeenSessionMeta(int $sessionMetainfoId, string $encryptedLastSeenAt): void
+    {
+        // TODO: Implement updateLastSeenSessionMeta() method.
     }
 }

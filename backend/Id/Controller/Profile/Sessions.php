@@ -4,6 +4,7 @@ namespace Flow\Id\Controller\Profile;
 
 use Flow\Id\Controller\Base;
 use Flow\Id\Storage\StorageInterface;
+use VladViolentiy\VivaFramework\Exceptions\DatabaseException;
 
 class Sessions extends Base
 {
@@ -22,6 +23,10 @@ class Sessions extends Base
         $this->userId = $userId;
     }
 
+    /**
+     * @return list<array{authHash:non-empty-string}>
+     * @throws DatabaseException
+     */
     public function get():array
     {
         return $this->storage->getSessionsForUser($this->userId);

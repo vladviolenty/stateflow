@@ -132,8 +132,9 @@ class Auth extends Base
         $metaId = $this->storage->checkIssetSessionMetaInfo($session,$encryptedIp,$encryptedUa,$encryptedAE,$encryptedAL);
 
         if($metaId===null){
-            $sessionId = $this->storage->checkIssetToken($session)['sessionId'];
-            $this->storage->insertSessionMeta($sessionId,$encryptedIp,$encryptedUa,$encryptedAE,$encryptedAL,$encryptedLastSeen);
+            /** @var array{userId:positive-int,lang:string,sessionId:positive-int} $sessionId */
+            $sessionId = $this->storage->checkIssetToken($session);
+            $this->storage->insertSessionMeta($sessionId['sessionId'],$encryptedIp,$encryptedUa,$encryptedAE,$encryptedAL,$encryptedLastSeen);
         } else {
             var_dump($metaId);
             $this->storage->updateLastSeenSessionMeta($metaId,$encryptedLastSeen);
