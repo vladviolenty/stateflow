@@ -105,8 +105,40 @@ class Auth extends Base
     public function checkAuth(string $token):array{
         Validation::hash($token);
         $userInfo = $this->storage->checkIssetToken($token);
+        unset($userInfo['sessionId']);
         if($userInfo===null) throw new AuthenticationException();
+        $userInfo['ip'] = $_SERVER['REMOTE_ADDR'];
+        $userInfo['ua'] = $_SERVER['HTTP_USER_AGENT'];
+        $userInfo['acceptEncoding'] = $_SERVER['HTTP_ACCEPT_ENCODING'];
+        $userInfo['acceptLang'] = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
         return $userInfo;
+    }
+
+    public function writeHashInfo(
+        string $session,
+        string $encryptedIp,
+        string $encryptedUa,
+        string $encryptedAE,
+        string $encryptedAL,
+        string $encryptedLastSeen
+    ):void
+    {
+        Validation::hash($session);
+        Validation::nonEmpty($encryptedIp);
+        Validation::nonEmpty($encryptedUa);
+        Validation::nonEmpty($encryptedAE);
+        Validation::nonEmpty($encryptedAL);
+        Validation::nonEmpty($encryptedLastSeen);
+        $metaId = $this->storage->checkIssetSessionMetaInfo($session,$encryptedIp,$encryptedUa,$encryptedAE,$encryptedAL);
+
+        if($metaId===null){
+            $sessionId = $this->storage->checkIssetToken($session)['sessionId'];
+            $this->storage->insertSessionMeta($sessionId,$encryptedIp,$encryptedUa,$encryptedAE,$encryptedAL,$encryptedLastSeen);
+        } else {
+            var_dump($metaId);
+            $this->storage->updateLastSeenSessionMeta($metaId,$encryptedLastSeen);
+        }
+
     }
 
     /**

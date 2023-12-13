@@ -44,6 +44,10 @@ const router = createRouter({
                         {
                             path:"phones",
                             component:() => import('./components/Dashboard/Profile/PhonesConfigure.vue')
+                        },
+                        {
+                            path:"sessions",
+                            component:() => import('./components/Dashboard/Profile/SessionConfigure.vue')
                         }
                     ]
                 },

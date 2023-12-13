@@ -10,6 +10,10 @@ interface successResponseText{
     text:string
 }
 
+interface successResponseNull{
+    success:true
+}
+
 interface errorResponse{
     success:false,
     text:string,
@@ -18,5 +22,6 @@ interface errorResponse{
 
 type response<T> = successResponse<T>|errorResponse
 type responseText = successResponseText|errorResponse
+type responseNull = successResponseNull|errorResponse
 
-export type {response,responseText}
+export type {response,responseText,responseNull}

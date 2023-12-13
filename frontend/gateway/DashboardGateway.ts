@@ -18,9 +18,24 @@ class DashboardGateway extends Requests{
         return this.executeGet("/api/id/checkAuth");
     }
 
-    public getEmailList():Promise<response<emailListResponseItem[]>>{
+    public insertMetaHashInfo(
+        ip:string,
+        ua:string,
+        al:string,
+        ae:string,
+        lastSeen:string
+    ):Promise<response<emailListResponseItem[]>>{
         const formData = new FormData();
-        return this.executePost("/api/id/email/get",formData);
+        formData.append("ip",ip);
+        formData.append("ua",ua);
+        formData.append("al",al);
+        formData.append("ae",ae);
+        formData.append("lastSeen",lastSeen);
+        return this.executePost("/api/id/writeMeta",formData);
+    }
+
+    public getEmailList():Promise<response<emailListResponseItem[]>>{
+        return this.executeGet("/api/id/email/get");
     }
     public getEmailItem(id:number):Promise<response<emailEditItem>>{
         const formData = new FormData();

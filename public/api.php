@@ -28,6 +28,11 @@ $routes = [
         "method"=>"checkAuth"
     ],
     [
+        "route"=>"/api/id/writeMeta",
+        "class"=> Flow\Id\Web\Dashboard::class,
+        "method"=>"writeMetaInfo"
+    ],
+    [
         "route"=>"/api/id/email/get",
         "class"=> Flow\Id\Web\Profile\Email::class,
         "method"=>"getEmailList"

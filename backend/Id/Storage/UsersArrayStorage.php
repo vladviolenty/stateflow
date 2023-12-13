@@ -146,4 +146,14 @@ class UsersArrayStorage implements StorageInterface
     {
         return false;
     }
+
+    public function getSessionsForUser(int $userId): array
+    {
+        // TODO: Implement getSessionsForUser() method.
+    }
+
+    public function killSession(int $userId, string $hash): void
+    {
+        // TODO: Implement killSession() method.
+    }
 }

@@ -66,7 +66,7 @@ interface StorageInterface
 
     /**
      * @param non-empty-string $token
-     * @return array{userId:positive-int,lang:string}|null
+     * @return array{userId:positive-int,lang:string,sessionId:positive-int}|null
      * @throws DatabaseException
      */
     public function checkIssetToken(string $token):?array;
@@ -148,4 +148,62 @@ interface StorageInterface
      * @return bool
      */
     public function checkPhoneInDatabase(string $phoneHash):bool;
+
+    /**
+     * @param positive-int $userId
+     * @return list<array{authHash:non-empty-string}>
+     * @throws \VladViolentiy\VivaFramework\Exceptions\DatabaseException
+     */
+    public function getSessionsForUser(int $userId):array;
+
+    /**
+     * @param positive-int $userId
+     * @param non-empty-string $hash
+     * @return void
+     */
+    public function killSession(int $userId, string $hash):void;
+
+    /**
+     * @param non-empty-string $session
+     * @param non-empty-string $encryptedIp
+     * @param non-empty-string $encryptedUa
+     * @param non-empty-string $encryptedAE
+     * @param non-empty-string $encryptedAL
+     * @return positive-int|null
+     */
+    public function checkIssetSessionMetaInfo(
+        string $session,
+        string $encryptedIp,
+        string $encryptedUa,
+        string $encryptedAE,
+        string $encryptedAL
+    ):?int;
+
+    /**
+     * @param positive-int $sessionId
+     * @param non-empty-string $encryptedIp
+     * @param non-empty-string $encryptedUa
+     * @param non-empty-string $encryptedAE
+     * @param non-empty-string $encryptedAL
+     * @param non-empty-string $encryptedLastSeenAt
+     * @return void
+     */
+    public function insertSessionMeta(
+        int $sessionId,
+        string $encryptedIp,
+        string $encryptedUa,
+        string $encryptedAE,
+        string $encryptedAL,
+        string $encryptedLastSeenAt
+    ):void;
+
+    /**
+     * @param positive-int $sessionMetainfoId
+     * @param non-empty-string $encryptedLastSeenAt
+     * @return void
+     */
+    public function updateLastSeenSessionMeta(
+        int    $sessionMetainfoId,
+        string $encryptedLastSeenAt
+    ):void;
 }
