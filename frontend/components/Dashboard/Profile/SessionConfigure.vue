@@ -10,7 +10,7 @@
           </h5>
           <p class="card-text">Ip адрес - {{item.ips[0]}}</p>
           <p class="card-text">User-agent - {{item.uas[0]}}</p>
-          <button class="btn btn-link" @click="killSession(item.authHash)">Закрыть</button>
+          <button class="btn btn-link" @click="killSession(item.authHash)" v-if="item.authHash.toLowerCase()!==currentSession">Закрыть</button>
         </div>
       </div>
     </div>
