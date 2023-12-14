@@ -26,15 +26,19 @@ class Sessions extends Base
     }
 
     /**
-     * @return list<array{authHash:non-empty-string,uas:non-empty-string,ips:non-empty-string,createdAt:non-empty-string}>
+     * @return list<array{authHash:non-empty-string,uas:non-empty-string[],ips:non-empty-string[],createdAt:non-empty-string}>
      * @throws DatabaseException
      */
     public function get():array
     {
         $i = $this->storage->getSessionsForUser($this->userId);
         $i = array_map(function ($item){
-            $item['uas'] = explode(',',$item['uas']);
-            $item['ips'] = explode(',',$item['ips']);
+            /** @var non-empty-string[] $uas */
+            $uas = explode(',',$item['uas']);
+            $item['uas'] = $uas;
+            /** @var non-empty-string[] $ips */
+            $ips = explode(',',$item['ips']);
+            $item['ips'] = $ips;
             return $item;
         },$i);
         return $i;
@@ -43,7 +47,7 @@ class Sessions extends Base
     /**
      * @param string $hash
      * @param bool $returnAvailable
-     * @return list<array{authHash:non-empty-string}>|null
+     * @return list<array{authHash:non-empty-string,uas:non-empty-string[],ips:non-empty-string[],createdAt:non-empty-string}>|null
      * @throws DatabaseException
      * @throws ValidationException
      */
