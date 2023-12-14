@@ -136,7 +136,6 @@ class Auth extends Base
             $sessionId = $this->storage->checkIssetToken($session);
             $this->storage->insertSessionMeta($sessionId['sessionId'],$encryptedIp,$encryptedUa,$encryptedAE,$encryptedAL,$encryptedLastSeen);
         } else {
-            var_dump($metaId);
             $this->storage->updateLastSeenSessionMeta($metaId,$encryptedLastSeen);
         }
 

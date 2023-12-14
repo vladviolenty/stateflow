@@ -151,7 +151,7 @@ interface StorageInterface
 
     /**
      * @param positive-int $userId
-     * @return list<array{authHash:non-empty-string}>
+     * @return list<array{authHash:non-empty-string,uas:non-empty-string,ips:non-empty-string,createdAt:non-empty-string}>
      * @throws \VladViolentiy\VivaFramework\Exceptions\DatabaseException
      */
     public function getSessionsForUser(int $userId):array;

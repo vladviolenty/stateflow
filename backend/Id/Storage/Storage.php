@@ -146,8 +146,15 @@ WHERE id=?","i",[$userId])->fetch_array(MYSQLI_ASSOC);
     }
 
     public function getSessionsForUser(int $userId):array{
-        /** @var list<array{authHash:non-empty-string}> $i */
-        $i = $this->executeQuery("SELECT unhex(authHash) as authHash FROM sessions WHERE userId=?","i",[$userId])->fetch_all(MYSQLI_ASSOC);
+        /** @var list<array{authHash:non-empty-string,uas:non-empty-string,ips:non-empty-string,createdAt:non-empty-string}> $i */
+        $i = $this->executeQuery("SELECT 
+    hex(authHash) as authHash,
+    DATE_FORMAT(createdAt,'%d.%m.%Y %H:%i') as createdAt,
+    group_concat(sM.ua) as uas,
+    group_concat(sM.ip) as ips
+FROM sessions 
+    JOIN flow_id.sessionsMeta sM on sessions.id = sM.sessionId
+WHERE userId=? and expiredAt>now() group by sessions.id","i",[$userId])->fetch_all(MYSQLI_ASSOC);
         return $i;
     }
 

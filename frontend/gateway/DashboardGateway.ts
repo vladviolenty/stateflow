@@ -37,7 +37,7 @@ class DashboardGateway extends Requests{
     public killSession(
         hash:string,
         returnAvailable:boolean
-    ):Promise<response<emailListResponseItem[]>>{
+    ):Promise<response<sessionListResponseItem[]>>{
         const formData = new FormData();
         formData.append("hash",hash);
         formData.append("returnAvailable",returnAvailable?"1":"0");

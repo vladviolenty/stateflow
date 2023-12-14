@@ -26,12 +26,18 @@ class Sessions extends Base
     }
 
     /**
-     * @return list<array{authHash:non-empty-string}>
+     * @return list<array{authHash:non-empty-string,uas:non-empty-string,ips:non-empty-string,createdAt:non-empty-string}>
      * @throws DatabaseException
      */
     public function get():array
     {
-        return $this->storage->getSessionsForUser($this->userId);
+        $i = $this->storage->getSessionsForUser($this->userId);
+        $i = array_map(function ($item){
+            $item['uas'] = explode(',',$item['uas']);
+            $item['ips'] = explode(',',$item['ips']);
+            return $item;
+        },$i);
+        return $i;
     }
 
     /**
@@ -46,6 +52,7 @@ class Sessions extends Base
         bool $returnAvailable
     ):?array
     {
+        $hash = mb_strtolower($hash);
         Validation::hash($hash);
         $this->storage->killSession($this->userId,$hash);
         if($returnAvailable){

@@ -18,9 +18,10 @@ interface phoneListResponseItem{
 }
 
 interface sessionListResponseItem{
-    id:number,
-    ua:string,
-    ip:string,
+    authHash:string,
+    createdAt:string,
+    uas:string[],
+    ips:string[],
 }
 
 interface editItemGlobal{
