@@ -17,6 +17,12 @@ interface phoneListResponseItem{
     phone:string
 }
 
+interface sessionListResponseItem{
+    id:number,
+    ua:string,
+    ip:string,
+}
+
 interface editItemGlobal{
     allowAuth:boolean,
     csrf:string
@@ -29,4 +35,4 @@ interface phoneEditItem extends editItemGlobal{
     phoneEncrypted:string
 }
 
-export type {checkAuthResponse,emailListResponseItem,emailEditItem,phoneListResponseItem,phoneEditItem}
+export type {checkAuthResponse,sessionListResponseItem,emailListResponseItem,emailEditItem,phoneListResponseItem,phoneEditItem}

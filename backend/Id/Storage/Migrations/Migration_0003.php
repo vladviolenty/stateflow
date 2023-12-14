@@ -2,7 +2,6 @@
 
 namespace Flow\Id\Storage\Migrations;
 
-
 use VladViolentiy\VivaFramework\Databases\Interfaces\MigrationInterface;
 
 class Migration_0003 extends Migration implements MigrationInterface

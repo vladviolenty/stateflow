@@ -147,7 +147,7 @@ WHERE id=?","i",[$userId])->fetch_array(MYSQLI_ASSOC);
 
     public function getSessionsForUser(int $userId):array{
         /** @var list<array{authHash:non-empty-string}> $i */
-        $i = $this->executeQuery("SELECT authHash FROM sessions WHERE userId=?","i",[$userId])->fetch_all(MYSQLI_ASSOC);
+        $i = $this->executeQuery("SELECT unhex(authHash) as authHash FROM sessions WHERE userId=?","i",[$userId])->fetch_all(MYSQLI_ASSOC);
         return $i;
     }
 

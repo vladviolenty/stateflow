@@ -5,7 +5,7 @@ import type {
     emailEditItem,
     emailListResponseItem,
     phoneEditItem,
-    phoneListResponseItem
+    phoneListResponseItem, sessionListResponseItem
 } from "./Interfaces/DashboardGatewayIntefaces";
 
 class DashboardGateway extends Requests{
@@ -32,6 +32,16 @@ class DashboardGateway extends Requests{
         formData.append("ae",ae);
         formData.append("lastSeen",lastSeen);
         return this.executePost("/api/id/writeMeta",formData);
+    }
+
+    public killSession(
+        hash:string,
+        returnAvailable:boolean
+    ):Promise<response<emailListResponseItem[]>>{
+        const formData = new FormData();
+        formData.append("hash",hash);
+        formData.append("returnAvailable",returnAvailable?"1":"0");
+        return this.executePost("/api/id/killSession",formData);
     }
 
     public getEmailList():Promise<response<emailListResponseItem[]>>{
@@ -68,6 +78,10 @@ class DashboardGateway extends Requests{
 
     public getPhoneList():Promise<response<phoneListResponseItem[]>>{
         return this.executeGet("/api/id/phone/get");
+    }
+
+    public getSessionsList():Promise<response<sessionListResponseItem[]>>{
+        return this.executeGet("/api/id/session/get");
     }
 
     public addNewPhone(encryptedPhone:string,phoneHash:string,allowAuth:boolean):Promise<response<phoneListResponseItem[]>>{
