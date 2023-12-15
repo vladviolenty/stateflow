@@ -6,6 +6,11 @@ use VladViolentiy\VivaFramework\Exceptions\ValidationException;
 
 class RSA
 {
+    /**
+     * @param positive-int $bits
+     * @return string
+     * @throws ValidationException
+     */
     public static function createPublicKey(int $bits):string{
         $keyPair = openssl_pkey_new(array(
             "digest_alg" => 'sha512',
