@@ -5,7 +5,6 @@ namespace Flow\Tests\Core;
 use Flow\Core\Validation;
 use Flow\Tests\Methods\RSA;
 use PHPUnit\Framework\TestCase;
-use VladViolentiy\VivaFramework\Exceptions\ValidationException;
 
 /**
  * @covers \Flow\Core\Validation
