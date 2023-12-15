@@ -18,12 +18,14 @@ export default defineComponent({
   name: "DashboardProfile",
   methods:{
     logOut():void{
-      AuthenticationMethods.logOut()
+      let token = localStorage.getItem("authToken")??"";
+      this.DashboardGateway.killSession(token,false);
+      AuthenticationMethods.logOut();
       this.$router.push("/auth");
     }
   },
   computed:{
-    ...mapState(appStore, ['Localization']),
+    ...mapState(appStore, ['Localization',"DashboardGateway"]),
   },
 })
 </script>

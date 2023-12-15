@@ -2,13 +2,13 @@
 
 namespace Flow\Id\Storage\Migrations;
 
-use Flow\Core\Interfaces\MigrationInterface;
+use VladViolentiy\VivaFramework\Databases\Interfaces\MigrationInterface;
 
 class Migration_0000 extends Migration implements MigrationInterface
 {
     public function init(): void
     {
-        $this->executeQueryBoolRaw("create table users
+        $this->migrator->query("create table users
 (
     id             int unsigned auto_increment
         primary key,

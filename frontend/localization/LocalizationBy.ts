@@ -5,6 +5,7 @@ const LocalizationBy:LocalizationInterface = {
     enter:"Увайсці",
     delete:"Выдаліць",
     add:"Выдаліць",
+    next:"Далей",
     edit:"Рэдагаваць",
     validation:{
         fNameNull: "Ім'я не ўведзена",

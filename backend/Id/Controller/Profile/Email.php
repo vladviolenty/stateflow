@@ -22,12 +22,14 @@ class Email extends Base
 
     /**
      * @param positive-int $userId
-     * @param non-empty-string $emailEncrypted
-     * @param non-empty-string $emailHash
+     * @param string $emailEncrypted
+     * @param string $emailHash
      * @param bool $allowAuth
      * @return int
      */
     public function addNewEmail(int $userId, string $emailEncrypted, string $emailHash, bool $allowAuth):int{
+        Validation::nonEmpty($emailHash);
+        Validation::nonEmpty($emailEncrypted);
         $id = $this->storage->insertNewEmail($userId,$emailEncrypted,$emailHash,$allowAuth);
         return $id;
     }

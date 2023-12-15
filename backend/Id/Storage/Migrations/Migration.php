@@ -2,10 +2,17 @@
 
 namespace Flow\Id\Storage\Migrations;
 
+use VladViolentiy\VivaFramework\Databases\Migrations\MigrationsClassInterface;
 use VladViolentiy\VivaFramework\Databases\Mysqli;
 
 class Migration extends Mysqli
 {
+    protected readonly MigrationsClassInterface $migrator;
+    public function __construct(MigrationsClassInterface $migrator)
+    {
+        $this->migrator = $migrator;
+    }
+
     /**
      * @var class-string[]
      */
@@ -13,11 +20,6 @@ class Migration extends Mysqli
         Migration_0000::class,
         Migration_0001::class,
         Migration_0002::class,
-
+        Migration_0003::class
     ];
-
-    public function __construct(\mysqli $db)
-    {
-        $this->setDb($db);
-    }
 }

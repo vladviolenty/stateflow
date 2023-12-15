@@ -15,6 +15,8 @@ import {defineComponent} from "vue";
 import {mapActions, mapState} from "pinia";
 import {appStore} from "@/stores/AppStore";
 import AuthenticationMethods from "@/security/AuthenticationMethods";
+import Encryption from "@/security/Encryption";
+import Security from "@/security/Security";
 export default defineComponent({
   name: "DashboardCore",
   computed:{
@@ -34,11 +36,37 @@ export default defineComponent({
         this.$router.push("/auth");
       } else {
         this.setNewLang(response.data.lang)
+        this.sendEncryptionInfo(
+            response.data.ip,
+            response.data.ua,
+            response.data.acceptLang,
+            response.data.acceptEncoding,
+            iv??""
+        );
       }
     })
 
   },
   methods:{
+    async sendEncryptionInfo(
+        ip:string,
+        ua:string,
+        al:string,
+        ae:string,
+        iv:string
+    ){
+
+      let cryptoKey = await Encryption.deriveKey(localStorage.getItem("password")??"",Security.str2ab(localStorage.getItem("salt")??""))
+      let date = new Date();
+      this.DashboardGateway.insertMetaHashInfo(
+          await Encryption.encryptAES(ip,cryptoKey,iv),
+          await Encryption.encryptAES(ua,cryptoKey,iv),
+          await Encryption.encryptAES(al,cryptoKey,iv),
+          await Encryption.encryptAES(ae,cryptoKey,iv),
+          await Encryption.encryptAES(date.toISOString(),cryptoKey,iv),
+      )
+      console.log(Date.now())
+    },
     ...mapActions(appStore,['setNewLang'])
   }
 })

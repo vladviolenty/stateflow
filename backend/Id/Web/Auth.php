@@ -2,8 +2,9 @@
 
 namespace Flow\Id\Web;
 
-use VladViolentiy\VivaFramework\SuccessResponse;
 use Flow\Core\Web;
+use Flow\Id\Storage\Storage;
+use VladViolentiy\VivaFramework\SuccessResponse;
 use Flow\Id\Enums\AuthMethods;
 use Flow\Id\Enums\AuthVia;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -17,7 +18,7 @@ class Auth extends Web
     public function __construct(Request $request)
     {
         parent::__construct($request);
-        $this->controller = new \Flow\Id\Controller\Auth($this->storage);
+        $this->controller = new \Flow\Id\Controller\Auth(new Storage());
     }
 
     public function checkIssetClient():Response{

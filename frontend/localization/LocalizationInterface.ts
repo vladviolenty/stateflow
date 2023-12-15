@@ -3,6 +3,7 @@ import type {errorCodeList} from "./CustomInterfaces";
 interface LocalizationInterface{
     register:string,
     enter:string,
+    next:string,
     delete:string,
     add:string,
     edit:string,

@@ -17,9 +17,10 @@
   <div class="row justify-content-center align-items-center" style="height: 100vh">
     <div class="col-12">
       <h4 class="text-center">Авторизация</h4>
-      <input type="text" class="form-control my-1" v-model="authString" placeholder="Email, Телефон или Uuid">
-      <input type="password" class="form-control my-1" v-model="authPassword" placeholder="Введите пароль">
-      <button class="btn btn-outline-primary w-100 my-1" @click="passwordAuth"  v-if="step==='password'">{{ Localization.enter }}</button>
+      <input type="text" class="form-control my-1" v-model="authString" :disabled="step!=='auth'" placeholder="Email, Телефон или Uuid">
+      <input type="password" class="form-control my-1" v-model="authPassword" v-if="step==='password'" placeholder="Введите пароль">
+      <button class="btn btn-outline-primary w-100 my-1" @click="checkPhone" v-if="step==='auth'">{{ Localization.next }}</button>
+      <button class="btn btn-outline-primary w-100 my-1" @click="passwordAuth" v-if="step==='password'">{{ Localization.enter }}</button>
       <router-link to="/register" class="text-center btn btn-link w-100"  v-if="step==='auth'">{{ Localization.register }}</router-link>
       <p class="text-danger text-center" v-if="authErrorCode!==null">{{Localization.errorCodes[authErrorCode]}}</p>
     </div>
@@ -56,14 +57,14 @@ export default defineComponent({
   methods:{
     async getUserNametype():Promise<{type:'uuid'|'email'|'phone',authString:string}>{
       let type:'phone'|'uuid'|'email' = "phone";
-      let authString = this.authString+"-"+this.authPassword;
+      let authString = this.authString;
       this.authErrorCode = null;
-      if(Validation.isUUID(authString)){
+      if(Validation.isUUID(this.authString)){
         type = 'uuid'
-      } else if (Validation.isEmail(authString)){
+      } else if (Validation.isEmail(this.authString)){
         type = 'email';
         authString = await Hashing.digest(this.authString);
-      } else if(Validation.isPhone(authString)) {
+      } else if(Validation.isPhone(this.authString)) {
         authString = await Hashing.digest(this.authString);
       } else {
         this.authErrorCode = 5;

@@ -2,18 +2,13 @@
 
 namespace Flow\Id\Storage\Migrations;
 
-use Flow\Core\Interfaces\MigrationInterface;
+use VladViolentiy\VivaFramework\Databases\Interfaces\MigrationInterface;
 
 class Migration_0002 extends Migration implements MigrationInterface
 {
-
     public function init(): void
     {
-        $this->executeQueryBoolRaw("
-create table migration
-(
-    currentState varchar(32) not null
-        primary key
-);");
+        $this->migrator->query("alter table users modify lNameEncrypted varchar(128) not null");
+        $this->migrator->query("alter table usersEncryptInfo add createdAt datetime default now() null");
     }
 }

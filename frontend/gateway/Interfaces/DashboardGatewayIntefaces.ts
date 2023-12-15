@@ -1,6 +1,10 @@
 interface checkAuthResponse{
     userId:number,
-    lang:'ru'|'ua'|'by'|'en'
+    lang:'ru'|'ua'|'by'|'en',
+    ip:string,
+    ua:string,
+    acceptEncoding:string,
+    acceptLang:string,
 }
 
 interface emailListResponseItem{
@@ -11,6 +15,13 @@ interface emailListResponseItem{
 interface phoneListResponseItem{
     id:number,
     phone:string
+}
+
+interface sessionListResponseItem{
+    authHash:string,
+    createdAt:string,
+    uas:string[],
+    ips:string[],
 }
 
 interface editItemGlobal{
@@ -25,4 +36,4 @@ interface phoneEditItem extends editItemGlobal{
     phoneEncrypted:string
 }
 
-export type {checkAuthResponse,emailListResponseItem,emailEditItem,phoneListResponseItem,phoneEditItem}
+export type {checkAuthResponse,sessionListResponseItem,emailListResponseItem,emailEditItem,phoneListResponseItem,phoneEditItem}

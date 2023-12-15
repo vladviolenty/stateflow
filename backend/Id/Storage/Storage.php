@@ -14,11 +14,6 @@ class Storage extends Mysqli implements StorageInterface
         $this->setDb(Database::createConnection(ServicesEnum::Id));
     }
 
-    /**
-     * @param string $hashedEmail
-     * @return array{userId:int,salt:string,iv:string}|null
-     * @throws DatabaseException
-     */
     public function getUserByEmail(string $hashedEmail):?array{
         /** @var array{userId:int,salt:string,iv:string}|null $info */
         $info = $this->executeQuery("SELECT u.id as userId,salt,iv
@@ -28,11 +23,7 @@ WHERE emailHash=? and allowAuth=true and deleted=false","s",[$hashedEmail])->fet
         if($info===null) return null;
         return $info;
     }
-    /**
-     * @param UuidInterface $uuid
-     * @return array{userId:int,salt:string,iv:string}|null
-     * @throws DatabaseException
-     */
+
     public function getUserByUUID(UuidInterface $uuid):?array{
         /** @var array{userId:int,salt:string,iv:string}|null $info */
         $info = $this->executeQuery("SELECT id as userId,salt,iv
@@ -42,11 +33,6 @@ WHERE uuid=unhex(?)","s",[bin2hex($uuid->getBytes())])->fetch_array(MYSQLI_ASSOC
         return $info;
     }
 
-    /**
-     * @param string $hashedPhone
-     * @return array{userId:int,salt:string,iv:string}|null
-     * @throws DatabaseException
-     */
     public function getUserByPhone(string $hashedPhone):?array{
         /** @var array{userId:int,salt:string,iv:string}|null $info */
         $info = $this->executeQuery("SELECT users.id as userId,salt,iv
@@ -64,8 +50,10 @@ WHERE phoneHash=?","s",[$hashedPhone])->fetch_array(MYSQLI_ASSOC);
     }
 
     public function addNewUser(UuidInterface $uuid, string $password, string $iv, string $salt,string $fNameEncrypted,string $lNameEncrypted,string $bDayEncrypted,string $globalHash): int{
+        /** @var string $globalHash */
+        $globalHash = hex2bin($globalHash);
         $this->executeQueryBool("INSERT INTO users(uuid, password, iv, salt,fNameEncrypted,lNameEncrypted,bDayEncrypted,globalHash) VALUES(unhex(?),?,?,?,?,?,?,?)",
-            "ssssssss",[bin2hex($uuid->getBytes()),$password,$iv,$salt,$fNameEncrypted,$lNameEncrypted,$bDayEncrypted,$globalHash]);
+            "ssssssss",[bin2hex($uuid->getBytes()),$password,$iv,$salt,$fNameEncrypted,$lNameEncrypted,$bDayEncrypted, $globalHash]);
         /** @var positive-int $insId */
         $insId = $this->insertId();
         return $insId;
@@ -86,14 +74,10 @@ WHERE id=?","i",[$userId])->fetch_array(MYSQLI_ASSOC);
         return $info['password'];
     }
 
-    /**
-     * @param non-empty-string $token
-     * @return array{userId:positive-int,lang:string}|null
-     * @throws DatabaseException
-     */
+
     public function checkIssetToken(string $token):?array{
-        /** @var array{userId:positive-int,lang:string}|null $info */
-        $info = $this->executeQuery("SELECT userId,u.defaultLang as lang FROM sessions JOIN users u on u.id = sessions.userId WHERE authHash=unhex(?)","s",[$token])->fetch_array(MYSQLI_ASSOC);
+        /** @var array{userId:positive-int,lang:string,sessionId:positive-int}|null $info */
+        $info = $this->executeQuery("SELECT userId,u.defaultLang as lang,sessions.id as sessionId FROM sessions JOIN users u on u.id = sessions.userId WHERE authHash=unhex(?)","s",[$token])->fetch_array(MYSQLI_ASSOC);
         if($info===null) return null;
         return $info;
     }
@@ -102,46 +86,20 @@ WHERE id=?","i",[$userId])->fetch_array(MYSQLI_ASSOC);
         $this->executeQueryBool("INSERT INTO sessions(authHash, userId, expiredAt) VALUES (UNHEX(?),?,DATE_ADD(now(),INTERVAL 90 DAY ))","si",[$hash,$userId]);
     }
 
-    /**
-     * @param int $userId
-     * @return list<array{id:int,email:string}>
-     * @throws DatabaseException
-     */
     public function getEmailList(int $userId):array{
         return $this->executeQuery("SELECT id,emailEncrypted as email FROM usersEmails WHERE userId=? and deleted=false","i",[$userId])->fetch_all(MYSQLI_ASSOC);
     }
 
-    /**
-     * @param positive-int $userId
-     * @param positive-int $itemId
-     * @param non-empty-string $encryptedEmail
-     * @param non-empty-string $emailHash
-     * @param bool $allowAuth
-     * @return void
-     */
     public function editEmailItem(int $userId, int $itemId, string $encryptedEmail, string $emailHash, bool $allowAuth):void{
         $this->executeQueryBool("UPDATE usersEmails SET emailEncrypted=?, emailHash=UNHEX(?),allowAuth=? WHERE id=? and userId=?","ssiii",[$encryptedEmail,$emailHash,(int)$allowAuth,$itemId,$userId]);
     }
 
-    /**
-     * @param positive-int $userId
-     * @param non-empty-string $encryptedEmail
-     * @param non-empty-string $emailHash
-     * @param bool $allowAuth
-     * @return int
-     * @throws DatabaseException
-     */
     public function insertNewEmail(int $userId, string $encryptedEmail, string $emailHash, bool $allowAuth):int{
         $this->executeQueryBool("INSERT INTO usersEmails(userId, emailHash, emailEncrypted,allowAuth) VALUES (?,unhex(?),?,?)",'issi',[$userId,$emailHash,$encryptedEmail,(int)$allowAuth]);
         return $this->insertId();
     }
 
-    /**
-     * @param positive-int $userId
-     * @param positive-int $itemId
-     * @return array{emailEncrypted:string,allowAuth:int}|null
-     * @throws DatabaseException
-     */
+
     public function getEmailItem(int $userId, int $itemId):?array{
         /** @var array{emailEncrypted:string,allowAuth:int}|null $info */
         $info = $this->executeQuery("SELECT emailEncrypted,allowAuth FROM usersEmails WHERE id=? and userId=?","ii",[$itemId,$userId])->fetch_array(MYSQLI_ASSOC);
@@ -152,11 +110,7 @@ WHERE id=?","i",[$userId])->fetch_array(MYSQLI_ASSOC);
         $this->executeQueryBool("UPDATE usersEmails SET deleted=true WHERE id=? and userId=?","ii",[$itemId,$userId]);
     }
 
-    /**
-     * @param positive-int $userId
-     * @return list<array{id:int,phone:string}>
-     * @throws DatabaseException
-     */
+
     public function getPhonesList(int $userId):array{
         return $this->executeQuery("SELECT id,phoneEncrypted as phone FROM usersPhones WHERE userId=? and deleted=false","i",[$userId])->fetch_all(MYSQLI_ASSOC);
     }
@@ -165,26 +119,14 @@ WHERE id=?","i",[$userId])->fetch_array(MYSQLI_ASSOC);
         $this->executeQueryBool("UPDATE usersPhones SET deleted=true WHERE id=? and userId=?","ii",[$itemId,$userId]);
     }
 
-    /**
-     * @param positive-int $userId
-     * @param positive-int $itemId
-     * @return array{emailEncrypted:string,allowAuth:int}|null
-     * @throws DatabaseException
-     */
+
     public function getPhoneItem(int $userId, int $itemId):?array{
         /** @var array{emailEncrypted:string,allowAuth:int}|null $info */
         $info = $this->executeQuery("SELECT phoneEncrypted,allowAuth FROM usersPhones WHERE id=? and userId=?","ii",[$itemId,$userId])->fetch_array(MYSQLI_ASSOC);
         return $info;
     }
 
-    /**
-     * @param positive-int $userId
-     * @param non-empty-string $phoneEncrypted
-     * @param non-empty-string $phoneHash
-     * @param bool $allowAuth
-     * @return int
-     * @throws DatabaseException
-     */
+
     public function insertNewPhone(int $userId, string $phoneEncrypted, string $phoneHash, bool $allowAuth):int{
         $this->executeQueryBool("INSERT INTO usersPhones(userId, phoneHash, phoneEncrypted,allowAuth) VALUES (?,unhex(?),?,?)",'issi',[$userId,$phoneHash,$phoneEncrypted,(int)$allowAuth]);
         return $this->insertId();
@@ -201,7 +143,58 @@ WHERE id=?","i",[$userId])->fetch_array(MYSQLI_ASSOC);
         /** @var array{count:int} $i */
         $i = $this->executeQuery("SELECT count(*) as count FROM usersEmails WHERE emailHash=? and deleted=false","s",[$emailHash])->fetch_array(MYSQLI_ASSOC);
         return $i['count']>0;
-
     }
 
+    public function getSessionsForUser(int $userId):array{
+        /** @var list<array{authHash:non-empty-string,uas:non-empty-string,ips:non-empty-string,createdAt:non-empty-string}> $i */
+        $i = $this->executeQuery("SELECT 
+    hex(authHash) as authHash,
+    DATE_FORMAT(createdAt,'%d.%m.%Y %H:%i') as createdAt,
+    group_concat(sM.ua) as uas,
+    group_concat(sM.ip) as ips
+FROM sessions 
+    JOIN flow_id.sessionsMeta sM on sessions.id = sM.sessionId
+WHERE userId=? and expiredAt>now() group by sessions.id","i",[$userId])->fetch_all(MYSQLI_ASSOC);
+        return $i;
+    }
+
+    public function killSession(int $userId, string $hash):void{
+        $this->executeQueryBool("UPDATE sessions SET expiredAt=now() WHERE userId=? and authHash=unhex(?)","is",[$userId,$hash]);
+    }
+
+    public function checkIssetSessionMetaInfo(
+        string $session,
+        string $encryptedIp,
+        string $encryptedUa,
+        string $encryptedAE,
+        string $encryptedAL
+    ):?int
+    {
+        /** @var array{id:positive-int}|null $i */
+        $i = $this->executeQuery("SELECT sessionsMeta.id
+FROM sessionsMeta 
+    JOIN sessions ON sessionsMeta.sessionId=sessions.id 
+WHERE authHash=unhex(?) and ip=? and ua=? and acceptEncoding=? and acceptLang=?","sssss",[$session,$encryptedIp,$encryptedUa,$encryptedAE,$encryptedAL])->fetch_array(MYSQLI_ASSOC);
+        if($i===null) return null;
+        return $i['id'];
+    }
+
+    public function insertSessionMeta(
+        int $sessionId,
+        string $encryptedIp,
+        string $encryptedUa,
+        string $encryptedAE,
+        string $encryptedAL,
+        string $encryptedLastSeenAt
+    ):void
+    {
+        $this->executeQueryBool("INSERT INTO 
+    sessionsMeta(sessionId, ip, ua, acceptLang, acceptEncoding, firstSeenAt, lastSeenAt) 
+VALUES (?,?,?,?,?,?,?)","issssss",[$sessionId,$encryptedIp,$encryptedUa,$encryptedAL,$encryptedAE,$encryptedLastSeenAt,$encryptedLastSeenAt]);
+    }
+
+    public function updateLastSeenSessionMeta(int $sessionMetainfoId, string $encryptedLastSeenAt): void
+    {
+        $this->executeQueryBool("UPDATE sessionsMeta SET lastSeenAt=? where id=?","si",[$encryptedLastSeenAt,$sessionMetainfoId]);
+    }
 }

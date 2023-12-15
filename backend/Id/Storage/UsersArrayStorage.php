@@ -15,10 +15,7 @@ class UsersArrayStorage implements StorageInterface
      * @var list<array{userId:int,emailHash:non-empty-string}>
      */
     private array $usersEmail = [];
-//    /**
-//     * @var array{userId:int,private:string,public:string}
-//     */
-//    private array $keysStorage;
+
     public function getUserByEmail(string $hashedEmail): ?array
     {
         return null;
@@ -148,5 +145,30 @@ class UsersArrayStorage implements StorageInterface
     public function checkPhoneInDatabase(string $phoneHash): bool
     {
         return false;
+    }
+
+    public function getSessionsForUser(int $userId): array
+    {
+        return [];
+    }
+
+    public function killSession(int $userId, string $hash): void
+    {
+        // TODO: Implement killSession() method.
+    }
+
+    public function checkIssetSessionMetaInfo(string $session, string $encryptedIp, string $encryptedUa, string $encryptedAE, string $encryptedAL): ?int
+    {
+        return null;
+    }
+
+    public function insertSessionMeta(int $sessionId, string $encryptedIp, string $encryptedUa, string $encryptedAE, string $encryptedAL, string $encryptedLastSeenAt): void
+    {
+        // TODO: Implement insertSessionMeta() method.
+    }
+
+    public function updateLastSeenSessionMeta(int $sessionMetainfoId, string $encryptedLastSeenAt): void
+    {
+        // TODO: Implement updateLastSeenSessionMeta() method.
     }
 }

@@ -5,6 +5,7 @@ const LocalizationUa:LocalizationInterface = {
     enter:"Увійти",
     delete:"Видалити",
     add:"Додати",
+    next:"Далі",
     edit:"Редагувати",
     validation:{
         fNameNull: "Ім'я не введено",

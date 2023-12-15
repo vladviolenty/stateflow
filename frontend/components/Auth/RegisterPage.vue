@@ -69,10 +69,12 @@ export default defineComponent({
   },
   methods:{
     passwordEnter():void{
-      this.buttonDisabled = false;
       if(this.password!==this.passwordRepeat){
         this.errorText = this.Localization.validation.passwordNotRepeat;
         this.buttonDisabled = true;
+      } else {
+        this.errorText = "";
+        this.buttonDisabled = false;
       }
     },
     async registerNewUser(){
