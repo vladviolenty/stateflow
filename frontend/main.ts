@@ -52,6 +52,16 @@ const router = createRouter({
                     ]
                 },
                 {
+                    path:"workflow",
+                    component:() => import('./components/EmptyRouterView.vue'),
+                    children:[
+                        {
+                            path:"",
+                            component:() => import('./components/Workflow/OrgList.vue.vue')
+                        },
+                    ]
+                },
+                {
                     path:"services",
                     component:() => import('./components/Dashboard/Services.vue')
                 },
