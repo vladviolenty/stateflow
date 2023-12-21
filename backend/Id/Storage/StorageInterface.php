@@ -66,7 +66,7 @@ interface StorageInterface
 
     /**
      * @param non-empty-string $token
-     * @return array{userId:positive-int,lang:string,sessionId:positive-int}|null
+     * @return array{userId:positive-int,lang:non-empty-string,sessionId:positive-int}|null
      * @throws DatabaseException
      */
     public function checkIssetToken(string $token):?array;
