@@ -9,5 +9,6 @@ enum ServicesEnum:string
     case Events = 'EVENTS';
     case Helpcenter = 'HELPCENTER';
     case Workflow = 'WORKFLOW';
+    case Workflow_edocument = 'WORKFLOW_EDOCUMENT';
 
 }
