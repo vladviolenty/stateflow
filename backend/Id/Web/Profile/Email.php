@@ -2,13 +2,13 @@
 
 namespace Flow\Id\Web\Profile;
 
-use Flow\Id\Web\Generic;
+use Flow\Core\WebPrivate;
 use VladViolentiy\VivaFramework\SuccessResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class Email extends Generic
+class Email extends WebPrivate
 {
     private readonly \Flow\Id\Controller\Profile\Email $controller;
 
