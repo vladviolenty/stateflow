@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 abstract class WebPrivate extends Web
 {
-    /** @var array{userId:positive-int} */
+    /** @var array{userId:positive-int,lang:non-empty-string} */
     protected readonly array $info;
     protected readonly Storage $storage;
     public function __construct(Request $request)

@@ -76,7 +76,7 @@ WHERE id=?","i",[$userId])->fetch_array(MYSQLI_ASSOC);
 
 
     public function checkIssetToken(string $token):?array{
-        /** @var array{userId:positive-int,lang:string,sessionId:positive-int}|null $info */
+        /** @var array{userId:positive-int,lang:non-empty-string,sessionId:positive-int}|null $info */
         $info = $this->executeQuery("SELECT userId,u.defaultLang as lang,sessions.id as sessionId FROM sessions JOIN users u on u.id = sessions.userId WHERE authHash=unhex(?)","s",[$token])->fetch_array(MYSQLI_ASSOC);
         if($info===null) return null;
         return $info;
