@@ -2,14 +2,13 @@
 
 namespace Flow\Id\Web\Profile;
 
-use Flow\Id\Storage\Storage;
-use Flow\Id\Web\Generic;
+use Flow\Core\WebPrivate;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use VladViolentiy\VivaFramework\SuccessResponse;
 
-class Sessions extends Generic
+class Sessions extends WebPrivate
 {
     private readonly \Flow\Id\Controller\Profile\Sessions $sessions;
 

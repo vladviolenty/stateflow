@@ -2,13 +2,13 @@
 
 namespace Flow\Id\Web\Profile;
 
-use Flow\Id\Web\Generic;
+use Flow\Core\WebPrivate;
 use VladViolentiy\VivaFramework\SuccessResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class Phones extends Generic
+class Phones extends WebPrivate
 {
     private readonly \Flow\Id\Controller\Profile\Phones $controller;
 
