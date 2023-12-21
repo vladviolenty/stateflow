@@ -101,8 +101,8 @@ export default defineComponent({
       }
       this.buttonDisabled = true;
       this.registerStage = 'awaitRegister';
-      let iv = await Security.getRandom(16);
-      let salt = await Security.getRandom(16);
+      let iv = Security.getRandom(16);
+      let salt = Security.getRandom(16);
 
       let pbkdf2Key = await Encryption.deriveKey(this.password,salt);
       let passwordHash = await Hashing.digest(Security.ab2str(salt)+''+this.password);
