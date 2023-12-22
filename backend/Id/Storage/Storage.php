@@ -4,14 +4,18 @@ namespace Flow\Id\Storage;
 
 use Flow\Core\Database;
 use Flow\Core\Enums\ServicesEnum;
-use VladViolentiy\VivaFramework\Exceptions\DatabaseException;
+use Flow\Id\Storage\Migrations\Migration;
 use Ramsey\Uuid\UuidInterface;
+use VladViolentiy\VivaFramework\Databases\Migrations\MysqliMigration;
 use VladViolentiy\VivaFramework\Databases\Mysqli;
 
 class Storage extends Mysqli implements StorageInterface
 {
     public function __construct(){
-        $this->setDb(Database::createConnection(ServicesEnum::Id));
+        $connection = Database::createConnection(ServicesEnum::Id);
+        $this->setDb($connection);
+        Mysqli::checkMigration(new MysqliMigration($connection),Migration::$list);
+
     }
 
     public function getUserByEmail(string $hashedEmail):?array{
