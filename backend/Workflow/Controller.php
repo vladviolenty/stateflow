@@ -2,8 +2,11 @@
 
 namespace Flow\Workflow;
 
+use Flow\Core\Validation;
 use Flow\Workflow\Storage\StorageInterface;
+use Ramsey\Uuid\Uuid;
 use VladViolentiy\VivaFramework\Exceptions\DatabaseException;
+use VladViolentiy\VivaFramework\Exceptions\ValidationException;
 
 class Controller
 {
@@ -16,6 +19,36 @@ class Controller
         private readonly array $userInfo
     )
     {
+    }
+
+    public function createNewOrganization(
+        string $name,
+        string $genericId,
+        string $iv,
+        string $salt,
+        string $encryptedPassword,
+        string $encryptedPrivateRSAKey,
+        string $publicRSAKey,
+        bool $publicFLNames
+    ):int
+    {
+        \VladViolentiy\VivaFramework\Validation::nonEmpty($name);
+        \VladViolentiy\VivaFramework\Validation::nonEmpty($genericId);
+        \VladViolentiy\VivaFramework\Validation::nonEmpty($encryptedPassword);
+        \VladViolentiy\VivaFramework\Validation::nonEmpty($encryptedPrivateRSAKey);
+
+        $decodedIv = base64_decode($iv);
+        $decodedSalt = base64_decode($salt);
+        if(
+            $decodedSalt===$decodedIv or
+            strlen($decodedIv)!==16 or
+            strlen($decodedSalt)!==16
+        ) throw new ValidationException();
+        Validation::RSAPublicKey($publicRSAKey);
+
+        $orgUUID = Uuid::uuid4();
+
+        return 0;
     }
 
     /**

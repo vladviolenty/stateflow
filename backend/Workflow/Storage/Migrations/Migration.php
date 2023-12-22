@@ -18,6 +18,7 @@ class Migration extends Mysqli
      * @var class-string[]
      */
     public static array $list = [
-        Migration_0000::class
+        Migration_0000::class,
+        Migration_0001::class
     ];
 }

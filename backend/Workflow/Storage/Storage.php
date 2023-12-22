@@ -5,6 +5,7 @@ namespace Flow\Workflow\Storage;
 use Flow\Core\Database;
 use Flow\Core\Enums\ServicesEnum;
 use Flow\Workflow\Storage\Migrations\Migration;
+use Ramsey\Uuid\UuidInterface;
 use VladViolentiy\VivaFramework\Databases\Migrations\MysqliMigration;
 use VladViolentiy\VivaFramework\Databases\Mysqli;
 use VladViolentiy\VivaFramework\Exceptions\DatabaseException;
@@ -17,17 +18,25 @@ class Storage extends Mysqli implements StorageInterface
         Mysqli::checkMigration(new MysqliMigration($connection),Migration::$list);
     }
 
-    /**
-     * @param positive-int $userId
-     * @return list<array{name:non-empty-string,genericId:non-empty-string,iv:non-empty-string,salt:non-empty-string,encryptionKey:non-empty-string}>
-     * @throws DatabaseException
-     */
     public function getOrgForUser(int $userId):array{
         /** @var list<array{name:non-empty-string,genericId:non-empty-string,iv:non-empty-string,salt:non-empty-string,encryptionKey:non-empty-string}> $i */
         $i = $this->executeQuery("SELECT name,genericId,iv,salt,encryptionKey
 FROM organizationsUsers 
-    JOIN flow_workflow.organizations o on o.id = organizationsUsers.organizationId 
+    JOIN organizations o on o.id = organizationsUsers.organizationId 
 WHERE userId=?","i",[$userId])->fetch_all(MYSQLI_ASSOC);
         return $i;
+    }
+
+    public function insertNewOrganization(UuidInterface $uuid,string $name, string $genericId, bool $publicFLName,string $iv,string $salt,string $encryptedCreatedAt):int
+    {
+        $this->executeQueryBool("INSERT INTO organizations(uuid,genericId, name, iv, salt, publicFLNames, createdAt) VALUES (unhex(?),?,?,?,?,?,?)","sssssis",[bin2hex($uuid->getBytes()),$genericId,$name,$iv,$salt,(int)$publicFLName,$encryptedCreatedAt]);
+        /** @var positive-int $id */
+        $id = $this->insertId();
+        return $id;
+    }
+
+    public function insertEncryptInfo(int $orgId,string $encryptedPrivateKey,string $publicKey, string $type):void
+    {
+        $this->executeQueryBool("INSERT INTO organizationsEncryptInfo(organizationId, encryptedPrivateKey, publicKey, type) VALUES (?,?,?,?)","isss",[$orgId,$encryptedPrivateKey,$publicKey,$type]);
     }
 }

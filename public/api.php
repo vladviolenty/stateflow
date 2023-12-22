@@ -81,7 +81,18 @@ $routes = [
         "route"=>"/api/id/phone/delete",
         "class"=> Flow\Id\Web\Profile\Phones::class,
         "method"=>"delete"
-    ]
+    ],
+    [
+        "route"=>"/api/workflow/getOrgList",
+        "class"=> Flow\Workflow\Web::class,
+        "method"=>"delete"
+    ],
+    [
+        "route"=>"/api/workflow/createOrg",
+        "class"=> Flow\Workflow\Web::class,
+        "method"=>"createOrg"
+    ],
+
 ];
 
 

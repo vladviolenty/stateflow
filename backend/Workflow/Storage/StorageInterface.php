@@ -2,6 +2,7 @@
 
 namespace Flow\Workflow\Storage;
 
+use Ramsey\Uuid\UuidInterface;
 use VladViolentiy\VivaFramework\Exceptions\DatabaseException;
 
 interface StorageInterface
@@ -12,4 +13,25 @@ interface StorageInterface
      * @throws DatabaseException
      */
     public function getOrgForUser(int $userId):array;
+
+    /**
+     * @param UuidInterface $uuid
+     * @param non-empty-string $name
+     * @param non-empty-string $genericId
+     * @param bool $publicFLName
+     * @param non-empty-string $iv
+     * @param non-empty-string $salt
+     * @param non-empty-string $encryptedCreatedAt
+     * @return positive-int
+     */
+    public function insertNewOrganization(UuidInterface $uuid,string $name, string $genericId, bool $publicFLName, string $iv, string $salt, string $encryptedCreatedAt):int;
+
+    /**
+     * @param positive-int $orgId
+     * @param non-empty-string $encryptedPrivateKey
+     * @param non-empty-string $publicKey
+     * @param non-empty-string $type
+     * @return void
+     */
+    public function insertEncryptInfo(int $orgId, string $encryptedPrivateKey, string $publicKey, string $type):void;
 }
