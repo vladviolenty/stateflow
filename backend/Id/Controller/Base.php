@@ -17,9 +17,5 @@ class Base
     public function __construct(StorageInterface $storage)
     {
         $this->storage = $storage;
-
-        if($storage instanceof Storage){
-            Mysqli::checkMigration(new MysqliMigration(Database::createConnection(ServicesEnum::Id)),Migration::$list);
-        }
     }
 }
