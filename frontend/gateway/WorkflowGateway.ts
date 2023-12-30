@@ -1,6 +1,18 @@
 import Requests from "@/gateway/Requests";
 
 class WorkflowGateway extends Requests{
+    public getMyOrg():Promise<any>{
+        return this.executeGet("/api/workflow/getOrgList");
+    }
+
+    public getOrgItem(
+        orgUUID:string
+    ):Promise<any>{
+        const formData = new FormData();
+        formData.append("uuid",orgUUID);
+        return this.executeGet("/api/workflow/getOrgItem");
+    }
+
     public createNewOrg(
         name:string,
         genericId:string,
@@ -20,9 +32,7 @@ class WorkflowGateway extends Requests{
         formData.append("encryptedPassword",encryptedPassword);
         formData.append("publicKey",publicKey);
         formData.append("encryptedPrivateKey",encryptedPrivateKey);
-
         return this.executePost("/api/workflow/createOrg",formData);
-
     }
 }
 
