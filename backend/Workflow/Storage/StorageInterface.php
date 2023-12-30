@@ -34,4 +34,14 @@ interface StorageInterface
      * @return void
      */
     public function insertEncryptInfo(int $orgId, string $encryptedPrivateKey, string $publicKey, string $type):void;
+
+    /**
+     * @param positive-int $orgId
+     * @param positive-int $userId
+     * @param bool $isMainUser
+     * @param non-empty-string $encryptedKey
+     * @param non-empty-string|null $encryptedFLName
+     * @return void
+     */
+    public function insertUserInOrganization(int $orgId, int $userId, bool $isMainUser, string $encryptedKey, ?string $encryptedFLName):void;
 }

@@ -29,6 +29,7 @@ class Web extends WebPrivate
         $publicFLNames = (bool)$this->request->get("publicFLNames");
         $encryptedRSAPrivate = $this->request->get("encryptedRSAKey");
         $rsaPublic = $this->request->get("publicRSAKey");
+        $encryptedCreatedAt = $this->request->get("encryptedCreatedAt");
 
         $this->controller->createNewOrganization(
             $name,
@@ -38,7 +39,8 @@ class Web extends WebPrivate
             $encryptedPassword,
             $encryptedRSAPrivate,
             $rsaPublic,
-            $publicFLNames
+            $publicFLNames,
+            $encryptedCreatedAt
         );
 
         return new JsonResponse(SuccessResponse::data([

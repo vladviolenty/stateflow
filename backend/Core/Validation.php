@@ -6,6 +6,12 @@ use VladViolentiy\VivaFramework\Exceptions\ValidationException;
 
 class Validation
 {
+    /**
+     * @param string $keyInput
+     * @return void
+     * @phpstan-assert non-empty-string $keyInput
+     * @throws ValidationException
+     */
     public static function RSAPublicKey(string $keyInput):void{
         if(!str_starts_with($keyInput,"-----BEGIN PUBLIC KEY-----")){
             $keyInput = "

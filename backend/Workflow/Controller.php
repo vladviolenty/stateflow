@@ -29,13 +29,18 @@ class Controller
         string $encryptedPassword,
         string $encryptedPrivateRSAKey,
         string $publicRSAKey,
-        bool $publicFLNames
+        bool $publicFLNames,
+        string $encryptedCreatedAt
     ):int
     {
         \VladViolentiy\VivaFramework\Validation::nonEmpty($name);
         \VladViolentiy\VivaFramework\Validation::nonEmpty($genericId);
         \VladViolentiy\VivaFramework\Validation::nonEmpty($encryptedPassword);
+        \VladViolentiy\VivaFramework\Validation::nonEmpty($encryptedCreatedAt);
         \VladViolentiy\VivaFramework\Validation::nonEmpty($encryptedPrivateRSAKey);
+        \VladViolentiy\VivaFramework\Validation::nonEmpty($iv);
+        \VladViolentiy\VivaFramework\Validation::nonEmpty($salt);
+        Validation::RSAPublicKey($publicRSAKey);
 
         $decodedIv = base64_decode($iv);
         $decodedSalt = base64_decode($salt);
@@ -44,9 +49,11 @@ class Controller
             strlen($decodedIv)!==16 or
             strlen($decodedSalt)!==16
         ) throw new ValidationException();
-        Validation::RSAPublicKey($publicRSAKey);
 
         $orgUUID = Uuid::uuid4();
+
+        $orgId = $this->storage->insertNewOrganization($orgUUID,$name,$genericId,$publicFLNames,$iv,$salt,$encryptedCreatedAt);
+        $this->storage->insertEncryptInfo($orgId,$encryptedPrivateRSAKey,$publicRSAKey,"generic");
 
         return 0;
     }
