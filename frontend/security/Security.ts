@@ -1,3 +1,5 @@
+import Encryption from "@/security/Encryption";
+
 class Security{
     private textEncoder:TextEncoder;
     private textDecoder:TextDecoder;
@@ -30,6 +32,10 @@ class Security{
 
     public getRandom(length:number):Uint8Array{
         return window.crypto.getRandomValues(new Uint8Array(length))
+    }
+
+    public async getDerivedKey():Promise<CryptoKey>{
+        return await Encryption.deriveKey(localStorage.getItem("password")??"",this.str2ab(window.atob(localStorage.getItem("salt")??"")))
     }
 
 
