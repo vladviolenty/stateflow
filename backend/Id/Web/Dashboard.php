@@ -3,7 +3,6 @@
 namespace Flow\Id\Web;
 
 use Flow\Id\Controller\Profile\General;
-use Flow\Id\Storage\Storage;
 use VladViolentiy\VivaFramework\SuccessResponse;
 use Flow\Core\WebPrivate;
 use Symfony\Component\HttpFoundation\JsonResponse;
