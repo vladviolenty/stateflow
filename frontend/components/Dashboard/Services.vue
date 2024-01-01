@@ -2,12 +2,12 @@
   <h4>{{ Localization.services }}</h4>
   <div class="row">
     <div class="col-md-4">
-      <div class="card">
+      <router-link to="/dashboard/workflow" class="card">
         <div class="card-body text-center">
           <h1><i class="bi bi-person-workspace"></i></h1>
           WorkFlow
         </div>
-      </div>
+      </router-link>
     </div>
   </div>
 </template>
