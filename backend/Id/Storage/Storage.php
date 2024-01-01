@@ -197,8 +197,15 @@ WHERE authHash=unhex(?) and ip=? and ua=? and acceptEncoding=? and acceptLang=?"
 VALUES (?,?,?,?,?,?,?)","issssss",[$sessionId,$encryptedIp,$encryptedUa,$encryptedAL,$encryptedAE,$encryptedLastSeenAt,$encryptedLastSeenAt]);
     }
 
-    public function updateLastSeenSessionMeta(int $sessionMetainfoId, string $encryptedLastSeenAt): void
+    public function updateLastSeenSessionMeta(int $sessionMetaInfoId, string $encryptedLastSeenAt): void
     {
-        $this->executeQueryBool("UPDATE sessionsMeta SET lastSeenAt=? where id=?","si",[$encryptedLastSeenAt,$sessionMetainfoId]);
+        $this->executeQueryBool("UPDATE sessionsMeta SET lastSeenAt=? where id=?","si",[$encryptedLastSeenAt,$sessionMetaInfoId]);
+    }
+
+    public function getBasicInfo(int $userId):array
+    {
+        /** @var array{fNameEncrypted:non-empty-string,lNameEncrypted:non-empty-string,bDayEncrypted:non-empty-string} $i */
+        $i = $this->executeQuery("SELECT fNameEncrypted,lNameEncrypted,bDayEncrypted FROM users WHERE id=?","i",[$userId])->fetch_array(MYSQLI_ASSOC);
+        return $i;
     }
 }

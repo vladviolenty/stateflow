@@ -28,6 +28,11 @@ $routes = [
         "method"=>"checkAuth"
     ],
     [
+        "route"=>"/api/id/getBasicInfo",
+        "class"=> Flow\Id\Web\Dashboard::class,
+        "method"=>"getBasicInfo"
+    ],
+    [
         "route"=>"/api/id/killSession",
         "class"=> Flow\Id\Web\Profile\Sessions::class,
         "method"=>"killSession"
