@@ -112,15 +112,16 @@ export default defineComponent({
 
       let encryptedPrivateKey = await Encryption.encryptAESBytes(basePrivate,pbkdf2Key,iv);
       console.log(this.fName+'-'+this.lName+'-'+this.dOfBirth+'-'+window.btoa(Security.ab2str(salt)));
+      let ivString = window.btoa(Security.ab2str(iv));
       AuthGateway.registerNewUser(
           passwordHash,
-          window.btoa(Security.ab2str(iv)),
+          ivString,
           window.btoa(Security.ab2str(salt)),
           basePublic,
           window.btoa(Security.ab2str(encryptedPrivateKey)),
-          window.btoa(Security.ab2str(await Encryption.encryptAESBytes(Security.utf8str2ab(this.fName),pbkdf2Key,iv))),
-          window.btoa(Security.ab2str(await Encryption.encryptAESBytes(Security.utf8str2ab(this.lName),pbkdf2Key,iv))),
-          window.btoa(Security.ab2str(await Encryption.encryptAESBytes(Security.utf8str2ab(this.dOfBirth),pbkdf2Key,iv))),
+          await Encryption.encryptAES(this.fName,pbkdf2Key,ivString),
+          await Encryption.encryptAES(this.lName,pbkdf2Key,ivString),
+          await Encryption.encryptAES(this.dOfBirth,pbkdf2Key,ivString),
           await Hashing.digest(this.fName+'-'+this.lName+'-'+this.dOfBirth+'-'+window.btoa(Security.ab2str(salt)))
       ).then(response=>{
         this.buttonDisabled = false;
