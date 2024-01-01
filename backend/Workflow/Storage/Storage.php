@@ -20,7 +20,7 @@ class Storage extends Mysqli implements StorageInterface
 
     public function getOrgForUser(int $userId):array{
         /** @var list<array{name:non-empty-string,genericId:non-empty-string,iv:non-empty-string,salt:non-empty-string,encryptionKey:non-empty-string}> $i */
-        $i = $this->executeQuery("SELECT name,genericId,iv,salt,encryptionKey
+        $i = $this->executeQuery("SELECT name,genericId,iv,salt,encryptionKey,hex(uuid) as uuid
 FROM organizationsUsers 
     JOIN organizations o on o.id = organizationsUsers.organizationId 
 WHERE userId=?","i",[$userId])->fetch_all(MYSQLI_ASSOC);

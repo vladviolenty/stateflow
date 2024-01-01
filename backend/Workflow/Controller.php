@@ -68,6 +68,10 @@ class Controller
     public function getOrgListForUser():array
     {
         $info = $this->storage->getOrgForUser($this->userInfo['userId']);
+        $info = array_map(function ($item){
+            $item['uuid'] = Uuid::fromBytes(hex2bin($item['uuid']));
+            return $item;
+        },$info);
         return $info;
     }
 }

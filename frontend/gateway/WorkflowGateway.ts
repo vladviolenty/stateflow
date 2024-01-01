@@ -1,7 +1,9 @@
 import Requests from "@/gateway/Requests";
+import type {response} from "@/gateway/Interfaces/GeneralGatewayInterfaces";
+import type {organizationItemInterface} from "@/gateway/Interfaces/WorkflowGatewayInterfaces";
 
 class WorkflowGateway extends Requests{
-    public getMyOrg():Promise<any>{
+    public getMyOrg():Promise<response<{organizations:organizationItemInterface[]}>>{
         return this.executeGet("/api/workflow/getOrgList");
     }
 
