@@ -198,12 +198,18 @@ interface StorageInterface
     ):void;
 
     /**
-     * @param positive-int $sessionMetainfoId
+     * @param positive-int $sessionMetaInfoId
      * @param non-empty-string $encryptedLastSeenAt
      * @return void
      */
     public function updateLastSeenSessionMeta(
-        int    $sessionMetainfoId,
+        int    $sessionMetaInfoId,
         string $encryptedLastSeenAt
     ):void;
+
+    /**
+     * @param positive-int $userId
+     * @return array{fNameEncrypted:non-empty-string,lNameEncrypted:non-empty-string,bDayEncrypted:non-empty-string}
+     */
+    public function getBasicInfo(int $userId):array;
 }

@@ -112,6 +112,10 @@ class DashboardGateway extends Requests{
         formData.append("id",String(id));
         return this.executePost("/api/id/phone/delete",formData);
     }
+
+    public getGeneralInfo():Promise<response<{fNameEncrypted:string,lNameEncrypted:string,bDayEncrypted:string}>>{
+        return this.executeGet("/api/id/getBasicInfo");
+    }
 }
 
 export default DashboardGateway;
