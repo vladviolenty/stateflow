@@ -26,10 +26,11 @@ class Web extends WebPrivate
         $iv = $this->request->get("iv");
         $salt = $this->request->get("salt");
         $encryptedPassword = $this->request->get("encryptedPassword");
-        $publicFLNames = (bool)$this->request->get("publicFLNames");
-        $encryptedRSAPrivate = $this->request->get("encryptedRSAKey");
-        $rsaPublic = $this->request->get("publicRSAKey");
+        $publicFLNames = $this->request->get("publicFLNames");
+        $encryptedRSAPrivate = $this->request->get("encryptedPrivateKey");
+        $rsaPublic = $this->request->get("publicKey");
         $encryptedCreatedAt = $this->request->get("encryptedCreatedAt");
+
 
         $this->controller->createNewOrganization(
             $name,
@@ -48,7 +49,7 @@ class Web extends WebPrivate
         ]));
     }
 
-    public function getOrgListForUsers():Response
+    public function getOrgList():Response
     {
         $info = $this->controller->getOrgListForUser();
 

@@ -43,6 +43,4 @@ WHERE userId=?","i",[$userId])->fetch_all(MYSQLI_ASSOC);
     public function insertUserInOrganization(int $orgId, int $userId, bool $isMainUser, string $encryptedKey, ?string $encryptedFLName):void{
         $this->executeQueryBool("INSERT INTO organizationsUsers(organizationId, userId, isMainUser, encryptionKey, encryptedFLName) VALUES (?,?,?,?,?)","iiiss",[$orgId,$userId,(int)$isMainUser,$encryptedKey,$encryptedFLName]);
     }
-
-
 }

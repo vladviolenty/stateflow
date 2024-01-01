@@ -29,7 +29,7 @@ class Controller
         string $encryptedPassword,
         string $encryptedPrivateRSAKey,
         string $publicRSAKey,
-        bool $publicFLNames,
+        string $publicFLNames,
         string $encryptedCreatedAt
     ):int
     {
@@ -52,8 +52,11 @@ class Controller
 
         $orgUUID = Uuid::uuid4();
 
-        $orgId = $this->storage->insertNewOrganization($orgUUID,$name,$genericId,$publicFLNames,$iv,$salt,$encryptedCreatedAt);
+        if($publicFLNames==="") $publicFLNames = null;
+
+        $orgId = $this->storage->insertNewOrganization($orgUUID,$name,$genericId,$publicFLNames != null,$iv,$salt,$encryptedCreatedAt);
         $this->storage->insertEncryptInfo($orgId,$encryptedPrivateRSAKey,$publicRSAKey,"generic");
+        $this->storage->insertUserInOrganization($orgId,$this->userInfo['userId'],true,$encryptedPassword,$publicFLNames);
 
         return 0;
     }
