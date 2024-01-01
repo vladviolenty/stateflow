@@ -55,7 +55,7 @@ export default defineComponent({
     }
   },
   async mounted(){
-    this.cryptoKey = await Encryption.deriveKey(localStorage.getItem("password")??"",Security.str2ab(localStorage.getItem("salt")??""))
+    this.cryptoKey = await Security.getDerivedKey()
 
     let response = await this.DashboardGateway.getPhoneList();
     if(response.success){

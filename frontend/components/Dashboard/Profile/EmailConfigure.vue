@@ -58,7 +58,7 @@ export default defineComponent({
     ...mapState(appStore, ['DashboardGateway','Localization']),
   },
   async mounted() {
-    this.cryptoKey = await Encryption.deriveKey(localStorage.getItem("password")??"",Security.str2ab(localStorage.getItem("salt")??""))
+    this.cryptoKey = await Security.getDerivedKey()
 
     let response = await this.DashboardGateway.getEmailList();
     if(response.success){
