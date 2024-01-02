@@ -27,7 +27,16 @@ interface LocalizationInterface{
         phone:string,
         email:string,
         session:string
-    }
+    },
+    phone:{
+        generic:string,
+        add:string,
+        notAdded:string
+    },
+    email:{
+        add:string,
+        notAdded:string
+    },
     errorCodes:Record<errorCodeList,string>
 }
 

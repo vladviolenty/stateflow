@@ -1,8 +1,8 @@
 <template>
   <h4>{{ Localization.configure.phone }}</h4>
 
-  <button class="btn btn-outline-success w-100 my-1" @click="addNewShow">Добавить телефон</button>
-  <p class="text-center my-1" v-if="list.length===0">Телефоны не добавлены</p>
+  <button class="btn btn-outline-success w-100 my-1" @click="addNewShow">{{ Localization.phone.add }}</button>
+  <p class="text-center my-1" v-if="list.length===0">{{ Localization.phone.notAdded }}</p>
   <ul class="list-group my-1" v-if="list.length>0">
     <li class="list-group-item" :key="item.id" v-for="item in list" @click="editItemGetInfo(item.id)">{{item.phone}}</li>
   </ul>
@@ -13,8 +13,8 @@
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-      <label for="newEditEmail">Email:</label>
-      <input type="tel" class="form-control" id="newEditEmail" v-model="newEditPhone">
+      <label for="newEditPhone">{{ Localization.phone.generic }}:</label>
+      <input type="tel" class="form-control" id="newEditPhone" v-model="newEditPhone">
       <div class="form-check">
         <input class="form-check-input" type="checkbox" v-model="newEditAllowAuth" id="newEditAllowAuth">
         <label class="form-check-label" for="newEditAllowAuth">
