@@ -28,6 +28,15 @@ const LocalizationUa:LocalizationInterface = {
         email: "Налаштування email адрес",
         session: "Управління сесіями"
     },
+    phone:{
+        generic:"Телефон",
+        add:"Додати телефон",
+        notAdded:"Телефони не додані"
+    },
+    email:{
+        add:"Додати email",
+        notAdded:"Email адреси не додані"
+    },
     errorCodes:{
         0:"Помилка мережі",
         1:"Помилка валідації",

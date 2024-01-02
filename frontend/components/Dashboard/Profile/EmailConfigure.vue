@@ -1,8 +1,8 @@
 <template>
   <h4>{{ Localization.configure.email }}</h4>
 
-  <button class="btn btn-outline-success w-100 my-1" @click="addNewShow">Добавить Email</button>
-  <p class="text-center my-1" v-if="list.length===0">Email адреса не добавлены</p>
+  <button class="btn btn-outline-success w-100 my-1" @click="addNewShow">{{Localization.email.add}}</button>
+  <p class="text-center my-1" v-if="list.length===0">{{Localization.email.notAdded}}</p>
   <ul class="list-group my-1" v-if="list.length>0">
     <li class="list-group-item" :key="item.id" v-for="item in list" @click="editItemGetInfo(item.id)">{{item.email}}</li>
   </ul>

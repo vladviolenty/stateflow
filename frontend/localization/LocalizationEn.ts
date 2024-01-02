@@ -28,6 +28,15 @@ const LocalizationEn:LocalizationInterface = {
         email:"Configuring email addresses",
         session:"Session management"
     },
+    phone:{
+        generic:"Phone",
+        add:"Add a phone number",
+        notAdded:"Phones not added"
+    },
+    email:{
+        add:"Add an email",
+        notAdded:"Email addresses have not been added"
+    },
     errorCodes:{
         0:"Network error",
         1:"Validation Error",
