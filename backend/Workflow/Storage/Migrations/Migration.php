@@ -14,7 +14,12 @@ class Migration extends Mysqli
         $this->migrator = $migrator;
     }
 
+    /**
+     * @var class-string[]
+     */
     public static array $list = [
-        Migration_0000::class
+        Migration_0000::class,
+        Migration_0001::class,
+        Migration_0002::class
     ];
 }

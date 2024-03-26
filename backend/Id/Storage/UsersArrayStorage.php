@@ -167,8 +167,17 @@ class UsersArrayStorage implements StorageInterface
         // TODO: Implement insertSessionMeta() method.
     }
 
-    public function updateLastSeenSessionMeta(int $sessionMetainfoId, string $encryptedLastSeenAt): void
+    public function updateLastSeenSessionMeta(int $sessionMetaInfoId, string $encryptedLastSeenAt): void
     {
         // TODO: Implement updateLastSeenSessionMeta() method.
+    }
+
+    public function getBasicInfo(int $userId): array
+    {
+        return [
+            "fNameEncrypted"=>"1",
+            "lNameEncrypted"=>"1",
+            "bDayEncrypted"=>"1",
+        ];
     }
 }

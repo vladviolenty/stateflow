@@ -1,5 +1,5 @@
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
+import {createApp} from 'vue'
+import {createPinia} from 'pinia'
 import 'bootstrap/scss/bootstrap.scss'
 import 'bootstrap-icons/font/bootstrap-icons.scss'
 import App from './App.vue'
@@ -19,51 +19,51 @@ const router = createRouter({
         },
         {
             path: '/auth',
-            component: () =>  import('./components/Auth/AuthPage.vue')
+            component: () => import('./components/Auth/AuthPage.vue')
         },
         {
             path: '/dashboard',
             component: () => import("./components/Dashboard.vue"),
-            children:[
+            children: [
                 {
-                    path:"",
-                    component:() => import('./components/Dashboard/Home.vue')
+                    path: "",
+                    component: () => import('./components/Dashboard/Home.vue')
                 },
                 {
-                    path:"profile",
-                    component:() => import('./components/EmptyRouterView.vue'),
-                    children:[
+                    path: "profile",
+                    component: () => import('./components/EmptyRouterView.vue'),
+                    children: [
                         {
-                            path:"",
-                            component:() => import('./components/Dashboard/Profile.vue')
+                            path: "",
+                            component: () => import('./components/Dashboard/Profile.vue')
                         },
                         {
-                            path:"email",
-                            component:() => import('./components/Dashboard/Profile/EmailConfigure.vue')
+                            path: "email",
+                            component: () => import('./components/Dashboard/Profile/EmailConfigure.vue')
                         },
                         {
-                            path:"phones",
-                            component:() => import('./components/Dashboard/Profile/PhonesConfigure.vue')
+                            path: "phones",
+                            component: () => import('./components/Dashboard/Profile/PhonesConfigure.vue')
                         },
                         {
-                            path:"sessions",
-                            component:() => import('./components/Dashboard/Profile/SessionConfigure.vue')
+                            path: "sessions",
+                            component: () => import('./components/Dashboard/Profile/SessionConfigure.vue')
                         }
                     ]
                 },
                 {
-                    path:"workflow",
-                    component:() => import('./components/EmptyRouterView.vue'),
-                    children:[
+                    path: "workflow",
+                    component: () => import('./components/EmptyRouterView.vue'),
+                    children: [
                         {
-                            path:"",
-                            component:() => import('./components/Workflow/OrgList.vue.vue')
+                            path: "",
+                            component: () => import('./components/Workflow/OrgList.vue')
                         },
                     ]
                 },
                 {
-                    path:"services",
-                    component:() => import('./components/Dashboard/Services.vue')
+                    path: "services",
+                    component: () => import('./components/Dashboard/Services.vue')
                 },
             ],
         }

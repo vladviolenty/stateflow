@@ -4,14 +4,18 @@ namespace Flow\Id\Storage;
 
 use Flow\Core\Database;
 use Flow\Core\Enums\ServicesEnum;
-use VladViolentiy\VivaFramework\Exceptions\DatabaseException;
+use Flow\Id\Storage\Migrations\Migration;
 use Ramsey\Uuid\UuidInterface;
+use VladViolentiy\VivaFramework\Databases\Migrations\MysqliMigration;
 use VladViolentiy\VivaFramework\Databases\Mysqli;
 
 class Storage extends Mysqli implements StorageInterface
 {
     public function __construct(){
-        $this->setDb(Database::createConnection(ServicesEnum::Id));
+        $connection = Database::createConnection(ServicesEnum::Id);
+        $this->setDb($connection);
+        Mysqli::checkMigration(new MysqliMigration($connection),Migration::$list);
+
     }
 
     public function getUserByEmail(string $hashedEmail):?array{
@@ -76,7 +80,7 @@ WHERE id=?","i",[$userId])->fetch_array(MYSQLI_ASSOC);
 
 
     public function checkIssetToken(string $token):?array{
-        /** @var array{userId:positive-int,lang:string,sessionId:positive-int}|null $info */
+        /** @var array{userId:positive-int,lang:non-empty-string,sessionId:positive-int}|null $info */
         $info = $this->executeQuery("SELECT userId,u.defaultLang as lang,sessions.id as sessionId FROM sessions JOIN users u on u.id = sessions.userId WHERE authHash=unhex(?)","s",[$token])->fetch_array(MYSQLI_ASSOC);
         if($info===null) return null;
         return $info;
@@ -193,8 +197,15 @@ WHERE authHash=unhex(?) and ip=? and ua=? and acceptEncoding=? and acceptLang=?"
 VALUES (?,?,?,?,?,?,?)","issssss",[$sessionId,$encryptedIp,$encryptedUa,$encryptedAL,$encryptedAE,$encryptedLastSeenAt,$encryptedLastSeenAt]);
     }
 
-    public function updateLastSeenSessionMeta(int $sessionMetainfoId, string $encryptedLastSeenAt): void
+    public function updateLastSeenSessionMeta(int $sessionMetaInfoId, string $encryptedLastSeenAt): void
     {
-        $this->executeQueryBool("UPDATE sessionsMeta SET lastSeenAt=? where id=?","si",[$encryptedLastSeenAt,$sessionMetainfoId]);
+        $this->executeQueryBool("UPDATE sessionsMeta SET lastSeenAt=? where id=?","si",[$encryptedLastSeenAt,$sessionMetaInfoId]);
+    }
+
+    public function getBasicInfo(int $userId):array
+    {
+        /** @var array{fNameEncrypted:non-empty-string,lNameEncrypted:non-empty-string,bDayEncrypted:non-empty-string} $i */
+        $i = $this->executeQuery("SELECT fNameEncrypted,lNameEncrypted,bDayEncrypted FROM users WHERE id=?","i",[$userId])->fetch_array(MYSQLI_ASSOC);
+        return $i;
     }
 }

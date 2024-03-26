@@ -56,7 +56,7 @@ export default defineComponent({
         iv:string
     ){
 
-      let cryptoKey = await Encryption.deriveKey(localStorage.getItem("password")??"",Security.str2ab(localStorage.getItem("salt")??""))
+      let cryptoKey = await Security.getDerivedKey()
       let date = new Date();
       this.DashboardGateway.insertMetaHashInfo(
           await Encryption.encryptAES(ip,cryptoKey,iv),

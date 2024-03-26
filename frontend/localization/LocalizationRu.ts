@@ -28,6 +28,15 @@ const LocalizationRu:LocalizationInterface = {
         email:"Настройка email адресов",
         session:"Управление сессиями"
     },
+    phone:{
+        generic:"Телефон",
+        add:"Добавить телефон",
+        notAdded:"Телефоны не добавлены"
+    },
+    email:{
+        add:"Добавить email",
+        notAdded:"Email адреса не добавлены"
+    },
     errorCodes:{
         0:"Ошибка сети",
         1:"Ошибка валидации",

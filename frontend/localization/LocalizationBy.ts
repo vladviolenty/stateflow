@@ -28,6 +28,15 @@ const LocalizationBy:LocalizationInterface = {
         email: "Настройка email адрасоў",
         session: "Кіраванне сесіямі"
     },
+    phone:{
+        generic:"Тэлефон",
+        add:"Дадаць тэлефон",
+        notAdded:"Тэлефоны не дададзеныя"
+    },
+    email:{
+        add:"Дадаць email",
+        notAdded:"Email адрасы не дададзеныя"
+    },
     errorCodes:{
         0:"Памылка сеткі",
         1:"Памылка валідацыі",
