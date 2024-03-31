@@ -2,6 +2,7 @@ import type LocalizationInterface from "./LocalizationInterface";
 
 const LocalizationEn:LocalizationInterface = {
     register:'Register',
+    logout:'Log out',
     enter:"Sign in",
     next:"Next",
     delete:"Delete",

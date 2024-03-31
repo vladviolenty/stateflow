@@ -2,6 +2,7 @@ import type {errorCodeList} from "./CustomInterfaces";
 
 interface LocalizationInterface{
     register:string,
+    logout:string,
     enter:string,
     next:string,
     delete:string,

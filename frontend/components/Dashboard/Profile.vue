@@ -4,7 +4,7 @@
     <router-link to="/dashboard/profile/email" class="list-group-item">{{ Localization.configure.email }}</router-link>
     <router-link to="/dashboard/profile/phones" class="list-group-item">{{ Localization.configure.phone }}</router-link>
     <router-link to="/dashboard/profile/sessions" class="list-group-item">{{ Localization.configure.session }}</router-link>
-    <li class="list-group-item text-danger" @click="logOut">Выйти из системы</li>
+    <li class="list-group-item text-danger" @click="logOut">{{Localization.logout}}</li>
   </ul>
 </template>
 
