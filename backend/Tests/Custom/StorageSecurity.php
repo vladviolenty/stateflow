@@ -19,7 +19,7 @@ class StorageSecurity
     ];
 
     public function storageQueryTest():void{
-        $parse = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
+        $parse = (new ParserFactory())->createForNewestSupportedVersion();
 
         $traverser = new NodeTraverser;
         $traverser->addVisitor(new class extends NodeVisitorAbstract {
