@@ -6,7 +6,7 @@ use VladViolentiy\VivaFramework\Databases\Interfaces\MigrationInterface;
 
 class Migration_0001 extends Migration implements MigrationInterface
 {
-    public function init():void
+    public function init(): void
     {
         $this->migrator->query("
 alter table organizations add uuid binary(16) not null after id;

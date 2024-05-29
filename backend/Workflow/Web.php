@@ -16,10 +16,10 @@ class Web extends WebPrivate
     public function __construct(Request $request)
     {
         parent::__construct($request);
-        $this->controller = new Controller(new Storage(),$this->info);
+        $this->controller = new Controller(new Storage(), $this->info);
     }
 
-    public function createOrg():Response
+    public function createOrg(): Response
     {
         $name = $this->request->get("name");
         $genericId = $this->request->get("genericId");
@@ -45,16 +45,16 @@ class Web extends WebPrivate
         );
 
         return new JsonResponse(SuccessResponse::data([
-            "organizations"=>$this->controller->getOrgListForUser()
+            "organizations" => $this->controller->getOrgListForUser()
         ]));
     }
 
-    public function getOrgList():Response
+    public function getOrgList(): Response
     {
         $info = $this->controller->getOrgListForUser();
 
         return new JsonResponse(SuccessResponse::data([
-            "organizations"=>$info
+            "organizations" => $info
         ]));
     }
 }

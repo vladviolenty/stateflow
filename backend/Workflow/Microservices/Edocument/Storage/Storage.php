@@ -10,10 +10,11 @@ use VladViolentiy\VivaFramework\Databases\Mysqli;
 
 class Storage extends Mysqli
 {
-    public function __construct(){
+    public function __construct()
+    {
         $connection = Database::createConnection(ServicesEnum::Workflow_edocument);
         $this->setDb($connection);
-        Mysqli::checkMigration(new MysqliMigration($connection),Migration::$list);
+        Mysqli::checkMigration(new MysqliMigration($connection), Migration::$list);
     }
 
 }

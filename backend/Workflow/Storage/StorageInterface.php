@@ -12,7 +12,7 @@ interface StorageInterface
      * @return list<array{name:non-empty-string,genericId:non-empty-string,iv:non-empty-string,salt:non-empty-string,encryptionKey:non-empty-string,uuid:non-empty-string}>
      * @throws DatabaseException
      */
-    public function getOrgForUser(int $userId):array;
+    public function getOrgForUser(int $userId): array;
 
     /**
      * @param UuidInterface $uuid
@@ -24,7 +24,7 @@ interface StorageInterface
      * @param non-empty-string $encryptedCreatedAt
      * @return positive-int
      */
-    public function insertNewOrganization(UuidInterface $uuid,string $name, string $genericId, bool $publicFLName, string $iv, string $salt, string $encryptedCreatedAt):int;
+    public function insertNewOrganization(UuidInterface $uuid, string $name, string $genericId, bool $publicFLName, string $iv, string $salt, string $encryptedCreatedAt): int;
 
     /**
      * @param positive-int $orgId
@@ -33,7 +33,7 @@ interface StorageInterface
      * @param non-empty-string $type
      * @return void
      */
-    public function insertEncryptInfo(int $orgId, string $encryptedPrivateKey, string $publicKey, string $type):void;
+    public function insertEncryptInfo(int $orgId, string $encryptedPrivateKey, string $publicKey, string $type): void;
 
     /**
      * @param positive-int $orgId
@@ -43,5 +43,5 @@ interface StorageInterface
      * @param non-empty-string|null $encryptedFLName
      * @return void
      */
-    public function insertUserInOrganization(int $orgId, int $userId, bool $isMainUser, string $encryptedKey, ?string $encryptedFLName):void;
+    public function insertUserInOrganization(int $orgId, int $userId, bool $isMainUser, string $encryptedKey, ?string $encryptedFLName): void;
 }

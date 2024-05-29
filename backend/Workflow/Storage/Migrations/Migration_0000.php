@@ -20,7 +20,7 @@ CREATE TABLE `organizations` (
   CONSTRAINT PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci");
 
-$this->migrator->query("
+        $this->migrator->query("
 CREATE TABLE `organizationsEncryptInfo` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `organizationId` int(10) unsigned NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE `organizationsEncryptInfo` (
   CONSTRAINT PRIMARY KEY (`id`),
   CONSTRAINT `organizationsEncryptInfo_organizations_id_fk` FOREIGN KEY (`organizationId`) REFERENCES `organizations` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci");
-$this->migrator->query("
+        $this->migrator->query("
 CREATE TABLE `organizationsUsers` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `organizationId` int(10) unsigned NOT NULL,
