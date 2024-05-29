@@ -2,7 +2,7 @@
 
 namespace Flow\Core\Enums;
 
-enum ServicesEnum:string
+enum ServicesEnum: string
 {
     case Id = 'ID';
     case Notification = 'NOTIFICATION';

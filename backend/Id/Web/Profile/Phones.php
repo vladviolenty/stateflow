@@ -15,20 +15,22 @@ class Phones extends WebPrivate
     public function __construct(Request $request)
     {
         parent::__construct($request);
-        $this->controller = new \Flow\Id\Controller\Profile\Phones($this->storage,$this->info['userId']);
+        $this->controller = new \Flow\Id\Controller\Profile\Phones($this->storage, $this->info['userId']);
     }
 
-    public function get():Response{
+    public function get(): Response
+    {
         $info = $this->controller->get();
         return new JsonResponse(SuccessResponse::data($info));
     }
 
-    public function addNewPhone():Response{
+    public function addNewPhone(): Response
+    {
         $emailEncrypted = $this->request->get("phoneEncrypted");
         $emailHash = $this->request->get("phoneHash");
         $allowAuth = (bool)$this->request->get("allowAuth");
 
-        $this->controller->addNewPhone($emailEncrypted,$emailHash,$allowAuth);
+        $this->controller->addNewPhone($emailEncrypted, $emailHash, $allowAuth);
         return $this->get();
     }
 

@@ -16,7 +16,8 @@ class Email extends Base
      * @return list<array{id:int,email:string}>
      * @throws DatabaseException
      */
-    public function getEmailList(int $userId):array{
+    public function getEmailList(int $userId): array
+    {
         return $this->storage->getEmailList($userId);
     }
 
@@ -27,10 +28,11 @@ class Email extends Base
      * @param bool $allowAuth
      * @return int
      */
-    public function addNewEmail(int $userId, string $emailEncrypted, string $emailHash, bool $allowAuth):int{
+    public function addNewEmail(int $userId, string $emailEncrypted, string $emailHash, bool $allowAuth): int
+    {
         Validation::nonEmpty($emailHash);
         Validation::nonEmpty($emailEncrypted);
-        $id = $this->storage->insertNewEmail($userId,$emailEncrypted,$emailHash,$allowAuth);
+        $id = $this->storage->insertNewEmail($userId, $emailEncrypted, $emailHash, $allowAuth);
         return $id;
     }
 
@@ -42,11 +44,12 @@ class Email extends Base
      * @param bool $allowAuth
      * @throws ValidationException
      */
-    public function editItem(int $userId,int $itemId, string $emailEncrypted, string $emailHash, bool $allowAuth):void{
+    public function editItem(int $userId, int $itemId, string $emailEncrypted, string $emailHash, bool $allowAuth): void
+    {
         Validation::id($itemId);
-        if($emailHash==="" or $emailEncrypted==="") throw new ValidationException();
+        if ($emailHash === "" or $emailEncrypted === "") throw new ValidationException();
 
-        $this->storage->editEmailItem($itemId,$userId,$emailEncrypted,$emailHash,$allowAuth);
+        $this->storage->editEmailItem($itemId, $userId, $emailEncrypted, $emailHash, $allowAuth);
     }
 
     /**
@@ -56,12 +59,13 @@ class Email extends Base
      * @throws DatabaseException
      * @throws NotfoundException
      */
-    public function getEmailItem(int $userId, int $itemId):array{
+    public function getEmailItem(int $userId, int $itemId): array
+    {
         Validation::id($itemId);
 
 
-        $i = $this->storage->getEmailItem($userId,$itemId);
-        if($i===null) throw new NotfoundException();
+        $i = $this->storage->getEmailItem($userId, $itemId);
+        if ($i === null) throw new NotfoundException();
         $i['allowAuth'] = (bool)$i['allowAuth'];
         return $i;
 
@@ -72,8 +76,9 @@ class Email extends Base
      * @param int $itemId
      * @return void
      */
-    public function deleteEmail(int $userId, int $itemId):void{
+    public function deleteEmail(int $userId, int $itemId): void
+    {
         Validation::id($itemId);
-        $this->storage->deleteEmail($userId,$itemId);
+        $this->storage->deleteEmail($userId, $itemId);
     }
 }

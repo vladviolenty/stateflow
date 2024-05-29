@@ -8,7 +8,8 @@ use VladViolentiy\VivaFramework\Databases\Mysqli;
 
 class Init extends Mysqli implements DatabaseInitInterface
 {
-    public function initDatabase(\mysqli $db):void{
+    public function initDatabase(\mysqli $db): void
+    {
         $this->setDb($db);
         $this->takeMigration(Migration::$list);
     }
