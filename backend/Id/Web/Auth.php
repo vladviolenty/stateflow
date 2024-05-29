@@ -21,22 +21,25 @@ class Auth extends Web
         $this->controller = new \Flow\Id\Controller\Auth(new Storage());
     }
 
-    public function checkIssetClient():Response{
+    public function checkIssetClient(): Response
+    {
         $phone = $this->request->get("authString");
         $type = $this->request->get("type");
-        $data = $this->controller->getAuthDataForUser($phone,AuthMethods::from($type));
+        $data = $this->controller->getAuthDataForUser($phone, AuthMethods::from($type));
         return new JsonResponse(SuccessResponse::data($data));
     }
 
-    public function passwordAuth():Response{
+    public function passwordAuth(): Response
+    {
         $phone = $this->request->get("authString");
         $type = $this->request->get("authStringType");
         $authString = $this->request->get("password");
-        $data = $this->controller->auth($phone,AuthMethods::from($type),AuthVia::Password,$authString);
+        $data = $this->controller->auth($phone, AuthMethods::from($type), AuthVia::Password, $authString);
         return new JsonResponse(SuccessResponse::data($data));
     }
 
-    public function register():Response{
+    public function register(): Response
+    {
         $password = $this->request->get("password");
         $iv = $this->request->get("iv");
         $salt = $this->request->get("salt");
@@ -46,10 +49,10 @@ class Auth extends Web
         $lNameEncrypted = $this->request->get("lNameEncrypted");
         $bDayEncrypted = $this->request->get("bDayEncrypted");
         $hash = $this->request->get("hash");
-        $uuid = $this->controller->createNewUser($password,$iv,$salt,$publicKey,$privateKey,$fNameEncrypted,$lNameEncrypted,$bDayEncrypted,$hash);
+        $uuid = $this->controller->createNewUser($password, $iv, $salt, $publicKey, $privateKey, $fNameEncrypted, $lNameEncrypted, $bDayEncrypted, $hash);
 
         return new JsonResponse(SuccessResponse::data([
-            "uuid"=>$uuid->toString()
+            "uuid" => $uuid->toString()
         ]));
     }
 }

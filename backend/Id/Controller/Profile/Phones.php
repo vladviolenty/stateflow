@@ -29,7 +29,8 @@ class Phones extends Base
      * @return list<array{id:int,phone:string}>
      * @throws DatabaseException
      */
-    public function get():array{
+    public function get(): array
+    {
         return $this->storage->getPhonesList($this->userId);
     }
 
@@ -37,13 +38,14 @@ class Phones extends Base
         string $phoneEncrypted,
         string $phoneHash,
         bool   $allowAuth
-    ):int{
+    ): int
+    {
         Validation::nonEmpty($phoneEncrypted);
         Validation::nonEmpty($phoneHash);
-        if($this->storage->checkPhoneInDatabase($phoneHash)){
+        if ($this->storage->checkPhoneInDatabase($phoneHash)) {
             throw new ValidationException("Номер уже существует в БД");
         }
-        $id = $this->storage->insertNewPhone($this->userId,$phoneEncrypted,$phoneHash,$allowAuth);
+        $id = $this->storage->insertNewPhone($this->userId, $phoneEncrypted, $phoneHash, $allowAuth);
         return $id;
     }
 }

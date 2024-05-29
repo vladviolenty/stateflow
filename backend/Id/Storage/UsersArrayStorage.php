@@ -28,12 +28,12 @@ class UsersArrayStorage implements StorageInterface
 
     public function getUserByUUID(UuidInterface $uuid): ?array
     {
-        foreach ($this->users as $key=>$item) {
-            if($uuid->toString()===$item['uuid']){
+        foreach ($this->users as $key => $item) {
+            if ($uuid->toString() === $item['uuid']) {
                 return [
-                    "userId"=>$item['id'],
-                    "salt"=>$item['salt'],
-                    "iv"=>$item['iv']
+                    "userId" => $item['id'],
+                    "salt" => $item['salt'],
+                    "iv" => $item['iv']
                 ];
             }
         }
@@ -47,17 +47,17 @@ class UsersArrayStorage implements StorageInterface
 
     public function addNewUser(UuidInterface $uuid, string $password, string $iv, string $salt, string $fNameEncrypted, string $lNameEncrypted, string $bDayEncrypted, string $globalHash): int
     {
-        $userId = count($this->users)+1;
+        $userId = count($this->users) + 1;
         $this->users[] = [
-            "id"=>$userId,
-            "uuid"=>$uuid->toString(),
-            "password"=>$password,
-            "iv"=>$iv,
-            "salt"=>$salt,
-            "fName"=>$fNameEncrypted,
-            "lName"=>$lNameEncrypted,
-            "bDay"=>$bDayEncrypted,
-            "hash"=>$globalHash
+            "id" => $userId,
+            "uuid" => $uuid->toString(),
+            "password" => $password,
+            "iv" => $iv,
+            "salt" => $salt,
+            "fName" => $fNameEncrypted,
+            "lName" => $lNameEncrypted,
+            "bDay" => $bDayEncrypted,
+            "hash" => $globalHash
         ];
         return $userId;
     }
@@ -137,7 +137,7 @@ class UsersArrayStorage implements StorageInterface
     public function checkEmailInDatabase(string $emailHash): bool
     {
         foreach ($this->usersEmail as $item) {
-            if($item['emailHash']===$emailHash) return true;
+            if ($item['emailHash'] === $emailHash) return true;
         }
         return false;
     }
@@ -175,9 +175,9 @@ class UsersArrayStorage implements StorageInterface
     public function getBasicInfo(int $userId): array
     {
         return [
-            "fNameEncrypted"=>"1",
-            "lNameEncrypted"=>"1",
-            "bDayEncrypted"=>"1",
+            "fNameEncrypted" => "1",
+            "lNameEncrypted" => "1",
+            "bDayEncrypted" => "1",
         ];
     }
 }

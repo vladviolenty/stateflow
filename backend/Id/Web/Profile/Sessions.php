@@ -15,21 +15,21 @@ class Sessions extends WebPrivate
     public function __construct(Request $request)
     {
         parent::__construct($request);
-        $this->sessions = new \Flow\Id\Controller\Profile\Sessions($this->storage,$this->info['userId']);
+        $this->sessions = new \Flow\Id\Controller\Profile\Sessions($this->storage, $this->info['userId']);
     }
 
-    public function get():Response
+    public function get(): Response
     {
         $sessions = $this->sessions->get();
         return new JsonResponse(SuccessResponse::data($sessions));
     }
 
-    public function killSession():Response
+    public function killSession(): Response
     {
         $hash = $this->request->get("hash");
         $returnAvailable = (bool)$this->request->get("returnAvailable");
-        $info = $this->sessions->killSession($hash,$returnAvailable);
-        if($info===null){
+        $info = $this->sessions->killSession($hash, $returnAvailable);
+        if ($info === null) {
             return new JsonResponse(SuccessResponse::null());
         } else {
             return new JsonResponse(SuccessResponse::data($info));

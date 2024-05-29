@@ -10,11 +10,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Dashboard extends WebPrivate
 {
-    public function checkAuth():Response{
+    public function checkAuth(): Response
+    {
         return new JsonResponse(SuccessResponse::data($this->info));
     }
 
-    public function getBasicInfo():Response
+    public function getBasicInfo(): Response
     {
         $generalController = new General($this->storage);
         $data = $generalController->getBasicInfo($this->info['userId']);
@@ -22,8 +23,9 @@ class Dashboard extends WebPrivate
 
     }
 
-    public function writeMetaInfo():Response{
-        $token = $this->request->getServer("HTTP_AUTHORIZATION")??"";
+    public function writeMetaInfo(): Response
+    {
+        $token = $this->request->getServer("HTTP_AUTHORIZATION") ?? "";
         $ip = $this->request->get("ip");
         $ua = $this->request->get("ua");
         $al = $this->request->get("al");
@@ -31,7 +33,7 @@ class Dashboard extends WebPrivate
         $lastSeen = $this->request->get("lastSeen");
         $AuthController = new \Flow\Id\Controller\Auth($this->storage);
         $AuthController->writeHashInfo(
-            $token,$ip,$ua,$ae,$al,$lastSeen
+            $token, $ip, $ua, $ae, $al, $lastSeen
         );
         return new JsonResponse(SuccessResponse::null());
     }

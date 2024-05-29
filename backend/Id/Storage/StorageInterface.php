@@ -12,23 +12,23 @@ interface StorageInterface
      * @return array{userId:int,salt:string,iv:string}|null
      * @throws DatabaseException
      */
-    public function getUserByEmail(string $hashedEmail):?array;
+    public function getUserByEmail(string $hashedEmail): ?array;
 
     /**
      * @param non-empty-string $hashedPhone
      * @return array{userId:int,salt:string,iv:string}|null
      * @throws DatabaseException
      */
-    public function getUserByPhone(string $hashedPhone):?array;
+    public function getUserByPhone(string $hashedPhone): ?array;
 
     /**
      * @param UuidInterface $uuid
      * @return array{userId:int,salt:string,iv:string}|null
      * @throws DatabaseException
      */
-    public function getUserByUUID(UuidInterface $uuid):?array;
+    public function getUserByUUID(UuidInterface $uuid): ?array;
 
-    public function checkIssetUUID(string $uuid):bool;
+    public function checkIssetUUID(string $uuid): bool;
 
     /**
      * @param UuidInterface $uuid
@@ -49,34 +49,34 @@ interface StorageInterface
      * @param non-empty-string $encryptedPrivateKey
      * @return void
      */
-    public function insertNewEncryptInfo(int $userId, string $publicKey, string $encryptedPrivateKey):void;
+    public function insertNewEncryptInfo(int $userId, string $publicKey, string $encryptedPrivateKey): void;
 
     /**
      * @param int $userId
      * @return non-empty-string|null
      */
-    public function getPasswordForUser(int $userId):?string;
+    public function getPasswordForUser(int $userId): ?string;
 
     /**
      * @param non-empty-string $hash
      * @param int $userId
      * @return void
      */
-    public function insertSession(string $hash, int $userId):void;
+    public function insertSession(string $hash, int $userId): void;
 
     /**
      * @param non-empty-string $token
      * @return array{userId:positive-int,lang:non-empty-string,sessionId:positive-int}|null
      * @throws DatabaseException
      */
-    public function checkIssetToken(string $token):?array;
+    public function checkIssetToken(string $token): ?array;
 
     /**
      * @param positive-int $userId
      * @return list<array{id:int,email:string}>
      * @throws DatabaseException
      */
-    public function getEmailList(int $userId):array;
+    public function getEmailList(int $userId): array;
 
     /**
      * @param positive-int $userId
@@ -85,7 +85,7 @@ interface StorageInterface
      * @param bool $allowAuth
      * @return int
      */
-    public function insertNewEmail(int $userId, string $encryptedEmail, string $emailHash, bool $allowAuth):int;
+    public function insertNewEmail(int $userId, string $encryptedEmail, string $emailHash, bool $allowAuth): int;
 
     /**
      * @param positive-int $userId
@@ -95,7 +95,7 @@ interface StorageInterface
      * @param bool $allowAuth
      * @return void
      */
-    public function editEmailItem(int $userId, int $itemId, string $encryptedEmail, string $emailHash, bool $allowAuth):void;
+    public function editEmailItem(int $userId, int $itemId, string $encryptedEmail, string $emailHash, bool $allowAuth): void;
 
     /**
      * @param positive-int $userId
@@ -103,22 +103,23 @@ interface StorageInterface
      * @return array{emailEncrypted:string,allowAuth:int}|null
      * @throws DatabaseException
      */
-    public function getEmailItem(int $userId, int $itemId):?array;
+    public function getEmailItem(int $userId, int $itemId): ?array;
 
     /**
      * @param positive-int $userId
      * @param positive-int $itemId
      * @return void
      */
-    public function deleteEmail(int $userId, int $itemId):void;
+    public function deleteEmail(int $userId, int $itemId): void;
 
     /**
      * @param positive-int $userId
      * @return list<array{id:int,phone:string}>
      * @throws DatabaseException
      */
-    public function getPhonesList(int $userId):array;
-    public function deletePhone(int $userId,int $itemId):void;
+    public function getPhonesList(int $userId): array;
+
+    public function deletePhone(int $userId, int $itemId): void;
 
     /**
      * @param positive-int $userId
@@ -126,7 +127,7 @@ interface StorageInterface
      * @return array{emailEncrypted:string,allowAuth:int}|null
      * @throws DatabaseException
      */
-    public function getPhoneItem(int $userId, int $itemId):?array;
+    public function getPhoneItem(int $userId, int $itemId): ?array;
 
     /**
      * @param positive-int $userId
@@ -135,33 +136,33 @@ interface StorageInterface
      * @param bool $allowAuth
      * @return int
      */
-    public function insertNewPhone(int $userId, string $phoneEncrypted, string $phoneHash, bool $allowAuth):int;
+    public function insertNewPhone(int $userId, string $phoneEncrypted, string $phoneHash, bool $allowAuth): int;
 
     /**
      * @param non-empty-string $emailHash
      * @return bool
      */
-    public function checkEmailInDatabase(string $emailHash):bool;
+    public function checkEmailInDatabase(string $emailHash): bool;
 
     /**
      * @param non-empty-string $phoneHash
      * @return bool
      */
-    public function checkPhoneInDatabase(string $phoneHash):bool;
+    public function checkPhoneInDatabase(string $phoneHash): bool;
 
     /**
      * @param positive-int $userId
      * @return list<array{authHash:non-empty-string,uas:non-empty-string,ips:non-empty-string,createdAt:non-empty-string}>
      * @throws \VladViolentiy\VivaFramework\Exceptions\DatabaseException
      */
-    public function getSessionsForUser(int $userId):array;
+    public function getSessionsForUser(int $userId): array;
 
     /**
      * @param positive-int $userId
      * @param non-empty-string $hash
      * @return void
      */
-    public function killSession(int $userId, string $hash):void;
+    public function killSession(int $userId, string $hash): void;
 
     /**
      * @param non-empty-string $session
@@ -177,7 +178,7 @@ interface StorageInterface
         string $encryptedUa,
         string $encryptedAE,
         string $encryptedAL
-    ):?int;
+    ): ?int;
 
     /**
      * @param positive-int $sessionId
@@ -189,13 +190,13 @@ interface StorageInterface
      * @return void
      */
     public function insertSessionMeta(
-        int $sessionId,
+        int    $sessionId,
         string $encryptedIp,
         string $encryptedUa,
         string $encryptedAE,
         string $encryptedAL,
         string $encryptedLastSeenAt
-    ):void;
+    ): void;
 
     /**
      * @param positive-int $sessionMetaInfoId
@@ -205,11 +206,11 @@ interface StorageInterface
     public function updateLastSeenSessionMeta(
         int    $sessionMetaInfoId,
         string $encryptedLastSeenAt
-    ):void;
+    ): void;
 
     /**
      * @param positive-int $userId
      * @return array{fNameEncrypted:non-empty-string,lNameEncrypted:non-empty-string,bDayEncrypted:non-empty-string}
      */
-    public function getBasicInfo(int $userId):array;
+    public function getBasicInfo(int $userId): array;
 }
