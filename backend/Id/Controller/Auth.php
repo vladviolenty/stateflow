@@ -26,8 +26,7 @@ class Auth extends Base
         string $lNameEncrypted,
         string $bDayEncrypted,
         string $hash,
-    ): UuidInterface
-    {
+    ): UuidInterface {
 
         Validation::nonEmpty($password);
         Validation::nonEmpty($iv);
@@ -47,7 +46,9 @@ class Auth extends Base
             $decodedSalt === $decodedIv or
             strlen($decodedIv) !== 16 or
             strlen($decodedSalt) !== 16
-        ) throw new ValidationException();
+        ) {
+            throw new ValidationException();
+        }
         \Flow\Core\Validation::RSAPublicKey($publicKey);
 
         $uuid = UUID::uuid4();
@@ -83,7 +84,9 @@ class Auth extends Base
         } else {
             throw new ValidationException();
         }
-        if ($userInfo === null) throw new NotfoundException();
+        if ($userInfo === null) {
+            throw new NotfoundException();
+        }
         return $userInfo;
     }
 
@@ -110,7 +113,9 @@ class Auth extends Base
         Validation::hash($token);
         $userInfo = $this->storage->checkIssetToken($token);
         unset($userInfo['sessionId']);
-        if ($userInfo === null) throw new AuthenticationException();
+        if ($userInfo === null) {
+            throw new AuthenticationException();
+        }
         $userInfo['ip'] = $_SERVER['REMOTE_ADDR'];
         $userInfo['ua'] = $_SERVER['HTTP_USER_AGENT'];
         $userInfo['acceptEncoding'] = $_SERVER['HTTP_ACCEPT_ENCODING'];
@@ -125,8 +130,7 @@ class Auth extends Base
         string $encryptedAE,
         string $encryptedAL,
         string $encryptedLastSeen
-    ): void
-    {
+    ): void {
         Validation::hash($session);
         Validation::nonEmpty($encryptedIp);
         Validation::nonEmpty($encryptedUa);
@@ -158,11 +162,17 @@ class Auth extends Base
     public function auth(string $userInfo, AuthMethods $authTypesEnum, AuthVia $authVia, string $authString): array
     {
         $userInfo = $this->getUserInfoAuth($userInfo, $authTypesEnum);
-        if ($authString === "") throw new ValidationException();
+        if ($authString === "") {
+            throw new ValidationException();
+        }
         if ($authVia == AuthVia::Password) {
             $passwordHash = $this->storage->getPasswordForUser($userInfo['userId']);
-            if ($passwordHash === null) throw new ValidationException();
-            if (!password_verify($authString, $passwordHash)) throw new IncorrectPasswordException();
+            if ($passwordHash === null) {
+                throw new ValidationException();
+            }
+            if (!password_verify($authString, $passwordHash)) {
+                throw new IncorrectPasswordException();
+            }
         }
         $hash = Random::hash(Random::get());
         $this->storage->insertSession($hash, $userInfo['userId']);

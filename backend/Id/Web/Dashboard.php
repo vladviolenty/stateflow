@@ -33,7 +33,12 @@ class Dashboard extends WebPrivate
         $lastSeen = $this->request->get("lastSeen");
         $AuthController = new \Flow\Id\Controller\Auth($this->storage);
         $AuthController->writeHashInfo(
-            $token, $ip, $ua, $ae, $al, $lastSeen
+            $token,
+            $ip,
+            $ua,
+            $ae,
+            $al,
+            $lastSeen
         );
         return new JsonResponse(SuccessResponse::null());
     }

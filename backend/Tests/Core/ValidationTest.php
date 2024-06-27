@@ -11,7 +11,8 @@ use PHPUnit\Framework\TestCase;
  */
 class ValidationTest extends TestCase
 {
-    public function testRSAValidation():void{
+    public function testRSAValidation(): void
+    {
         $public = RSA::createPublicKey(2048);
         Validation::RSAPublicKey($public);
         $this->assertTrue(true);

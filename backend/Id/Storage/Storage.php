@@ -26,7 +26,9 @@ class Storage extends Mysqli implements StorageInterface
 FROM usersEmails 
     JOIN users u on usersEmails.userId = u.id
 WHERE emailHash=? and allowAuth=true and deleted=false", "s", [$hashedEmail])->fetch_array(MYSQLI_ASSOC);
-        if ($info === null) return null;
+        if ($info === null) {
+            return null;
+        }
         return $info;
     }
 
@@ -36,7 +38,9 @@ WHERE emailHash=? and allowAuth=true and deleted=false", "s", [$hashedEmail])->f
         $info = $this->executeQuery("SELECT id as userId,salt,iv
 FROM users
 WHERE uuid=unhex(?)", "s", [bin2hex($uuid->getBytes())])->fetch_array(MYSQLI_ASSOC);
-        if ($info === null) return null;
+        if ($info === null) {
+            return null;
+        }
         return $info;
     }
 
@@ -47,7 +51,9 @@ WHERE uuid=unhex(?)", "s", [bin2hex($uuid->getBytes())])->fetch_array(MYSQLI_ASS
 FROM users
     JOIN usersPhones uP on users.id = uP.userId
 WHERE phoneHash=?", "s", [$hashedPhone])->fetch_array(MYSQLI_ASSOC);
-        if ($info === null) return null;
+        if ($info === null) {
+            return null;
+        }
         return $info;
     }
 
@@ -62,8 +68,11 @@ WHERE phoneHash=?", "s", [$hashedPhone])->fetch_array(MYSQLI_ASSOC);
     {
         /** @var string $globalHash */
         $globalHash = hex2bin($globalHash);
-        $this->executeQueryBool("INSERT INTO users(uuid, password, iv, salt,fNameEncrypted,lNameEncrypted,bDayEncrypted,globalHash) VALUES(unhex(?),?,?,?,?,?,?,?)",
-            "ssssssss", [bin2hex($uuid->getBytes()), $password, $iv, $salt, $fNameEncrypted, $lNameEncrypted, $bDayEncrypted, $globalHash]);
+        $this->executeQueryBool(
+            "INSERT INTO users(uuid, password, iv, salt,fNameEncrypted,lNameEncrypted,bDayEncrypted,globalHash) VALUES(unhex(?),?,?,?,?,?,?,?)",
+            "ssssssss",
+            [bin2hex($uuid->getBytes()), $password, $iv, $salt, $fNameEncrypted, $lNameEncrypted, $bDayEncrypted, $globalHash]
+        );
         /** @var positive-int $insId */
         $insId = $this->insertId();
         return $insId;
@@ -71,8 +80,11 @@ WHERE phoneHash=?", "s", [$hashedPhone])->fetch_array(MYSQLI_ASSOC);
 
     public function insertNewEncryptInfo(int $userId, string $publicKey, string $encryptedPrivateKey): void
     {
-        $this->executeQueryBool("INSERT INTO usersEncryptInfo(userId, publicKey, encryptedPrivateKey) VALUES(?,?,?)",
-            "iss", [$userId, $publicKey, $encryptedPrivateKey]);
+        $this->executeQueryBool(
+            "INSERT INTO usersEncryptInfo(userId, publicKey, encryptedPrivateKey) VALUES(?,?,?)",
+            "iss",
+            [$userId, $publicKey, $encryptedPrivateKey]
+        );
     }
 
 
@@ -82,7 +94,9 @@ WHERE phoneHash=?", "s", [$hashedPhone])->fetch_array(MYSQLI_ASSOC);
         $info = $this->executeQuery("SELECT password
 FROM users
 WHERE id=?", "i", [$userId])->fetch_array(MYSQLI_ASSOC);
-        if ($info === null) return null;
+        if ($info === null) {
+            return null;
+        }
         return $info['password'];
     }
 
@@ -91,7 +105,9 @@ WHERE id=?", "i", [$userId])->fetch_array(MYSQLI_ASSOC);
     {
         /** @var array{userId:positive-int,lang:non-empty-string,sessionId:positive-int}|null $info */
         $info = $this->executeQuery("SELECT userId,u.defaultLang as lang,sessions.id as sessionId FROM sessions JOIN users u on u.id = sessions.userId WHERE authHash=unhex(?)", "s", [$token])->fetch_array(MYSQLI_ASSOC);
-        if ($info === null) return null;
+        if ($info === null) {
+            return null;
+        }
         return $info;
     }
 
@@ -194,14 +210,15 @@ WHERE userId=? and expiredAt>now() group by sessions.id", "i", [$userId])->fetch
         string $encryptedUa,
         string $encryptedAE,
         string $encryptedAL
-    ): ?int
-    {
+    ): ?int {
         /** @var array{id:positive-int}|null $i */
         $i = $this->executeQuery("SELECT sessionsMeta.id
 FROM sessionsMeta 
     JOIN sessions ON sessionsMeta.sessionId=sessions.id 
 WHERE authHash=unhex(?) and ip=? and ua=? and acceptEncoding=? and acceptLang=?", "sssss", [$session, $encryptedIp, $encryptedUa, $encryptedAE, $encryptedAL])->fetch_array(MYSQLI_ASSOC);
-        if ($i === null) return null;
+        if ($i === null) {
+            return null;
+        }
         return $i['id'];
     }
 
@@ -212,8 +229,7 @@ WHERE authHash=unhex(?) and ip=? and ua=? and acceptEncoding=? and acceptLang=?"
         string $encryptedAE,
         string $encryptedAL,
         string $encryptedLastSeenAt
-    ): void
-    {
+    ): void {
         $this->executeQueryBool("INSERT INTO 
     sessionsMeta(sessionId, ip, ua, acceptLang, acceptEncoding, firstSeenAt, lastSeenAt) 
 VALUES (?,?,?,?,?,?,?)", "issssss", [$sessionId, $encryptedIp, $encryptedUa, $encryptedAL, $encryptedAE, $encryptedLastSeenAt, $encryptedLastSeenAt]);

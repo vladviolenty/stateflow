@@ -38,8 +38,7 @@ class Phones extends Base
         string $phoneEncrypted,
         string $phoneHash,
         bool   $allowAuth
-    ): int
-    {
+    ): int {
         Validation::nonEmpty($phoneEncrypted);
         Validation::nonEmpty($phoneHash);
         if ($this->storage->checkPhoneInDatabase($phoneHash)) {

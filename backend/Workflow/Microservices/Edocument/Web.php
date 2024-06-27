@@ -6,5 +6,4 @@ use Flow\Core\WebPrivate;
 
 class Web extends WebPrivate
 {
-
 }

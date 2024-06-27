@@ -66,11 +66,11 @@ class UsersArrayStorage implements StorageInterface
     {
         //TODO: Phpstan error is never read. not implemented
 
-//        $this->keysStorage[] = [
-//            "userId"=>$userId,
-//            "private"=>$encryptedPrivateKey,
-//            "public"=>$publicKey
-//        ];
+        //        $this->keysStorage[] = [
+        //            "userId"=>$userId,
+        //            "private"=>$encryptedPrivateKey,
+        //            "public"=>$publicKey
+        //        ];
     }
 
     public function getPasswordForUser(int $userId): ?string
@@ -137,7 +137,9 @@ class UsersArrayStorage implements StorageInterface
     public function checkEmailInDatabase(string $emailHash): bool
     {
         foreach ($this->usersEmail as $item) {
-            if ($item['emailHash'] === $emailHash) return true;
+            if ($item['emailHash'] === $emailHash) {
+                return true;
+            }
         }
         return false;
     }

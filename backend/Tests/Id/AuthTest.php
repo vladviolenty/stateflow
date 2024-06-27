@@ -31,16 +31,18 @@ class AuthTest extends TestCase
 
 
 
-    public function testCreatingNewUser():void{
+    public function testCreatingNewUser(): void
+    {
         $this->createNewUser();
         $this->assertTrue(true);
     }
 
-    public function testIncorrectInfo():void{
+    public function testIncorrectInfo(): void
+    {
         $this->expectException(ValidationException::class);
 
-        $password = hash("sha384","testPassword");
-        $hash = hash("sha384","TESTDATA");
+        $password = hash("sha384", "testPassword");
+        $hash = hash("sha384", "TESTDATA");
         $iv = base64_encode(random_bytes(12));
         $salt = base64_encode(random_bytes(4));
         $uuid = $this->auth->createNewUser(
@@ -57,11 +59,12 @@ class AuthTest extends TestCase
         $this->assertTrue(true);
     }
 
-    public function testGetUserInfo():void{
+    public function testGetUserInfo(): void
+    {
         $this->createNewUser();
         foreach ($this->uuidList as $item) {
-            $info = $this->auth->getAuthDataForUser($item,AuthMethods::UUID);
-            $this->assertEquals(base64_encode("1234567890abcdef"),$info['iv']);
+            $info = $this->auth->getAuthDataForUser($item, AuthMethods::UUID);
+            $this->assertEquals(base64_encode("1234567890abcdef"), $info['iv']);
         }
     }
 

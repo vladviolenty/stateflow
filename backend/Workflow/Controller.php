@@ -17,8 +17,7 @@ class Controller
     public function __construct(
         private readonly StorageInterface $storage,
         private readonly array            $userInfo
-    )
-    {
+    ) {
     }
 
     public function createNewOrganization(
@@ -31,8 +30,7 @@ class Controller
         string $publicRSAKey,
         string $publicFLNames,
         string $encryptedCreatedAt
-    ): int
-    {
+    ): int {
         \VladViolentiy\VivaFramework\Validation::nonEmpty($name);
         \VladViolentiy\VivaFramework\Validation::nonEmpty($genericId);
         \VladViolentiy\VivaFramework\Validation::nonEmpty($encryptedPassword);
@@ -48,11 +46,15 @@ class Controller
             $decodedSalt === $decodedIv or
             strlen($decodedIv) !== 16 or
             strlen($decodedSalt) !== 16
-        ) throw new ValidationException();
+        ) {
+            throw new ValidationException();
+        }
 
         $orgUUID = Uuid::uuid4();
 
-        if ($publicFLNames === "") $publicFLNames = null;
+        if ($publicFLNames === "") {
+            $publicFLNames = null;
+        }
 
         $orgId = $this->storage->insertNewOrganization($orgUUID, $name, $genericId, $publicFLNames != null, $iv, $salt, $encryptedCreatedAt);
         $this->storage->insertEncryptInfo($orgId, $encryptedPrivateRSAKey, $publicRSAKey, "generic");
