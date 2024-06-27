@@ -27,6 +27,7 @@
         "phpstan/phpstan": "^1.9",
         "phpunit/phpunit": "^9.5",
         "phpunit/php-code-coverage": "^9.2",
-        "symfony/console": "^5.4"
+        "symfony/console": "^5.4",
+        "friendsofphp/php-cs-fixer": "^3.58"
     }
 }
