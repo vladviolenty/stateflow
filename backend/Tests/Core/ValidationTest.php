@@ -14,7 +14,6 @@ class ValidationTest extends TestCase
     public function testRSAValidation(): void
     {
         $public = RSA::createPublicKey(2048);
-        Validation::RSAPublicKey($public);
-        $this->assertTrue(true);
+        $this->assertTrue(Validation::RSAPublicKey($public));
     }
 }

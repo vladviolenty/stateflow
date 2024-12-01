@@ -45,7 +45,7 @@ class AuthTest extends TestCase
         $hash = hash('sha384', 'TESTDATA');
         $iv = base64_encode(random_bytes(12));
         $salt = base64_encode(random_bytes(4));
-        $uuid = $this->auth->createNewUser(
+        $this->auth->createNewUser(
             $password,
             $iv,
             $salt,
@@ -56,7 +56,6 @@ class AuthTest extends TestCase
             'TEST',
             $hash,
         );
-        $this->assertTrue(true);
     }
 
     public function testGetUserInfo(): void
@@ -69,7 +68,7 @@ class AuthTest extends TestCase
     }
 
     /**
-     * @return void
+     * @return bool
      * @throws ValidationException
      */
     public function createNewUser(): bool

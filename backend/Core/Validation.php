@@ -8,11 +8,11 @@ class Validation
 {
     /**
      * @param string $keyInput
-     * @return void
+     * @return bool
      * @phpstan-assert non-empty-string $keyInput
      * @throws ValidationException
      */
-    public static function RSAPublicKey(string $keyInput): void
+    public static function RSAPublicKey(string $keyInput): bool
     {
         if (!str_starts_with($keyInput, '-----BEGIN PUBLIC KEY-----')) {
             $keyInput = "
@@ -34,5 +34,6 @@ $keyInput
         if ($details['type'] !== OPENSSL_KEYTYPE_RSA) {
             throw new ValidationException();
         }
+        return true;
     }
 }
