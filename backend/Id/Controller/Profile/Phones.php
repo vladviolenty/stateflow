@@ -37,13 +37,12 @@ class Phones extends Base
     public function addNewPhone(
         string $phoneEncrypted,
         string $phoneHash,
-        bool   $allowAuth
-    ): int
-    {
+        bool   $allowAuth,
+    ): int {
         Validation::nonEmpty($phoneEncrypted);
         Validation::nonEmpty($phoneHash);
         if ($this->storage->checkPhoneInDatabase($phoneHash)) {
-            throw new ValidationException("Номер уже существует в БД");
+            throw new ValidationException('Номер уже существует в БД');
         }
         $id = $this->storage->insertNewPhone($this->userId, $phoneEncrypted, $phoneHash, $allowAuth);
         return $id;

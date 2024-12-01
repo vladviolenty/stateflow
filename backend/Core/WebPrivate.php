@@ -15,7 +15,7 @@ abstract class WebPrivate extends Web
     public function __construct(Request $request)
     {
         parent::__construct($request);
-        $token = $this->request->getServer("HTTP_AUTHORIZATION") ?? "";
+        $token = $this->request->getServer('HTTP_AUTHORIZATION') ?? '';
         $this->storage = new Storage();
         $controller = new Auth($this->storage);
         $this->info = $controller->checkAuth($token);

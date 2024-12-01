@@ -26,17 +26,12 @@ class Auth extends Base
         string $lNameEncrypted,
         string $bDayEncrypted,
         string $hash,
-    ): UuidInterface
-    {
-
-        Validation::nonEmpty($password);
+    ): UuidInterface {
         Validation::nonEmpty($iv);
         Validation::nonEmpty($salt);
         Validation::nonEmpty($fNameEncrypted);
         Validation::nonEmpty($lNameEncrypted);
         Validation::nonEmpty($bDayEncrypted);
-        Validation::nonEmpty($hash);
-        Validation::nonEmpty($publicKey);
         Validation::nonEmpty($encryptedPrivateKey);
 
         $decodedIv = base64_decode($iv);
@@ -47,13 +42,15 @@ class Auth extends Base
             $decodedSalt === $decodedIv or
             strlen($decodedIv) !== 16 or
             strlen($decodedSalt) !== 16
-        ) throw new ValidationException();
+        ) {
+            throw new ValidationException();
+        }
         \Flow\Core\Validation::RSAPublicKey($publicKey);
 
         $uuid = UUID::uuid4();
         /** @var non-empty-string $passwordHash */
         $passwordHash = password_hash($password, PASSWORD_BCRYPT, [
-            "cost" => 12
+            'cost' => 12,
         ]);
         $userId = $this->storage->addNewUser($uuid, $passwordHash, $iv, $salt, $fNameEncrypted, $lNameEncrypted, $bDayEncrypted, $hash);
         $this->storage->insertNewEncryptInfo($userId, $publicKey, $encryptedPrivateKey);
@@ -70,7 +67,6 @@ class Auth extends Base
      */
     private function getUserInfoAuth(string $userInfo, AuthMethods $authTypesEnum): array
     {
-        Validation::nonEmpty($userInfo);
         if ($authTypesEnum === AuthMethods::UUID) {
             Validation::uuid($userInfo);
             $userInfo = $this->storage->getUserByUUID(Uuid::fromString($userInfo));
@@ -83,7 +79,9 @@ class Auth extends Base
         } else {
             throw new ValidationException();
         }
-        if ($userInfo === null) throw new NotfoundException();
+        if ($userInfo === null) {
+            throw new NotfoundException();
+        }
         return $userInfo;
     }
 
@@ -110,7 +108,9 @@ class Auth extends Base
         Validation::hash($token);
         $userInfo = $this->storage->checkIssetToken($token);
         unset($userInfo['sessionId']);
-        if ($userInfo === null) throw new AuthenticationException();
+        if ($userInfo === null) {
+            throw new AuthenticationException();
+        }
         $userInfo['ip'] = $_SERVER['REMOTE_ADDR'];
         $userInfo['ua'] = $_SERVER['HTTP_USER_AGENT'];
         $userInfo['acceptEncoding'] = $_SERVER['HTTP_ACCEPT_ENCODING'];
@@ -124,9 +124,8 @@ class Auth extends Base
         string $encryptedUa,
         string $encryptedAE,
         string $encryptedAL,
-        string $encryptedLastSeen
-    ): void
-    {
+        string $encryptedLastSeen,
+    ): void {
         Validation::hash($session);
         Validation::nonEmpty($encryptedIp);
         Validation::nonEmpty($encryptedUa);
@@ -158,18 +157,24 @@ class Auth extends Base
     public function auth(string $userInfo, AuthMethods $authTypesEnum, AuthVia $authVia, string $authString): array
     {
         $userInfo = $this->getUserInfoAuth($userInfo, $authTypesEnum);
-        if ($authString === "") throw new ValidationException();
+        if ($authString === '') {
+            throw new ValidationException();
+        }
         if ($authVia == AuthVia::Password) {
             $passwordHash = $this->storage->getPasswordForUser($userInfo['userId']);
-            if ($passwordHash === null) throw new ValidationException();
-            if (!password_verify($authString, $passwordHash)) throw new IncorrectPasswordException();
+            if ($passwordHash === null) {
+                throw new ValidationException();
+            }
+            if (!password_verify($authString, $passwordHash)) {
+                throw new IncorrectPasswordException();
+            }
         }
         $hash = Random::hash(Random::get());
         $this->storage->insertSession($hash, $userInfo['userId']);
         return [
-            "hash" => $hash,
-            "salt" => $userInfo['salt'],
-            "iv" => $userInfo['iv']
+            'hash' => $hash,
+            'salt' => $userInfo['salt'],
+            'iv' => $userInfo['iv'],
         ];
     }
 }

@@ -53,9 +53,8 @@ class Sessions extends Base
      */
     public function killSession(
         string $hash,
-        bool   $returnAvailable
-    ): ?array
-    {
+        bool   $returnAvailable,
+    ): ?array {
         $hash = mb_strtolower($hash);
         Validation::hash($hash);
         $this->storage->killSession($this->userId, $hash);

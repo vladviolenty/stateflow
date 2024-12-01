@@ -10,7 +10,6 @@ use VladViolentiy\VivaFramework\Validation;
 
 class Email extends Base
 {
-
     /**
      * @param positive-int $userId
      * @return list<array{id:int,email:string}>
@@ -47,7 +46,9 @@ class Email extends Base
     public function editItem(int $userId, int $itemId, string $emailEncrypted, string $emailHash, bool $allowAuth): void
     {
         Validation::id($itemId);
-        if ($emailHash === "" or $emailEncrypted === "") throw new ValidationException();
+        if ($emailHash === '' or $emailEncrypted === '') {
+            throw new ValidationException();
+        }
 
         $this->storage->editEmailItem($itemId, $userId, $emailEncrypted, $emailHash, $allowAuth);
     }
@@ -65,8 +66,10 @@ class Email extends Base
 
 
         $i = $this->storage->getEmailItem($userId, $itemId);
-        if ($i === null) throw new NotfoundException();
-        $i['allowAuth'] = (bool)$i['allowAuth'];
+        if ($i === null) {
+            throw new NotfoundException();
+        }
+        $i['allowAuth'] = (bool) $i['allowAuth'];
         return $i;
 
     }

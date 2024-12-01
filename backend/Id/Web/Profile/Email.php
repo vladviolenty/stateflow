@@ -20,9 +20,9 @@ class Email extends WebPrivate
 
     public function addNewEmail(): Response
     {
-        $emailEncrypted = $this->request->get("emailEncrypted");
-        $emailHash = $this->request->get("emailHash");
-        $allowAuth = (bool)$this->request->get("allowAuth");
+        $emailEncrypted = $this->request->get('emailEncrypted');
+        $emailHash = $this->request->get('emailHash');
+        $allowAuth = (bool) $this->request->get('allowAuth');
 
         $this->controller->addNewEmail($this->info['userId'], $emailEncrypted, $emailHash, $allowAuth);
         return $this->getEmailList();
@@ -30,10 +30,10 @@ class Email extends WebPrivate
 
     public function editEmail(): Response
     {
-        $itemId = (int)$this->request->get("itemId");
-        $emailEncrypted = $this->request->get("emailEncrypted");
-        $emailHash = $this->request->get("emailHash");
-        $allowAuth = (bool)$this->request->get("allowAuth");
+        $itemId = (int) $this->request->get('itemId');
+        $emailEncrypted = $this->request->get('emailEncrypted');
+        $emailHash = $this->request->get('emailHash');
+        $allowAuth = (bool) $this->request->get('allowAuth');
 
         $this->controller->editItem($this->info['userId'], $itemId, $emailEncrypted, $emailHash, $allowAuth);
         return $this->getEmailList();
@@ -42,7 +42,7 @@ class Email extends WebPrivate
 
     public function getEmailItem(): Response
     {
-        $itemId = (int)$this->request->get("id");
+        $itemId = (int) $this->request->get('id');
         $info = $this->controller->getEmailItem($this->info['userId'], $itemId);
         return new JsonResponse(SuccessResponse::data($info));
     }
@@ -55,7 +55,7 @@ class Email extends WebPrivate
 
     public function deleteEmail(): Response
     {
-        $id = (int)$this->request->get("id");
+        $id = (int) $this->request->get('id');
         $this->controller->deleteEmail($this->info['userId'], $id);
         return $this->getEmailList();
     }

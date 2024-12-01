@@ -26,8 +26,8 @@ class Sessions extends WebPrivate
 
     public function killSession(): Response
     {
-        $hash = $this->request->get("hash");
-        $returnAvailable = (bool)$this->request->get("returnAvailable");
+        $hash = $this->request->get('hash');
+        $returnAvailable = (bool) $this->request->get('returnAvailable');
         $info = $this->sessions->killSession($hash, $returnAvailable);
         if ($info === null) {
             return new JsonResponse(SuccessResponse::null());

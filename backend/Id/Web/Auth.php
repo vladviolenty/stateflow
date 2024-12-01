@@ -23,36 +23,36 @@ class Auth extends Web
 
     public function checkIssetClient(): Response
     {
-        $phone = $this->request->get("authString");
-        $type = $this->request->get("type");
+        $phone = $this->request->get('authString');
+        $type = $this->request->get('type');
         $data = $this->controller->getAuthDataForUser($phone, AuthMethods::from($type));
         return new JsonResponse(SuccessResponse::data($data));
     }
 
     public function passwordAuth(): Response
     {
-        $phone = $this->request->get("authString");
-        $type = $this->request->get("authStringType");
-        $authString = $this->request->get("password");
+        $phone = $this->request->get('authString');
+        $type = $this->request->get('authStringType');
+        $authString = $this->request->get('password');
         $data = $this->controller->auth($phone, AuthMethods::from($type), AuthVia::Password, $authString);
         return new JsonResponse(SuccessResponse::data($data));
     }
 
     public function register(): Response
     {
-        $password = $this->request->get("password");
-        $iv = $this->request->get("iv");
-        $salt = $this->request->get("salt");
-        $publicKey = $this->request->get("publicKey");
-        $privateKey = $this->request->get("encryptedPrivateKey");
-        $fNameEncrypted = $this->request->get("fNameEncrypted");
-        $lNameEncrypted = $this->request->get("lNameEncrypted");
-        $bDayEncrypted = $this->request->get("bDayEncrypted");
-        $hash = $this->request->get("hash");
+        $password = $this->request->get('password');
+        $iv = $this->request->get('iv');
+        $salt = $this->request->get('salt');
+        $publicKey = $this->request->get('publicKey');
+        $privateKey = $this->request->get('encryptedPrivateKey');
+        $fNameEncrypted = $this->request->get('fNameEncrypted');
+        $lNameEncrypted = $this->request->get('lNameEncrypted');
+        $bDayEncrypted = $this->request->get('bDayEncrypted');
+        $hash = $this->request->get('hash');
         $uuid = $this->controller->createNewUser($password, $iv, $salt, $publicKey, $privateKey, $fNameEncrypted, $lNameEncrypted, $bDayEncrypted, $hash);
 
         return new JsonResponse(SuccessResponse::data([
-            "uuid" => $uuid->toString()
+            'uuid' => $uuid->toString(),
         ]));
     }
 }

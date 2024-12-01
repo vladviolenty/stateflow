@@ -8,7 +8,7 @@ class Migration_0003 extends Migration implements MigrationInterface
 {
     public function init(): void
     {
-        $this->migrator->query("create table sessionsMeta
+        $this->migrator->query('create table sessionsMeta
 (
     id             int unsigned auto_increment,
     sessionId      int unsigned not null,
@@ -20,6 +20,6 @@ class Migration_0003 extends Migration implements MigrationInterface
     lastSeenAt varchar(64) not null,
     constraint sessionMeta_pk primary key (id),
     constraint sessionMeta_sessions_id_fk foreign key (sessionId) references sessions (id)
-);");
+);');
     }
 }

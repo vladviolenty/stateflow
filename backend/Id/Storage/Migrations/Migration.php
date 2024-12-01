@@ -21,6 +21,6 @@ class Migration extends Mysqli
         Migration_0000::class,
         Migration_0001::class,
         Migration_0002::class,
-        Migration_0003::class
+        Migration_0003::class,
     ];
 }

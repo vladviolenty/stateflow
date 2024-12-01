@@ -31,9 +31,9 @@ class UsersArrayStorage implements StorageInterface
         foreach ($this->users as $key => $item) {
             if ($uuid->toString() === $item['uuid']) {
                 return [
-                    "userId" => $item['id'],
-                    "salt" => $item['salt'],
-                    "iv" => $item['iv']
+                    'userId' => $item['id'],
+                    'salt' => $item['salt'],
+                    'iv' => $item['iv'],
                 ];
             }
         }
@@ -49,15 +49,15 @@ class UsersArrayStorage implements StorageInterface
     {
         $userId = count($this->users) + 1;
         $this->users[] = [
-            "id" => $userId,
-            "uuid" => $uuid->toString(),
-            "password" => $password,
-            "iv" => $iv,
-            "salt" => $salt,
-            "fName" => $fNameEncrypted,
-            "lName" => $lNameEncrypted,
-            "bDay" => $bDayEncrypted,
-            "hash" => $globalHash
+            'id' => $userId,
+            'uuid' => $uuid->toString(),
+            'password' => $password,
+            'iv' => $iv,
+            'salt' => $salt,
+            'fName' => $fNameEncrypted,
+            'lName' => $lNameEncrypted,
+            'bDay' => $bDayEncrypted,
+            'hash' => $globalHash,
         ];
         return $userId;
     }
@@ -66,16 +66,16 @@ class UsersArrayStorage implements StorageInterface
     {
         //TODO: Phpstan error is never read. not implemented
 
-//        $this->keysStorage[] = [
-//            "userId"=>$userId,
-//            "private"=>$encryptedPrivateKey,
-//            "public"=>$publicKey
-//        ];
+        //        $this->keysStorage[] = [
+        //            "userId"=>$userId,
+        //            "private"=>$encryptedPrivateKey,
+        //            "public"=>$publicKey
+        //        ];
     }
 
     public function getPasswordForUser(int $userId): ?string
     {
-        return "test";
+        return 'test';
     }
 
     public function insertSession(string $hash, int $userId): void
@@ -137,7 +137,9 @@ class UsersArrayStorage implements StorageInterface
     public function checkEmailInDatabase(string $emailHash): bool
     {
         foreach ($this->usersEmail as $item) {
-            if ($item['emailHash'] === $emailHash) return true;
+            if ($item['emailHash'] === $emailHash) {
+                return true;
+            }
         }
         return false;
     }
@@ -175,9 +177,9 @@ class UsersArrayStorage implements StorageInterface
     public function getBasicInfo(int $userId): array
     {
         return [
-            "fNameEncrypted" => "1",
-            "lNameEncrypted" => "1",
-            "bDayEncrypted" => "1",
+            'fNameEncrypted' => '1',
+            'lNameEncrypted' => '1',
+            'bDayEncrypted' => '1',
         ];
     }
 }

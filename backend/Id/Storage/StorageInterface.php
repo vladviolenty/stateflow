@@ -177,7 +177,7 @@ interface StorageInterface
         string $encryptedIp,
         string $encryptedUa,
         string $encryptedAE,
-        string $encryptedAL
+        string $encryptedAL,
     ): ?int;
 
     /**
@@ -195,7 +195,7 @@ interface StorageInterface
         string $encryptedUa,
         string $encryptedAE,
         string $encryptedAL,
-        string $encryptedLastSeenAt
+        string $encryptedLastSeenAt,
     ): void;
 
     /**
@@ -205,7 +205,7 @@ interface StorageInterface
      */
     public function updateLastSeenSessionMeta(
         int    $sessionMetaInfoId,
-        string $encryptedLastSeenAt
+        string $encryptedLastSeenAt,
     ): void;
 
     /**

@@ -12,8 +12,9 @@ class Validation
      * @phpstan-assert non-empty-string $keyInput
      * @throws ValidationException
      */
-    public static function RSAPublicKey(string $keyInput):void{
-        if(!str_starts_with($keyInput,"-----BEGIN PUBLIC KEY-----")){
+    public static function RSAPublicKey(string $keyInput): void
+    {
+        if (!str_starts_with($keyInput, '-----BEGIN PUBLIC KEY-----')) {
             $keyInput = "
 -----BEGIN PUBLIC KEY-----
 $keyInput
