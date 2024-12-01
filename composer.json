@@ -24,9 +24,10 @@
         "vladviolentiy/viva-framework": "^0.4.4"
     },
     "require-dev": {
-        "phpstan/phpstan": "^1.9",
+        "phpstan/phpstan": "^2.0",
         "phpunit/phpunit": "^9.5",
         "phpunit/php-code-coverage": "^9.2",
+        "friendsofphp/php-cs-fixer": "^3.58",
         "symfony/console": "^5.4"
     }
 }
