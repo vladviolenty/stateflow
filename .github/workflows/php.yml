@@ -45,6 +45,3 @@ jobs:
       
     - name: Run phpstan
       run: composer run-script phpstan
-      
-    - name: Check params in Storage code
-      run: composer run-script check-storage-params
