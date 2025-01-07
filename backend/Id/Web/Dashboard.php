@@ -19,6 +19,7 @@ class Dashboard extends WebPrivate
     {
         $generalController = new General($this->storage);
         $data = $generalController->getBasicInfo($this->info['userId']);
+
         return new JsonResponse(SuccessResponse::data($data));
 
     }
@@ -40,6 +41,7 @@ class Dashboard extends WebPrivate
             $al,
             $lastSeen,
         );
+
         return new JsonResponse(SuccessResponse::null());
     }
 }

@@ -60,14 +60,14 @@ export default defineComponent({
   async mounted() {
     this.cryptoKey = await Security.getDerivedKey()
 
-    let response = await this.DashboardGateway.getEmailList();
+    const response = await this.DashboardGateway.getEmailList();
     if(response.success){
       await this.remapListElements(response.data);
     }
   },
   methods:{
     async remapListElements(response:emailListResponseItem[]){
-      let iv = localStorage.getItem("iv") ?? "";
+      const iv = localStorage.getItem("iv") ?? "";
       this.list = await Promise.all(response.map(async item => {
         if(this.cryptoKey!==null) {
           item.email = await Encryption.decryptAES(item.email, this.cryptoKey,iv );
@@ -79,7 +79,7 @@ export default defineComponent({
       this.newEditId = null;
       this.newEditEmail ="";
       this.newEditAllowAuth =false;
-      let item = Offcanvas.getOrCreateInstance("#addEditEmail");
+      const item = Offcanvas.getOrCreateInstance("#addEditEmail");
       item.show();
     },
     editItemGetInfo(itemId:number):void{
@@ -89,7 +89,7 @@ export default defineComponent({
           if(this.cryptoKey!==null){
             this.newEditEmail = await Encryption.decryptAES(response.data.emailEncrypted,this.cryptoKey,localStorage.getItem("iv") ?? "");
             this.newEditAllowAuth = response.data.allowAuth;
-            let item = Offcanvas.getOrCreateInstance("#addEditEmail");
+            const item = Offcanvas.getOrCreateInstance("#addEditEmail");
             item.show();
           }
         }
@@ -99,7 +99,7 @@ export default defineComponent({
       if(this.newEditId===null) return;
       this.DashboardGateway.deleteEmail(this.newEditId).then(response=>{
         if(response.success){
-          let item = Offcanvas.getOrCreateInstance("#addEditEmail");
+          const item = Offcanvas.getOrCreateInstance("#addEditEmail");
           item.hide();
           this.remapListElements(response.data)
         }
@@ -117,11 +117,11 @@ export default defineComponent({
         this.errorText = "";
       }
       if(this.cryptoKey===null || this.newEditId===null) return;
-      let emailHash = await Hashing.digest(this.newEditEmail);
-      let encryptedEmail = await Encryption.encryptAES(this.newEditEmail,this.cryptoKey,localStorage.getItem("iv") ?? "");
+      const emailHash = await Hashing.digest(this.newEditEmail);
+      const encryptedEmail = await Encryption.encryptAES(this.newEditEmail,this.cryptoKey,localStorage.getItem("iv") ?? "");
       this.DashboardGateway.editEmailItem(this.newEditId,encryptedEmail,emailHash,this.newEditAllowAuth).then(response=>{
         if(response.success){
-          let item = Offcanvas.getOrCreateInstance("#addEditEmail");
+          const item = Offcanvas.getOrCreateInstance("#addEditEmail");
           item.hide();
           this.remapListElements(response.data);
         } else {
@@ -141,11 +141,11 @@ export default defineComponent({
         this.errorText = "";
       }
       if(this.cryptoKey===null) return;
-      let emailHash = await Hashing.digest(this.newEditEmail);
-      let encryptedEmail = await Encryption.encryptAES(this.newEditEmail,this.cryptoKey,localStorage.getItem("iv") ?? "");
+      const emailHash = await Hashing.digest(this.newEditEmail);
+      const encryptedEmail = await Encryption.encryptAES(this.newEditEmail,this.cryptoKey,localStorage.getItem("iv") ?? "");
       this.DashboardGateway.addNewEmail(encryptedEmail,emailHash,this.newEditAllowAuth).then(response=>{
         if(response.success){
-          let item = Offcanvas.getOrCreateInstance("#addEditEmail");
+          const item = Offcanvas.getOrCreateInstance("#addEditEmail");
           item.hide();
           this.remapListElements(response.data);
         } else {

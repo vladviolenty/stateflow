@@ -8,7 +8,7 @@ use VladViolentiy\VivaFramework\Exceptions\ValidationException;
 use Flow\Id\Controller\Base;
 use VladViolentiy\VivaFramework\Validation;
 
-class Email extends Base
+class EmailController extends Base
 {
     /**
      * @param positive-int $userId
@@ -32,6 +32,7 @@ class Email extends Base
         Validation::nonEmpty($emailHash);
         Validation::nonEmpty($emailEncrypted);
         $id = $this->storage->insertNewEmail($userId, $emailEncrypted, $emailHash, $allowAuth);
+
         return $id;
     }
 
@@ -70,6 +71,7 @@ class Email extends Base
             throw new NotfoundException();
         }
         $i['allowAuth'] = (bool) $i['allowAuth'];
+
         return $i;
 
     }

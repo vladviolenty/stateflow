@@ -23,8 +23,8 @@ export default defineComponent({
     ...mapState(appStore, ['DashboardGateway']),
   },
   mounted() {
-    let token = localStorage.getItem("authToken");
-    let iv = localStorage.getItem("iv");
+    const token = localStorage.getItem("authToken");
+    const iv = localStorage.getItem("iv");
     if(token===null || iv===null){
       AuthenticationMethods.logOut()
       this.$router.push("/auth");
@@ -56,8 +56,8 @@ export default defineComponent({
         iv:string
     ){
 
-      let cryptoKey = await Security.getDerivedKey()
-      let date = new Date();
+      const cryptoKey = await Security.getDerivedKey()
+      const date = new Date();
       this.DashboardGateway.insertMetaHashInfo(
           await Encryption.encryptAES(ip,cryptoKey,iv),
           await Encryption.encryptAES(ua,cryptoKey,iv),

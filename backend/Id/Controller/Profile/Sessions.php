@@ -39,8 +39,10 @@ class Sessions extends Base
             /** @var non-empty-string[] $ips */
             $ips = explode(',', $item['ips']);
             $item['ips'] = $ips;
+
             return $item;
         }, $i);
+
         return $i;
     }
 

@@ -21,10 +21,12 @@ class RSA
         if ($keyPair === false) {
             throw new ValidationException();
         }
+        /** @var array{key:string}|false $keyDetail */
         $keyDetail = openssl_pkey_get_details($keyPair);
         if ($keyDetail === false) {
             throw new ValidationException();
         }
+
         return $keyDetail['key'];
     }
 }

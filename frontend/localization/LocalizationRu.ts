@@ -1,4 +1,4 @@
-import type LocalizationInterface from "./LocalizationInterface";
+import type {LocalizationInterface} from "./LocalizationInterface";
 
 const LocalizationRu:LocalizationInterface = {
     register:'Регистрация',
@@ -12,9 +12,9 @@ const LocalizationRu:LocalizationInterface = {
         fNameNull:"Имя не введено",
         lNameNull:"Фамилия не введена",
         dobNull:"Дата рождения не введена",
-        emailNull:"Email не введен",
+        emailNull:"EmailController не введен",
         phoneNull:"Телефон не введен",
-        emailIncorrect:"Email введен некорректно",
+        emailIncorrect:"EmailController введен некорректно",
         phoneIncorrect:"Телефон введен некорректно",
         dobIncorrect:"Дата рождения введена некорректно",
         passwordNull:"Пароль не введён",
@@ -36,7 +36,7 @@ const LocalizationRu:LocalizationInterface = {
     },
     email:{
         add:"Добавить email",
-        notAdded:"Email адреса не добавлены"
+        notAdded:"EmailController адреса не добавлены"
     },
     errorCodes:{
         0:"Ошибка сети",

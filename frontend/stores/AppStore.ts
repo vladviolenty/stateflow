@@ -1,13 +1,12 @@
 import { defineStore } from 'pinia'
-import type LocalizationInterface from "../localization/LocalizationInterface";
+import type {LocalizationInterface} from "../localization/LocalizationInterface";
 import LocalizationRu from "../localization/LocalizationRu";
 import LocalizationUa from "../localization/LocalizationUa";
 import LocalizationBy from "../localization/LocalizationBy";
 import DashboardGateway from "@/gateway/DashboardGateway";
 import LocalizationEn from "@/localization/LocalizationEn";
 
-export const appStore = defineStore({
-    id:"App",
+export const appStore = defineStore('App', {
     state: ()=>{
         return{
             Localization: LocalizationRu as LocalizationInterface,

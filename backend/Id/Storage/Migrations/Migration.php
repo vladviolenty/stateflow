@@ -2,10 +2,11 @@
 
 namespace Flow\Id\Storage\Migrations;
 
+use VladViolentiy\VivaFramework\Databases\Interfaces\MigrationInterface;
 use VladViolentiy\VivaFramework\Databases\Migrations\MigrationsClassInterface;
 use VladViolentiy\VivaFramework\Databases\Mysqli;
 
-class Migration extends Mysqli
+abstract class Migration extends Mysqli implements MigrationInterface
 {
     protected readonly MigrationsClassInterface $migrator;
 

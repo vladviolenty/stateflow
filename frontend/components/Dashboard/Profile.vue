@@ -17,7 +17,7 @@ export default defineComponent({
   name: "DashboardProfile",
   methods:{
     logOut():void{
-      let token = localStorage.getItem("authToken")??"";
+      const token = localStorage.getItem("authToken")??"";
       this.DashboardGateway.killSession(token,false);
       AuthenticationMethods.logOut();
       this.$router.push("/auth");

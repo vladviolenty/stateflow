@@ -21,6 +21,7 @@ class Phones extends WebPrivate
     public function get(): Response
     {
         $info = $this->controller->get();
+
         return new JsonResponse(SuccessResponse::data($info));
     }
 
@@ -31,7 +32,7 @@ class Phones extends WebPrivate
         $allowAuth = (bool) $this->request->get('allowAuth');
 
         $this->controller->addNewPhone($emailEncrypted, $emailHash, $allowAuth);
+
         return $this->get();
     }
-
 }

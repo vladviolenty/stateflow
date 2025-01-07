@@ -54,6 +54,7 @@ class Auth extends Base
         ]);
         $userId = $this->storage->addNewUser($uuid, $passwordHash, $iv, $salt, $fNameEncrypted, $lNameEncrypted, $bDayEncrypted, $hash);
         $this->storage->insertNewEncryptInfo($userId, $publicKey, $encryptedPrivateKey);
+
         return $uuid;
     }
 
@@ -76,12 +77,12 @@ class Auth extends Base
         } elseif ($authTypesEnum === AuthMethods::Phone) {
             Validation::hash($userInfo);
             $userInfo = $this->storage->getUserByPhone($userInfo);
-        } else {
-            throw new ValidationException();
         }
+
         if ($userInfo === null) {
             throw new NotfoundException();
         }
+
         return $userInfo;
     }
 
@@ -95,6 +96,7 @@ class Auth extends Base
     {
         $userInfo = $this->getUserInfoAuth($userInfo, $authTypesEnum);
         unset($userInfo['userId']);
+
         return $userInfo;
     }
 
@@ -115,6 +117,7 @@ class Auth extends Base
         $userInfo['ua'] = $_SERVER['HTTP_USER_AGENT'];
         $userInfo['acceptEncoding'] = $_SERVER['HTTP_ACCEPT_ENCODING'];
         $userInfo['acceptLang'] = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+
         return $userInfo;
     }
 
@@ -171,6 +174,7 @@ class Auth extends Base
         }
         $hash = Random::hash(Random::get());
         $this->storage->insertSession($hash, $userInfo['userId']);
+
         return [
             'hash' => $hash,
             'salt' => $userInfo['salt'],

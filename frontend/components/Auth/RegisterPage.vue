@@ -101,18 +101,18 @@ export default defineComponent({
       }
       this.buttonDisabled = true;
       this.registerStage = 'awaitRegister';
-      let iv = await Security.getRandom(16);
-      let salt = await Security.getRandom(16);
+      const iv = await Security.getRandom(16);
+      const salt = await Security.getRandom(16);
 
-      let pbkdf2Key = await Encryption.deriveKey(this.password,salt);
-      let passwordHash = await Hashing.digest(Security.ab2str(salt)+''+this.password);
-      let rsaKey = await Encryption.generateRSA();
-      let basePublic = await Encryption.exportPublicKey(rsaKey.publicKey);
-      let basePrivate = await Encryption.exportPrivateKey(rsaKey.privateKey);
+      const pbkdf2Key = await Encryption.deriveKey(this.password,salt);
+      const passwordHash = await Hashing.digest(Security.ab2str(salt)+''+this.password);
+      const rsaKey = await Encryption.generateRSA();
+      const basePublic = await Encryption.exportPublicKey(rsaKey.publicKey);
+      const basePrivate = await Encryption.exportPrivateKey(rsaKey.privateKey);
 
-      let encryptedPrivateKey = await Encryption.encryptAESBytes(basePrivate,pbkdf2Key,iv);
+      const encryptedPrivateKey = await Encryption.encryptAESBytes(basePrivate,pbkdf2Key,iv);
       console.log(this.fName+'-'+this.lName+'-'+this.dOfBirth+'-'+window.btoa(Security.ab2str(salt)));
-      let ivString = window.btoa(Security.ab2str(iv));
+      const ivString = window.btoa(Security.ab2str(iv));
       AuthGateway.registerNewUser(
           passwordHash,
           ivString,

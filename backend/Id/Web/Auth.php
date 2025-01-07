@@ -26,6 +26,7 @@ class Auth extends Web
         $phone = $this->request->get('authString');
         $type = $this->request->get('type');
         $data = $this->controller->getAuthDataForUser($phone, AuthMethods::from($type));
+
         return new JsonResponse(SuccessResponse::data($data));
     }
 
@@ -35,6 +36,7 @@ class Auth extends Web
         $type = $this->request->get('authStringType');
         $authString = $this->request->get('password');
         $data = $this->controller->auth($phone, AuthMethods::from($type), AuthVia::Password, $authString);
+
         return new JsonResponse(SuccessResponse::data($data));
     }
 

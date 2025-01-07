@@ -57,7 +57,7 @@ export default defineComponent({
   async mounted(){
     this.cryptoKey = await Security.getDerivedKey()
 
-    let response = await this.DashboardGateway.getPhoneList();
+    const response = await this.DashboardGateway.getPhoneList();
     if(response.success){
       await this.remapListElements(response.data);
     }
@@ -67,7 +67,7 @@ export default defineComponent({
   },
   methods:{
     async remapListElements(response:phoneListResponseItem[]){
-      let iv = localStorage.getItem("iv") ?? "";
+      const iv = localStorage.getItem("iv") ?? "";
       this.list = await Promise.all(response.map(async item => {
         if(this.cryptoKey!==null) {
           item.phone = await Encryption.decryptAES(item.phone, this.cryptoKey,iv );
@@ -79,7 +79,7 @@ export default defineComponent({
       this.newEditId = null;
       this.newEditPhone ="";
       this.newEditAllowAuth =false;
-      let item = Offcanvas.getOrCreateInstance("#addEditPhone");
+      const item = Offcanvas.getOrCreateInstance("#addEditPhone");
       item.show();
     },
 
@@ -95,11 +95,11 @@ export default defineComponent({
         this.errorText = "";
       }
       if(this.cryptoKey===null || this.newEditId===null) return;
-      let phoneHash = await Hashing.digest(this.newEditPhone);
-      let phoneEncrypted = await Encryption.encryptAES(this.newEditPhone,this.cryptoKey,localStorage.getItem("iv") ?? "");
+      const phoneHash = await Hashing.digest(this.newEditPhone);
+      const phoneEncrypted = await Encryption.encryptAES(this.newEditPhone,this.cryptoKey,localStorage.getItem("iv") ?? "");
       this.DashboardGateway.editPhoneItem(this.newEditId,phoneEncrypted,phoneHash,this.newEditAllowAuth).then(response=>{
         if(response.success){
-          let item = Offcanvas.getOrCreateInstance("#addEditPhone");
+          const item = Offcanvas.getOrCreateInstance("#addEditPhone");
           item.hide();
           this.remapListElements(response.data);
         } else {
@@ -114,7 +114,7 @@ export default defineComponent({
           if(this.cryptoKey!==null){
             this.newEditPhone = await Encryption.decryptAES(response.data.phoneEncrypted,this.cryptoKey,localStorage.getItem("iv") ?? "");
             this.newEditAllowAuth = response.data.allowAuth;
-            let item = Offcanvas.getOrCreateInstance("#addEditEmail");
+            const item = Offcanvas.getOrCreateInstance("#addEditEmail");
             item.show();
           }
         }
@@ -132,11 +132,11 @@ export default defineComponent({
         this.errorText = "";
       }
       if(this.cryptoKey===null) return;
-      let emailHash = await Hashing.digest(this.newEditPhone);
-      let encryptedEmail = await Encryption.encryptAES(this.newEditPhone,this.cryptoKey,localStorage.getItem("iv") ?? "");
+      const emailHash = await Hashing.digest(this.newEditPhone);
+      const encryptedEmail = await Encryption.encryptAES(this.newEditPhone,this.cryptoKey,localStorage.getItem("iv") ?? "");
       this.DashboardGateway.addNewPhone(encryptedEmail,emailHash,this.newEditAllowAuth).then(response=>{
         if(response.success){
-          let item = Offcanvas.getOrCreateInstance("#addEditPhone");
+          const item = Offcanvas.getOrCreateInstance("#addEditPhone");
           item.hide();
           this.remapListElements(response.data);
         } else {
@@ -148,7 +148,7 @@ export default defineComponent({
       if(this.newEditId===null) return;
       this.DashboardGateway.deletePhone(this.newEditId).then(response=>{
         if(response.success){
-          let item = Offcanvas.getOrCreateInstance("#addEditPhone");
+          const item = Offcanvas.getOrCreateInstance("#addEditPhone");
           item.hide();
           this.remapListElements(response.data)
         }

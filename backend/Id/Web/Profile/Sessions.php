@@ -21,6 +21,7 @@ class Sessions extends WebPrivate
     public function get(): Response
     {
         $sessions = $this->sessions->get();
+
         return new JsonResponse(SuccessResponse::data($sessions));
     }
 

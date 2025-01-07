@@ -1,4 +1,4 @@
-import type LocalizationInterface from "./LocalizationInterface";
+import type {LocalizationInterface} from "./LocalizationInterface";
 
 const LocalizationEn:LocalizationInterface = {
     register:'Register',
@@ -12,9 +12,9 @@ const LocalizationEn:LocalizationInterface = {
         fNameNull:"First name is not entered",
         lNameNull:"Surname not entered",
         dobNull:"Date of birth not entered",
-        emailNull:"Email not entered",
+        emailNull:"EmailController not entered",
         phoneNull:"Phone not entered",
-        emailIncorrect:"Email entered incorrectly",
+        emailIncorrect:"EmailController entered incorrectly",
         phoneIncorrect:"Phone entered incorrectly",
         dobIncorrect:"Date of birth entered incorrectly",
         passwordNotRepeat:"Passwords don't match",
@@ -36,7 +36,7 @@ const LocalizationEn:LocalizationInterface = {
     },
     email:{
         add:"Add an email",
-        notAdded:"Email addresses have not been added"
+        notAdded:"EmailController addresses have not been added"
     },
     errorCodes:{
         0:"Network error",

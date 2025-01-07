@@ -76,7 +76,7 @@ export default defineComponent({
       };
     },
     async checkPhone(){
-      let info = await this.getUserNametype();
+      const info = await this.getUserNametype();
       AuthGateway.preAuth(info.authString,info.type).then(response=>{
         if(response.success){
           this.step = 'password';
@@ -90,8 +90,8 @@ export default defineComponent({
       })
     },
     async passwordAuth(){
-      let info = await this.getUserNametype();
-      let passwordHash = await Hashing.digest(this.authSalt+''+this.authPassword);
+      const info = await this.getUserNametype();
+      const passwordHash = await Hashing.digest(this.authSalt+''+this.authPassword);
       AuthGateway.passwordAuth(info.authString,info.type,passwordHash).then(response=>{
         if(response.success){
           localStorage.setItem("authToken",response.data.hash);
@@ -108,14 +108,14 @@ export default defineComponent({
       })
     },
     async fingerPrintAuth(){
-      let result = await Credentials.create(
+      const result = await Credentials.create(
           Security.getRandom(32),
           "123-455331-213-123-12-312333",
           "vlad",
           "vlad"
       );
       console.log(result)
-      let success = await Credentials.get("333");
+      const success = await Credentials.get("333");
       console.log(success)
     },
     setLang(){

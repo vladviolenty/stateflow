@@ -45,6 +45,7 @@ class Phones extends Base
             throw new ValidationException('Номер уже существует в БД');
         }
         $id = $this->storage->insertNewPhone($this->userId, $phoneEncrypted, $phoneHash, $allowAuth);
+
         return $id;
     }
 }

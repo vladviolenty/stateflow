@@ -2,9 +2,7 @@
 
 namespace Flow\Id\Storage\Migrations;
 
-use VladViolentiy\VivaFramework\Databases\Interfaces\MigrationInterface;
-
-class Migration_0000 extends Migration implements MigrationInterface
+class Migration_0000 extends Migration
 {
     public function init(): void
     {

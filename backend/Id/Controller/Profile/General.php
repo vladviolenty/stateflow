@@ -13,6 +13,7 @@ class General extends Base
     public function getBasicInfo(int $userId): array
     {
         $info = $this->storage->getBasicInfo($userId);
+
         return $info;
     }
 }

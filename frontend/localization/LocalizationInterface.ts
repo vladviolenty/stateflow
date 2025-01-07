@@ -1,6 +1,6 @@
 import type {errorCodeList} from "./CustomInterfaces";
 
-interface LocalizationInterface{
+interface LocalizationInterface {
     register:string,
     logout:string,
     enter:string,
@@ -41,4 +41,4 @@ interface LocalizationInterface{
     errorCodes:Record<errorCodeList,string>
 }
 
-export default LocalizationInterface;
+export type {LocalizationInterface};

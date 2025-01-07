@@ -37,6 +37,7 @@ class UsersArrayStorage implements StorageInterface
                 ];
             }
         }
+
         return null;
     }
 
@@ -59,6 +60,7 @@ class UsersArrayStorage implements StorageInterface
             'bDay' => $bDayEncrypted,
             'hash' => $globalHash,
         ];
+
         return $userId;
     }
 
@@ -141,6 +143,7 @@ class UsersArrayStorage implements StorageInterface
                 return true;
             }
         }
+
         return false;
     }
 

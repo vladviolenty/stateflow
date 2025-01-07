@@ -37,7 +37,7 @@ export default defineComponent({
   async mounted() {
     this.cryptoKey = await Security.getDerivedKey()
 
-    let response = await this.DashboardGateway.getSessionsList();
+    const response = await this.DashboardGateway.getSessionsList();
     if(response.success){
       await this.remapListElements(response.data);
     }
@@ -50,7 +50,7 @@ export default defineComponent({
   },
   methods:{
     async remapListElements(response:sessionListResponseItem[]){
-      let iv = localStorage.getItem("iv") ?? "";
+      const iv = localStorage.getItem("iv") ?? "";
       console.log(response)
       this.list = await Promise.all(response.map(async item => {
         if(this.cryptoKey!==null) {

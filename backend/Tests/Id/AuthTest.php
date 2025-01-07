@@ -29,8 +29,6 @@ class AuthTest extends TestCase
         $this->auth = new Auth(new UsersArrayStorage());
     }
 
-
-
     public function testCreatingNewUser(): void
     {
         $data = $this->createNewUser();
@@ -92,6 +90,7 @@ class AuthTest extends TestCase
             $hash,
         );
         $this->uuidList[] = $uuid;
+
         return true;
     }
 }

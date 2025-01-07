@@ -47,12 +47,14 @@ class StorageSecurity
                         if ($questionMarkCount !== $paramsCount or $questionMarkCount !== $arrayParamsCount) {
                             /** @var int $line */
                             $line = $node->getAttribute('endLine');
+
                             throw new ValidationException((string) $line);
 
                         }
                     }
 
                 }
+
                 return null;
 
             }
@@ -69,6 +71,7 @@ class StorageSecurity
             $fileContent = file_get_contents($fileName);
             /** @var Node\Stmt[] $ast */
             $ast = $parse->parse($fileContent);
+
             try {
                 $traverser->traverse($ast);
             } catch (ValidationException $validationException) {

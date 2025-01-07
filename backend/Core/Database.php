@@ -12,6 +12,7 @@ abstract class Database
         $password = (string) getenv('DB_' . $database->value . '_PASSWORD');
         $db = (string) getenv('DB_' . $database->value . '_DATABASE');
         $server = (string) getenv('DB_' . $database->value . '_SERVER');
+
         return new \mysqli($server, $user, $password, $db);
     }
 }

@@ -34,6 +34,7 @@ $keyInput
         if ($details['type'] !== OPENSSL_KEYTYPE_RSA) {
             throw new ValidationException();
         }
+
         return true;
     }
 }
