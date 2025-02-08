@@ -4,14 +4,18 @@ return (new PhpCsFixer\Config())
     ->setRules([
         '@PER-CS' => true,
         'single_quote' => true,
-        'blank_line_before_statement' => true,
-        'class_reference_name_casing' => true,
-        'no_empty_statement' => true,
-        'class_attributes_separation' => [
-            'elements' => [
-                'method' => 'one',
-            ],
+        'whitespace_after_comma_in_array' => [
+            'ensure_single_space' => true,
         ],
+        'trim_array_spaces' => true,
+        'no_unset_cast' => true,
+        'no_unused_imports' => true,
+        'blank_line_before_statement' => true,
+        'object_operator_without_whitespace' => true,
+        'class_attributes_separation' => [
+            'elements' => ['method' => 'one'],
+        ],
+        'phpdoc_trim' => true,
     ])
     ->setFinder(
         (new PhpCsFixer\Finder())->in('backend'),

@@ -2,7 +2,6 @@
 
 namespace Flow\Core;
 
-use Flow\Id\Storage\Storage;
 use Symfony\Component\HttpFoundation\Request;
 use VladViolentiy\VivaFramework\Req;
 
